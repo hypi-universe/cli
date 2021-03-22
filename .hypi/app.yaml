@@ -1,0 +1,9 @@
+website: hypi.co
+name: test
+label: Test hypi cli
+releases: 
+  - name: latest
+    schema:
+      types: my-schema.graphql
+    status: PUBLISHED
+    notes: latest version
