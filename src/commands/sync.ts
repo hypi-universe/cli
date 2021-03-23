@@ -3,6 +3,8 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import AppService from '../hypi/services/app-service'
 import InstanceService from '../hypi/services/instance-service'
+import HypiService from '../hypi/services/hypi-service'
+
 import Utils from '../hypi/util'
 import * as YAML from 'yaml'
 
@@ -74,6 +76,13 @@ export default class Sync extends Command {
 
     fs.writeFileSync(path.join(hypiDir, 'app.yaml'),appYaml);
     fs.writeFileSync(path.join(hypiDir, 'instance.yaml'), intsanceYaml);
+
+    const hypiService = new HypiService();
+    hypiService.getSchemaSDL().then(
+      response => {
+        fs.writeFile(path.join(hypiDir, 'full-schema.graphql'), response)
+      }
+    )
 
   }
 }
