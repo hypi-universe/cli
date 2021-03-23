@@ -1,3 +1,7 @@
 domain: my-domain.com
 release:
   name: latest
+  hypi:
+    id: 01F1G0YFSM3GTE7N0BXMD6QSNX
+hypi:
+  id: 01F1G0YFSJP76JTS4HH8FZNAK1

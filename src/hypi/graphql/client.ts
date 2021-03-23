@@ -1,18 +1,16 @@
 import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client/core';
-import * as YAML from 'yaml';
 import * as fs from 'fs-extra'
-import * as path from 'path'
-import { HypiConfigType, UserConfigType } from '../domain/types';
+import { UserConfigType } from '../domain/types';
 import fetch from 'cross-fetch';
+import  * as Conf  from 'conf';
 
-const appFilePath = path.join('./src/hypi/', 'config.yaml')
-const hypiConfigYaml = fs.readFileSync(appFilePath, 'utf-8');
-const hypiConfig: HypiConfigType = YAML.parse(hypiConfigYaml);
+const config = new Conf();
+const configFilePath = config.get("cli-config-file") as string;
+const url = config.get('app-url') as string;
 
-const userConfigFile = path.join(hypiConfig.configDir, 'config.json');
-const userConfig: UserConfigType = fs.readJSONSync(userConfigFile); //as
+const userConfig: UserConfigType = fs.readJSONSync(configFilePath); 
 
-const httpLink = new HttpLink({ uri: hypiConfig.url + '/graphql' , fetch: fetch});
+const httpLink = new HttpLink({ uri: url + '/graphql' , fetch: fetch});
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({

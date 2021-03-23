@@ -1,10 +1,9 @@
 import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
-import * as fs from 'fs-extra'
-import * as path from 'path'
 import hypiLogin from '../hypi/api/login'
 import Utils from '../hypi/util'
-
+import UserService from '../hypi/services/user-service'
+import * as Conf from 'conf';
 
 export default class Login extends Command {
   static description = 'Login to hypi'
@@ -44,10 +43,9 @@ export default class Login extends Command {
       this.exit();
     }
 
-    const configFile = path.join(this.config.configDir, 'config.json');
-
-    Utils.saveUserConfig(this.config.configDir, data);
-
     await this.config.runHook('hypi-config', this.config);
+
+    UserService.saveUserConfig(data);
+
   }
 }

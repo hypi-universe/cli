@@ -1,9 +1,13 @@
 website: hypi.co
-name: test
+name: eman-hypi-cli
 label: Test hypi cli
-releases: 
+releases:
   - name: latest
     schema:
       types: my-schema.graphql
     status: PUBLISHED
     notes: latest version
+    hypi:
+      id: 01F1G0YFSM3GTE7N0BXMD6QSNX
+hypi:
+  id: 01F1G0YFSJP76JTS4HH8FZNAK1

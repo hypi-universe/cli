@@ -13,6 +13,7 @@
     "@oclif/config": "^1.17.0",
     "@oclif/plugin-help": "^3.2.2",
     "axios": "^0.21.1",
+    "conf-cli": "^0.1.9",
     "cross-fetch": "^3.1.2",
     "graphql": "^15.5.0",
     "json-multiline-strings": "^0.1.0",
@@ -55,7 +56,8 @@
     "commands": "./lib/commands",
     "bin": "hypi",
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "conf-cli"
     ],
     "hooks": {
       "hypi-config": "./lib/hooks/hypi/set-global-config"

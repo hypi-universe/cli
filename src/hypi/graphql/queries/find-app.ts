@@ -34,7 +34,7 @@ fragment releases on AppRelease {
   isDefault
   }
 `;
-const findApp = async (vars: Object) => {
+const findAppQuery = async (vars: Object) => {
   return client
     .query({
       query: FIND_APP,
@@ -42,4 +42,4 @@ const findApp = async (vars: Object) => {
     })
 };
 
-export default findApp;
+export default findAppQuery;

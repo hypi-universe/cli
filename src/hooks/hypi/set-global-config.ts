@@ -1,18 +1,17 @@
-import { Hook, IConfig, Config } from '@oclif/config'
-import * as fs from 'fs-extra'
+import { IConfig } from '@oclif/config'
 import * as path from 'path'
-import * as YAML from 'yaml'
+import * as Conf from 'conf';
+import Utils from '../../hypi/util'
 
 
-const hook = async function (config: IConfig) {
-  //add options.config.configDir to hypi.yaml file 
-  const appFilePath = path.join('./src/hypi/', 'config.yaml')
-  if (fs.existsSync(appFilePath)) {
-    const appFile = fs.readFileSync(appFilePath, 'utf-8');
-    const appDoc = YAML.parse(appFile);
-    appDoc.configDir = config.configDir;
-    fs.writeFileSync(appFilePath, YAML.stringify(appDoc));
-  }
+const config_hook = async function (oclifConfig: IConfig) {
+
+  const config = new Conf();
+
+  config.set('hypi-user-dir', Utils.getHypiDir());
+  config.set('cli-config-dir', oclifConfig.configDir)
+  config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
+  config.set('app-url', 'https://api.alpha.hypi.dev')
 }
 
-export default hook;
+export default config_hook;
