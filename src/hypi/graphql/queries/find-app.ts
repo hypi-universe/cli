@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import client from '../client';
+import { hypi_domain_client as client } from '../client';
 
 const FIND_APP = gql`
   query findApp($arcql: String!) {
@@ -34,7 +34,7 @@ fragment releases on AppRelease {
   isDefault
   }
 `;
-const findAppQuery = async (vars: Object) => {
+const findAppQuery = (vars: Object) => {
   return client
     .query({
       query: FIND_APP,

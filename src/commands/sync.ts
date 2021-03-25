@@ -1,12 +1,8 @@
 import { Command, flags } from '@oclif/command'
-import * as fs from 'fs-extra'
-import * as path from 'path'
 import AppService from '../hypi/services/app-service'
 import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
-
 import Utils from '../hypi/util'
-import * as YAML from 'yaml'
 
 export default class Sync extends Command {
   static description = 'sync user local schema with hypi'
@@ -20,69 +16,47 @@ export default class Sync extends Command {
   }
 
   async run() {
-    const hypiDir = Utils.getHypiDir();
-
-    if (!fs.existsSync(hypiDir)) {
-      this.error('.hypi directory don\'t exists');
-    }
-
-    const appRead = Utils.readYamlFile(path.join(hypiDir, 'app.yaml'));
-    const instanceRead = Utils.readYamlFile(path.join(hypiDir, 'instance.yaml'));
-
-    if (appRead.error || instanceRead.error) {
-      this.log(appRead.error ?? instanceRead.error);
-      this.exit(1);
-    }
-    const appDoc = appRead.data;
-    const instanceDoc = instanceRead.data;
 
     const appService = new AppService();
+    const instanceService = new InstanceService();
 
-    const appResult = await appService.getApp(appDoc.name);
+    const readAppDocResponse = appService.readAppDoc();
+    const readInstanceDoc = instanceService.readInstanceDoc();
+
+    if (readAppDocResponse.error || readInstanceDoc.error) {
+      this.error(readAppDocResponse.error ?? readInstanceDoc.error);
+    }
+
+    let appDoc = readAppDocResponse.data;
+    let instanceDoc = readInstanceDoc.data;
+    
+    const appResult = await appService.createUserApp(Utils.deepCopy(appDoc));
+
     if (appResult.error) {
       this.error(appResult.error);
     }
+    const app = appResult.app;
+    this.log('App created with id : ' + app.hypi.id);
 
-    let app;
-    if (appResult.exists) {
-      app = appResult.app;
-    } else {
-      const addApp = await appService.createApp(appDoc);
-      if (addApp.error) {
-        this.error(addApp.error);
-      }
-      const appResult = await appService.getApp(appDoc.name);
-      app = appResult.app
-    }
-    
-    instanceDoc.hypi = {"id" : app.hypi.id};
+    appDoc = appService.updateAppDocWithIds(appDoc, app);
     const release = app.releases
-                       .find((release: any) => release.name === instanceDoc.release.name);
+      .find((release: any) => release.name === appDoc.releases[0].name);
+    instanceDoc.release.hypi = { "id": release.hypi.id };
 
-    instanceDoc.release.hypi = {"id" : release.hypi.id};
-    const instanceService = new InstanceService();
-    const addInstance = await instanceService.createInstance(instanceDoc);
-    if (addInstance.error) {
-      this.error(addInstance.error);
+    const instanceResult = await instanceService.createAppInstance(instanceDoc);
+    if (instanceResult.error) {
+      this.error(instanceResult.error);
     }
-    appDoc.hypi = {"id" : app.hypi.id};
-    appDoc.releases[0].hypi = {"id": release.hypi.id};
+    const instance = instanceResult.instance;
+    this.log('Instance created with id : ' + instance.hypi.id);
 
-    this.log(appDoc);
-    this.log(instanceDoc);
+    instanceDoc = instanceService.updateInstanceDocWithIds(instanceDoc, instance);
 
-    const appYaml = YAML.stringify(appDoc);
-    const intsanceYaml = YAML.stringify(instanceDoc);
-
-    fs.writeFileSync(path.join(hypiDir, 'app.yaml'),appYaml);
-    fs.writeFileSync(path.join(hypiDir, 'instance.yaml'), intsanceYaml);
+    appService.updateAppYamlFile(appDoc);
+    instanceService.updateInstanceYamlFile(instanceDoc);
 
     const hypiService = new HypiService();
-    hypiService.getSchemaSDL().then(
-      response => {
-        fs.writeFile(path.join(hypiDir, 'full-schema.graphql'), response)
-      }
-    )
+    hypiService.doIntrospection();
 
   }
 }

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import client from '../client';
+import {hypi_domain_client as client} from '../client';
 
 const FIND_INSTANCE = gql`
  query findAppInstance($arcql: String!) {
@@ -62,7 +62,7 @@ const FIND_INSTANCE = gql`
   }
 }
 `;
-const findAppInstanceQuery = async (vars: Object) => {
+const findAppInstanceQuery = (vars: Object) => {
   return client
     .query({
       query: FIND_INSTANCE,

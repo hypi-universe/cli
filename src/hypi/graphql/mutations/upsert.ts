@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import client from '../client';
+import {hypi_domain_client as client} from '../client';
 
 const UPSERT = gql`
 mutation upsertMutation($values:HypiUpsertInputUnion!) {
@@ -9,7 +9,7 @@ mutation upsertMutation($values:HypiUpsertInputUnion!) {
     }
 }
 `;
-const upsertMutation = async (vars: Object) => {
+const upsertMutation = (vars: Object) => {
   return client
     .mutate({
       mutation: UPSERT,

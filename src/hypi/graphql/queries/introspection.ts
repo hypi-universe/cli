@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import client from '../client';
+import {user_domain_client as client} from '../client';
 
 const INTROSPECTION = gql`
  query IntrospectionQuery {
@@ -90,7 +90,7 @@ const INTROSPECTION = gql`
     }
   }
 `;
-const introspectionQuery = async () => {
+const introspectionQuery = () => {
   return client
     .query({
       query: INTROSPECTION
