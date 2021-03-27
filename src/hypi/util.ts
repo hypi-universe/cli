@@ -25,6 +25,14 @@ export default class Utils {
       });
     }
   }
+  static isUserConfigExists(){
+    const config = new Conf();
+    const configFilePath = config.get("cli-config-file") as string;
+    if (fs.existsSync(configFilePath)) {
+      return true;
+    }
+    return false;
+  }
 
   static getUserConfig(){
     const config = new Conf();

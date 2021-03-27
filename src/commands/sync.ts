@@ -3,6 +3,7 @@ import AppService from '../hypi/services/app-service'
 import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
 import Utils from '../hypi/util'
+import cli from 'cli-ux'
 
 export default class Sync extends Command {
   static description = 'sync user local schema with hypi'
@@ -16,6 +17,12 @@ export default class Sync extends Command {
   }
 
   async run() {
+    // start the spinner
+    cli.action.start('Sync Process')
+
+    if (!Utils.isUserConfigExists()) {
+      this.error('Please login first');
+    }
 
     const appService = new AppService();
     const instanceService = new InstanceService();
@@ -29,7 +36,7 @@ export default class Sync extends Command {
 
     let appDoc = readAppDocResponse.data;
     let instanceDoc = readInstanceDoc.data;
-    
+
     const appResult = await appService.createUserApp(Utils.deepCopy(appDoc));
 
     if (appResult.error) {
@@ -58,5 +65,6 @@ export default class Sync extends Command {
     const hypiService = new HypiService();
     hypiService.doIntrospection();
 
+    cli.action.stop() // shows 'starting a process... done'
   }
 }

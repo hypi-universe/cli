@@ -1,9 +1,7 @@
 import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
 import hypiLogin from '../hypi/api/login'
-import Utils from '../hypi/util'
 import UserService from '../hypi/services/user-service'
-import * as Conf from 'conf';
 
 export default class Login extends Command {
   static description = 'Login to hypi'
@@ -23,6 +21,8 @@ export default class Login extends Command {
   ]
 
   async run() {
+    cli.action.start('Login Process')
+
     const { args, flags } = this.parse(Login)
     let email;
     let password;
@@ -47,5 +47,6 @@ export default class Login extends Command {
 
     UserService.saveUserConfig(data);
 
+    cli.action.stop() // shows 'starting a process... done'
   }
 }

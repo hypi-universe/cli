@@ -6,13 +6,8 @@ import Utils from '../util';
 export default class MultipleApolloClient {
   private static instance: MultipleApolloClient;
 
-  private url: string;
+  private url: string = "";
   private userConfig: UserConfigType;
-
-  private constructor() {
-    this.userConfig = Utils.getUserConfig();
-    this.url = Utils.getAppUrl();
-  }
 
   public static getInstance(): MultipleApolloClient {
     if (!MultipleApolloClient.instance) {
@@ -22,6 +17,12 @@ export default class MultipleApolloClient {
   }
 
   public getApolloClient(options?: object) {
+    if (!Utils.isUserConfigExists()) {
+      return null;
+    }
+    this.userConfig = Utils.getUserConfig();
+    this.url = Utils.getAppUrl();
+
     const httpLink = new HttpLink({ uri: this.url + '/graphql', fetch: fetch });
     const authMiddleware = new ApolloLink((operation, forward) => {
       // add the authorization to the headers
