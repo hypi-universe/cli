@@ -3,12 +3,6 @@ hypi
 
 hypi command line interface
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/hypi.svg)](https://npmjs.org/package/hypi)
-[![CircleCI](https://circleci.com/gh/engeman2008/hypi/tree/master.svg?style=shield)](https://circleci.com/gh/engeman2008/hypi/tree/master)
-[![Downloads/week](https://img.shields.io/npm/dw/hypi.svg)](https://npmjs.org/package/hypi)
-[![License](https://img.shields.io/npm/l/hypi.svg)](https://github.com/engeman2008/hypi/blob/master/package.json)
-
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
@@ -29,28 +23,37 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`hypi hello [FILE]`](#hypi-hello-file)
+* [`hypi login`](#hypi-login)
+* [`hypi sync`](#hypi-sync)
 * [`hypi help [COMMAND]`](#hypi-help-command)
 
-## `hypi hello [FILE]`
+## `hypi login`
 
-describe the command here
+login to hypi with your account
 
 ```
 USAGE
-  $ hypi hello [FILE]
+  $ hypi login -i
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -i, --interactive
 
 EXAMPLE
-  $ hypi hello
-  hello world from ./src/hello.ts!
+  $ hypi login -i
+  email?:test@test.com
+  passwordd?:your-password
 ```
+## `hypi sync`
 
-_See code: [src/commands/hello.ts](https://github.com/engeman2008/hypi/blob/v0.0.0/src/commands/hello.ts)_
+sync your local schema with hypi
+
+```
+USAGE
+  $ hypi sync
+
+EXAMPLE
+  $ hypi sync
+```
 
 ## `hypi help [COMMAND]`
 
@@ -67,5 +70,4 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 <!-- commandsstop -->
