@@ -1,6 +1,0 @@
-type Product {
-  hypi: Hypi
-  title: String!
-  description: String!
-  price: Float
-}
