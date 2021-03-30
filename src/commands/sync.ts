@@ -4,6 +4,7 @@ import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
 import Utils from '../hypi/util'
 import cli from 'cli-ux'
+var shell = require('shelljs');
 
 export default class Sync extends Command {
   static description = 'sync user local schema with hypi'
@@ -23,6 +24,9 @@ export default class Sync extends Command {
     if (!Utils.isUserConfigExists()) {
       this.error('Please login first');
     }
+
+    //check .hypi folder exists
+    //check app.yaml and instance.yaml exists
 
     const appService = new AppService();
     const instanceService = new InstanceService();
@@ -64,6 +68,16 @@ export default class Sync extends Command {
 
     const hypiService = new HypiService();
     hypiService.doIntrospection();
+
+    const writeDependcies = Utils.writeToFlutterPackageManager();
+    if(writeDependcies.error){
+      this.error('Failed to write dependcies to pubspec.yaml, try again')
+    }
+
+    if (shell.exec('flutter pub run build_runner build').code !== 0) {
+      shell.echo('Error: Make sure flutter is installed');
+      shell.exit(1);
+    }
 
     cli.action.stop() // shows 'starting a process... done'
   }

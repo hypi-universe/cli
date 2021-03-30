@@ -25,7 +25,7 @@ export default class Utils {
       });
     }
   }
-  static isUserConfigExists(){
+  static isUserConfigExists() {
     const config = new Conf();
     const configFilePath = config.get("cli-config-file") as string;
     if (fs.existsSync(configFilePath)) {
@@ -34,22 +34,22 @@ export default class Utils {
     return false;
   }
 
-  static getUserConfig(){
+  static getUserConfig() {
     const config = new Conf();
     const configFilePath = config.get("cli-config-file") as string;
     return fs.readJSONSync(configFilePath);
   }
 
-  static getAppUrl(){
+  static getAppUrl() {
     const config = new Conf();
     return config.get('app-url') as string;
   }
 
-  static readUserSchema(schemaFile: string){
+  static readUserSchema(schemaFile: string) {
     return fs.readFileSync(schemaFile);
   }
 
-  static getHypiDir() : string{
+  static getHypiDir(): string {
     const curDir = process.cwd();
     return path.join(curDir, '.hypi')
   }
@@ -86,4 +86,44 @@ export default class Utils {
     }
     return target;
   };
+
+  static writeToFlutterPackageManager() {
+    const read_flutter_dependencies = this.readYamlFile('./src/hypi/flutter-dependencies.yaml');
+    if (read_flutter_dependencies.error) {
+      return { error: 'Failed to read  ./src/hypi/flutter-dependencies.yaml' }
+    }
+    const flutter_dependencies = read_flutter_dependencies.data;
+
+    const filePath = path.join(process.cwd(), 'pubspec.yaml')
+    if (!fs.existsSync(filePath)) {
+      return { error: 'Failed to find ~/pubspec.yaml' }
+    }
+    const file = fs.readFileSync(filePath, 'utf8')
+    let doc = YAML.parseDocument(file)
+
+    Object.entries(flutter_dependencies.dependencies).forEach(([key, value]) => {
+      this.addNodeToYamlDoc(doc, 'dependencies', key, String(value));
+    });
+    Object.entries(flutter_dependencies.dev_dependencies).forEach(([key, value]) => {
+      this.addNodeToYamlDoc(doc, 'dev_dependencies', key, String(value));
+    });
+    try {
+      fs.writeFileSync(filePath, String(doc));
+      return { 'error': false }
+    }
+    catch (e) {
+      if (!fs.existsSync(filePath)) {
+        return { error: e.message }
+      }
+    }
+  }
+  static addNodeToYamlDoc(doc: any, node: string, key: string, value: string) {
+    if (!doc.hasIn([node, key])) {
+      console.log('ok')
+      doc.addIn([node], doc.createPair(key, value));
+    } else {
+      console.log(key + ' already exists');
+    }
+    return doc;
+  }
 }

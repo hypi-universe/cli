@@ -81,7 +81,7 @@ export default class InstanceService {
 
   async createAppInstance(instanceDoc: any) {
     let instance;
-    if (instanceDoc.domain != null) {
+    if (instanceDoc && instanceDoc.domain != null) {
       const checkResult = await this.checkInstanceExists(instanceDoc.domain);
       if (checkResult.error) {
         return { 'error': checkResult.error, 'instance': null };
