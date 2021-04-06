@@ -2,8 +2,9 @@ import { Command, flags } from '@oclif/command'
 import AppService from '../hypi/services/app-service'
 import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
-import Utils from '../hypi/util'
+import Utils from '../hypi/utils'
 import cli from 'cli-ux'
+import UserService from '../hypi/services/user-service'
 var shell = require('shelljs');
 
 export default class Sync extends Command {
@@ -21,15 +22,15 @@ export default class Sync extends Command {
     // start the spinner
     cli.action.start('Sync Process')
 
-    if (!Utils.isUserConfigExists()) {
+    if (!UserService.isUserConfigExists()) {
       this.error('Please login first');
     }
-
     //check .hypi folder exists
     //check app.yaml and instance.yaml exists
 
     const appService = new AppService();
     const instanceService = new InstanceService();
+    const hypiService = new HypiService();
 
     const readAppDocResponse = appService.readAppDoc();
     const readInstanceDoc = instanceService.readInstanceDoc();
@@ -37,12 +38,17 @@ export default class Sync extends Command {
     if (readAppDocResponse.error || readInstanceDoc.error) {
       this.error(readAppDocResponse.error ?? readInstanceDoc.error);
     }
+    const checkDependciesExists = await Utils.doesFlutterDependciesExists();
+    if(checkDependciesExists.error){
+      this.error(checkDependciesExists.message);
+    }
+    if (checkDependciesExists.missed) {
+      this.error(checkDependciesExists.message);
+    }
 
     let appDoc = readAppDocResponse.data;
     let instanceDoc = readInstanceDoc.data;
-
     const appResult = await appService.createUserApp(Utils.deepCopy(appDoc));
-
     if (appResult.error) {
       this.error(appResult.error);
     }
@@ -61,24 +67,36 @@ export default class Sync extends Command {
     const instance = instanceResult.instance;
     this.log('Instance created with id : ' + instance.hypi.id);
 
-    instanceDoc = instanceService.updateInstanceDocWithIds(instanceDoc, instance);
+    instanceDoc = await instanceService.updateInstanceDocWithIds(instanceDoc, instance);
 
-    appService.updateAppYamlFile(appDoc);
-    instanceService.updateInstanceYamlFile(instanceDoc);
+    await appService.updateAppYamlFile(appDoc);
+    this.log('updateAppYamlFile done')
+    await instanceService.updateInstanceYamlFile(instanceDoc);
+    this.log('updateInstanceYamlFile done')
 
-    const hypiService = new HypiService();
-    hypiService.doIntrospection();
+    const introspectionResult = await hypiService.doIntrospection();
 
-    const writeDependcies = Utils.writeToFlutterPackageManager();
-    if(writeDependcies.error){
-      this.error('Failed to write dependcies to pubspec.yaml, try again')
+    if (introspectionResult.error) {
+      this.error(introspectionResult.error);
     }
+    this.log('Introspection done')
 
-    if (shell.exec('flutter pub run build_runner build').code !== 0) {
-      shell.echo('Error: Make sure flutter is installed');
-      shell.exit(1);
-    }
+    this.log('write to pubspec.yaml done')
+    this.log('Running flutter pub get')
+    shell.exec('flutter pub get', { silent: true }, function (code: any, stdout: any, stderr: any) {
+      // console.log('Exit code:', code);
+      stdout ? console.log('Program output:', stdout) : null;
+      stderr ? console.log('Program stderr:', stderr) : null;
 
-    cli.action.stop() // shows 'starting a process... done'
+      if (code === 0) {
+        console.log('Running flutter pub run build_runner build --delete-conflicting-outputs')
+
+        shell.exec('flutter pub run build_runner build --delete-conflicting-outputs', { silent: true }, function (code: any, stdout: any, stderr: any) {
+          stdout ? console.log('Program output:', stdout) : null;
+          stderr ? console.log('Program stderr:', stderr) : null;
+          cli.action.stop() // shows 'starting a process... done'
+        });
+      }
+    });
   }
 }

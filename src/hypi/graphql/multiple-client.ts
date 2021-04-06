@@ -1,13 +1,14 @@
 import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client/core';
 import { UserConfigType } from '../domain/types';
 import fetch from 'cross-fetch';
-import Utils from '../util';
+import Utils from '../utils';
+import UserService from '../services/user-service';
 
 export default class MultipleApolloClient {
   private static instance: MultipleApolloClient;
 
   private url: string = "";
-  private userConfig: UserConfigType;
+  private userConfig!: UserConfigType;
 
   public static getInstance(): MultipleApolloClient {
     if (!MultipleApolloClient.instance) {
@@ -16,11 +17,11 @@ export default class MultipleApolloClient {
     return MultipleApolloClient.instance;
   }
 
-  public getApolloClient(options?: object) {
-    if (!Utils.isUserConfigExists()) {
+  public getApolloClient(options?: any) {
+    if (!UserService.isUserConfigExists()) {
       return null;
     }
-    this.userConfig = Utils.getUserConfig();
+    this.userConfig = UserService.getUserConfig();
     this.url = Utils.getAppUrl();
 
     const httpLink = new HttpLink({ uri: this.url + '/graphql', fetch: fetch });

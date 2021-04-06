@@ -8,6 +8,7 @@ const hypiLogin = async (email: string, password: string) => {
       password: password
     });
     const data = await response.data;
+
     if (!data.data || data.data.errorCode) {
       return { 'error': 'Invalid email or password' };
       // this.error(response.data.data.errorCode + ' : ' + response.data.data.errorMsg);

@@ -2,18 +2,18 @@ import introspectionQuery from '../graphql/queries/introspection'
 import { buildClientSchema, printSchema } from "graphql";
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import Utils from '../util'
+import Utils from '../utils'
 
 export default class HypiService {
 
-  private full_schema_file_name = 'full-schema.graphql';
+  private full_schema_file_name = 'generated-schema.graphql';
 
   async getSchema() {
     return await introspectionQuery()
-      .then(res => {
+      .then((res: any) => {
         return res.data;
       })
-      .catch(err => {
+      .catch((err: any) => {
         return {};
       });;
   }
@@ -27,6 +27,14 @@ export default class HypiService {
   async doIntrospection() {
     const hypiDir = Utils.getHypiDir();
     const schemaSDL = await this.getSchemaSDL();
-    fs.writeFile(path.join(hypiDir, this.full_schema_file_name), schemaSDL)
+    const filePath = path.join(hypiDir, this.full_schema_file_name);
+    try {
+      await fs.writeFile(filePath, schemaSDL)
+      console.log('write to '+ filePath)
+      return { 'success': filePath };
+    } catch (error) {
+      console.log('error to write to '+ filePath);
+      return { 'error': 'Failed to write introspection result to ' + filePath };
+    }
   }
 }

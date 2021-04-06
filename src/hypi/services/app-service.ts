@@ -1,10 +1,10 @@
 import findAppQuery from '../graphql/queries/find-app'
 import upsertMutation from '../graphql/mutations/upsert'
 import * as fs from 'fs-extra'
-import * as Conf from 'conf';
 import * as path from 'path'
-import Utils from '../util'
+import Utils from '../utils'
 import * as YAML from 'yaml'
+import UserService from './user-service';
 
 export default class AppService {
 
@@ -39,7 +39,7 @@ export default class AppService {
     try {
       const resposne = await upsertMutation(values);
       if (resposne.errors) {
-        const errorMessages = resposne.errors.map(error => {
+        const errorMessages = resposne.errors.map((error: any) => {
           return error.message;
         }).concat();
 
@@ -90,10 +90,8 @@ export default class AppService {
   }
 
   replaceAppTypesWithSchematext(appDoc: any) {
-    const config = new Conf();
-    const configDir = config.get("hypi-user-dir") as string;
+    const configDir = UserService.getUserDir() as string;
 
-    appDoc.clo
     const releases = appDoc.releases;
     appDoc.releases.forEach((release: any, index: number) => {
       const schemaFile = path.join(configDir, release.schema.types);
@@ -112,9 +110,9 @@ export default class AppService {
     return appDoc;
   }
 
-  updateAppYamlFile(appDoc: any) {
+  async updateAppYamlFile(appDoc: any) {
     const hypiDir = Utils.getHypiDir();
     const appYaml = YAML.stringify(appDoc);
-    fs.writeFileSync(path.join(hypiDir, this.app_file_name), appYaml);
+    await fs.writeFile(path.join(hypiDir, this.app_file_name), appYaml);
   }
 }

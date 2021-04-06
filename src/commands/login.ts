@@ -2,7 +2,6 @@ import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
 import hypiLogin from '../hypi/api/login'
 import UserService from '../hypi/services/user-service'
-import Utils from '../hypi/util'
 
 export default class Login extends Command {
   static description = 'Login to hypi'
@@ -31,7 +30,6 @@ export default class Login extends Command {
 
     if (!flags.interactive) {
       this.error('hypi login -i', { exit: 2 })
-      this.exit(1);
     }
     /** prompt the user to enter email and password */
     this.log("hypi: Enter your login credentials")
@@ -42,12 +40,11 @@ export default class Login extends Command {
     const data = await hypiLogin(email, password);
     if (data.error) {
       this.error(data.error);
-      this.exit();
     }
-this.log(this.config.configDir)
     await this.config.runHook('hypi-config', this.config);
 
     UserService.saveUserConfig(data);
+    this.log('Logged in successfully')
 
     cli.action.stop() // shows 'starting a process... done'
   }

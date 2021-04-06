@@ -1,17 +1,12 @@
 import { IConfig } from '@oclif/config'
 import * as path from 'path'
-import * as Conf from 'conf';
-import Utils from '../../hypi/util'
+import Conf from 'conf';
+import Utils from '../../hypi/utils'
+import UserService from '../../hypi/services/user-service';
 
 
 const config_hook = async function (oclifConfig: IConfig) {
-
-  const config = new Conf();
-
-  config.set('hypi-user-dir', Utils.getHypiDir());
-  config.set('cli-config-dir', oclifConfig.configDir)
-  config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
-  config.set('app-url', 'https://api.alpha.hypi.dev')
+  UserService.saveCliConfig(oclifConfig);
 }
 
 export default config_hook;

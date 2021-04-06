@@ -1,6 +1,6 @@
 import findAppQuery from '../graphql/queries/find-instance'
 import upsertMutation from '../graphql/mutations/upsert'
-import Utils from '../util'
+import Utils from '../utils'
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as YAML from 'yaml'
@@ -52,7 +52,7 @@ export default class InstanceService {
     try {
       const resposne = await upsertMutation(values)
       if (resposne.errors) {
-        const errorMessages = resposne.errors.map(error => {
+        const errorMessages = resposne.errors.map((error: any) => {
           return error.message
         }).concat()
 
@@ -112,9 +112,9 @@ export default class InstanceService {
   }
 
 
-  updateInstanceYamlFile(instanceDoc: any) {
+  async updateInstanceYamlFile(instanceDoc: any) {
     const hypiDir = Utils.getHypiDir();
     const intsanceYaml = YAML.stringify(instanceDoc);
-    fs.writeFileSync(path.join(hypiDir, this.instance_file_name), intsanceYaml);
+    await fs.writeFile(path.join(hypiDir, this.instance_file_name), intsanceYaml);
   }
 }
