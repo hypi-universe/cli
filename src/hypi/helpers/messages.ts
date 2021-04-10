@@ -1,0 +1,45 @@
+export const messages = {
+  validation: {
+    domain: {
+      example: '.apps.hypi.app',
+      notValid: 'Please provide a valid domain eg: (mydomain.com)',
+      invalidDomain: 'Invalid domain, ${domain} cannot be used in a user provided domain',
+
+    },
+    appName: {
+      regex: '[a-z0-9-]{1,100}',
+      notValid: 'Please provide a valid name'
+    },
+    appLabel: {
+      regex: '^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$',
+      notValid: 'Please provide a valid label'
+    },
+    website: {
+      regex: '^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
+      notValid: 'Please provide a valid website'
+    },
+  },
+  initCommand: {
+    intro: 'This command will walk you through creating app.yaml and instance.yaml files.',
+    proceed: '.hypi folder already exists, do you want to proceed and override its contents',
+    haveInstance: {
+      message: 'Do you have a Hypi instance created at https://hypi.app that you’d like to use?'
+    },
+    hypiDomain: {
+      message: 'Please enter a valid domain'
+    },
+    appName: {
+      message: 'App name? ',
+    },
+    appLabel: {
+      message: 'App label? ',
+    },
+    website: {
+      message: 'Website? ',
+    },
+    domain: {
+      message: 'Domain(Optional)?',
+    },
+    initDone: 'Init done successfully, Now write your schema then run the hypi sync command to generate your app\'s API',
+  }
+}

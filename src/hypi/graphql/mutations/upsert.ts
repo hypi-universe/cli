@@ -13,7 +13,8 @@ const upsertMutation = (vars: Object) => {
   return client
     .mutate({
       mutation: UPSERT,
-      variables: vars
+      variables: vars,
+      fetchPolicy: "no-cache"
     })
 };
 

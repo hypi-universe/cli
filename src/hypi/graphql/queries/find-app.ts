@@ -32,13 +32,17 @@ fragment releases on AppRelease {
   notes
   status
   isDefault
+  schema {
+    types
+  }
   }
 `;
 const findAppQuery = (vars: Object) => {
   return client
     .query({
       query: FIND_APP,
-      variables: vars
+      variables: vars,
+      fetchPolicy: "no-cache"
     })
 };
 

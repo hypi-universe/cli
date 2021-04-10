@@ -4,17 +4,45 @@ hypi
 hypi command line interface
 
 <!-- toc -->
+* [Install](#install)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+# Install
+$ npm install /full/path/to/hypi/cli
+
+steps
+1. inside yoir flutter project, run hypi login
+afetr login , the user config which hold user token and domain is in ~/.config/hypi/config.json
+2. after login, you can do hypi init to initialize your app and instance or refernece an existing domain
+.hypi folder will be created with app.yaml, instance.yaml and schema.graphql
+3. write your schema inside schema.graphql
+4. make sure that following dependecies exists inside your pubspec.yaml in yoru flutter project
+
+dependencies:
+  artemis: ">=6.0.0 <7.0.0"
+  json_annotation: ^ 3.1.0
+  equatable: ^ 1.2.5
+  meta: ">=1.0.0 <2.0.0"
+  gql: ">=0.12.3 <1.0.0"
+
+dev_dependencies:
+  artemis: ">=6.0.0 <7.0.0"
+  build_runner: ^ 1.10.4
+  json_serializable: ^ 3.5.0
+
+5.  run hypi sync to generate schema dart files 
+
+
+
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @hypi/hypi
+$ npm install -g hypi
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/hypi/0.0.0 linux-x64 node-v14.16.0
+hypi/0.0.0 linux-x64 node-v14.16.0
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -26,6 +54,7 @@ USAGE
 * [`hypi commands`](#hypi-commands)
 * [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
 * [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
 * [`hypi login`](#hypi-login)
 * [`hypi sync`](#hypi-sync)
 
@@ -94,6 +123,26 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
+## `hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`
+
+Init a hypi app
+
+```
+USAGE
+  $ hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]
+
+OPTIONS
+  -h, --help           show CLI help
+  -i, --have_instance
+
+EXAMPLES
+  $ hypi init -i
+  $ hypi init --have_instance
+  $ hypi init
+```
+
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/init.ts)_
+
 ## `hypi login`
 
 Login to hypi
@@ -112,7 +161,7 @@ EXAMPLE
   $ hypi login your@email.com your-password
 ```
 
-_See code: [src/commands/login.ts](https://github.com/engeman2008/hypi/blob/v0.0.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/login.ts)_
 
 ## `hypi sync`
 
@@ -129,5 +178,5 @@ EXAMPLE
   $ hypi sync
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/engeman2008/hypi/blob/v0.0.0/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/sync.ts)_
 <!-- commandsstop -->

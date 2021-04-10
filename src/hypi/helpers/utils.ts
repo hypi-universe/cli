@@ -2,12 +2,11 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as YAML from 'yaml'
-import Conf from 'conf';
-import flutterDependencies from './flutter-dependencies';
-import hypiConfig from './config';
+import flutterDependencies from '../flutter-dependencies';
+import hypiConfig from '../config';
 
 export default class Utils {
- 
+
   static getAppUrl() {
     return hypiConfig.url;
   }
@@ -19,13 +18,13 @@ export default class Utils {
 
   static readYamlFile(filePath: string) {
     if (!fs.existsSync(filePath)) {
-      return { error: 'Failed to find ' + filePath + '' }
+      return { data: null, error: 'Failed to find ' + filePath + '', exists: false }
     }
     const appFile = fs.readFileSync(filePath, 'utf-8');
     try {
-      return { data: YAML.parse(appFile) }
+      return { data: YAML.parse(appFile), error: null, exists: true }
     } catch (e) {
-      return { error: e.message }
+      return { data: null, error: e.message, exists: true }
     }
   }
   static deepCopy = <T>(target: T): T => {
@@ -144,7 +143,20 @@ export default class Utils {
         break
       default:
         return '';
-      // a complete example would need to have all the levels
     }
+  }
+  static async writeToFile(filePath: string, data: any) {
+    try {
+      await fs.writeFile(filePath, String(data));
+      // console.log('write to ' + filePath)
+      return { success: filePath, error: null };
+    } catch (error) {
+      console.log('failed to write to ' + filePath);
+      return { success: null, error: 'Failed to write to ' + filePath };
+    }
+  }
+
+  static isObjectEmpty(obj: any) {
+    return Object.keys(obj).length === 0 || JSON.stringify(obj) === '{}';
   }
 }

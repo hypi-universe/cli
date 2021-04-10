@@ -93,7 +93,8 @@ const INTROSPECTION = gql`
 const introspectionQuery = () => {
   return client
     .query({
-      query: INTROSPECTION
+      query: INTROSPECTION,
+      fetchPolicy: "no-cache"
     })
 };
 

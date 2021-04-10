@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client/core';
 import { UserConfigType } from '../domain/types';
 import fetch from 'cross-fetch';
-import Utils from '../utils';
+import Utils from '../helpers/utils';
 import UserService from '../services/user-service';
 
 export default class MultipleApolloClient {

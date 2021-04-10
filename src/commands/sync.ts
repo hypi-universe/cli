@@ -2,7 +2,7 @@ import { Command, flags } from '@oclif/command'
 import AppService from '../hypi/services/app-service'
 import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
-import Utils from '../hypi/utils'
+import Utils from '../hypi/helpers/utils'
 import cli from 'cli-ux'
 import UserService from '../hypi/services/user-service'
 var shell = require('shelljs');
@@ -39,13 +39,12 @@ export default class Sync extends Command {
       this.error(readAppDocResponse.error ?? readInstanceDoc.error);
     }
     const checkDependciesExists = await Utils.doesFlutterDependciesExists();
-    if(checkDependciesExists.error){
+    if (checkDependciesExists.error) {
       this.error(checkDependciesExists.message);
     }
     if (checkDependciesExists.missed) {
       this.error(checkDependciesExists.message);
     }
-
     let appDoc = readAppDocResponse.data;
     let instanceDoc = readInstanceDoc.data;
     const appResult = await appService.createUserApp(Utils.deepCopy(appDoc));
@@ -60,7 +59,7 @@ export default class Sync extends Command {
       .find((release: any) => release.name === appDoc.releases[0].name);
     instanceDoc.release.hypi = { "id": release.hypi.id };
 
-    const instanceResult = await instanceService.createAppInstance(instanceDoc);
+    const instanceResult = await instanceService.createAppInstance(Utils.deepCopy(instanceDoc));
     if (instanceResult.error) {
       this.error(instanceResult.error);
     }
@@ -81,22 +80,12 @@ export default class Sync extends Command {
     }
     this.log('Introspection done')
 
-    this.log('write to pubspec.yaml done')
-    this.log('Running flutter pub get')
-    shell.exec('flutter pub get', { silent: true }, function (code: any, stdout: any, stderr: any) {
-      // console.log('Exit code:', code);
+    console.log('Running flutter pub run build_runner build --delete-conflicting-outputs')
+
+    shell.exec('flutter pub run build_runner build --delete-conflicting-outputs', { silent: true }, function (code: any, stdout: any, stderr: any) {
       stdout ? console.log('Program output:', stdout) : null;
       stderr ? console.log('Program stderr:', stderr) : null;
-
-      if (code === 0) {
-        console.log('Running flutter pub run build_runner build --delete-conflicting-outputs')
-
-        shell.exec('flutter pub run build_runner build --delete-conflicting-outputs', { silent: true }, function (code: any, stdout: any, stderr: any) {
-          stdout ? console.log('Program output:', stdout) : null;
-          stderr ? console.log('Program stderr:', stderr) : null;
-          cli.action.stop() // shows 'starting a process... done'
-        });
-      }
+      cli.action.stop() // shows 'starting a process... done'
     });
   }
 }

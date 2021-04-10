@@ -1,6 +1,6 @@
 
 import MultipleApolloClient from './multiple-client'
-import Utils from '../utils'
+import Utils from '../helpers/utils'
 import * as path from 'path'
 import { exit } from 'process';
 

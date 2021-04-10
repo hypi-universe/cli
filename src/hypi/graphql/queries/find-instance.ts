@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import {hypi_domain_client as client} from '../client';
+import { hypi_domain_client as client } from '../client';
 
 const FIND_INSTANCE = gql`
  query findAppInstance($arcql: String!) {
@@ -14,7 +14,14 @@ const FIND_INSTANCE = gql`
           enableAnonymousRegistrations
           requireEmailVerification
           release {
+            label
             name
+            notes
+            status
+            isDefault
+            schema{
+                types
+            }
             hypi {
               id
               __typename
@@ -66,7 +73,8 @@ const findAppInstanceQuery = (vars: Object) => {
   return client
     .query({
       query: FIND_INSTANCE,
-      variables: vars
+      variables: vars,
+      fetchPolicy: "no-cache"
     })
 };
 

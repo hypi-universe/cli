@@ -1,7 +1,7 @@
 import { IConfig } from '@oclif/config'
 import * as path from 'path'
 import Conf from 'conf';
-import Utils from '../../hypi/utils'
+import Utils from '../../hypi/helpers/utils'
 import UserService from '../../hypi/services/user-service';
 
 

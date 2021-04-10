@@ -2,7 +2,7 @@ import introspectionQuery from '../graphql/queries/introspection'
 import { buildClientSchema, printSchema } from "graphql";
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import Utils from '../utils'
+import Utils from '../helpers/utils'
 
 export default class HypiService {
 
@@ -11,30 +11,42 @@ export default class HypiService {
   async getSchema() {
     return await introspectionQuery()
       .then((res: any) => {
-        return res.data;
+        if (Utils.isObjectEmpty(res.data))
+          return { error: 'Introspection result is empty', data: null };
+
+        return { error: false, data: res.data };
       })
       .catch((err: any) => {
-        return {};
+        console.log('introspect error')
+        console.log(err)
+
+        return { error: err, data: {} };
       });;
   }
 
   async getSchemaSDL() {
-    const introspectionSchemaResult = await this.getSchema()
-    const graphqlSchemaObj = buildClientSchema(introspectionSchemaResult);
-    return printSchema(graphqlSchemaObj);
+    const introspectionSchemaResult = await this.getSchema();
+    if (introspectionSchemaResult.error) return { error: introspectionSchemaResult.error, schema: null };
+
+    const graphqlSchemaObj = buildClientSchema(introspectionSchemaResult.data);
+    return { error: false, schema: printSchema(graphqlSchemaObj) };
   }
 
   async doIntrospection() {
     const hypiDir = Utils.getHypiDir();
-    const schemaSDL = await this.getSchemaSDL();
+    const schemaSDLRes = await this.getSchemaSDL();
+
+    if (schemaSDLRes.error) return { error: schemaSDLRes.error };
+
+    const schemaSDL = schemaSDLRes.schema;
     const filePath = path.join(hypiDir, this.full_schema_file_name);
     try {
       await fs.writeFile(filePath, schemaSDL)
-      console.log('write to '+ filePath)
-      return { 'success': filePath };
+      console.log('write to ' + filePath)
+      return { error: false };
     } catch (error) {
-      console.log('error to write to '+ filePath);
-      return { 'error': 'Failed to write introspection result to ' + filePath };
+      console.log('error to write to ' + filePath);
+      return { error: 'Failed to write introspection result to ' + filePath };
     }
   }
 }
