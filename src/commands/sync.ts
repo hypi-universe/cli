@@ -5,6 +5,8 @@ import HypiService from '../hypi/services/hypi-service'
 import Utils from '../hypi/helpers/utils'
 import cli from 'cli-ux'
 import UserService from '../hypi/services/user-service'
+import SyncService from '../hypi/services/sync-service'
+
 var shell = require('shelljs');
 
 export default class Sync extends Command {
@@ -25,8 +27,12 @@ export default class Sync extends Command {
     if (!UserService.isUserConfigExists()) {
       this.error('Please login first');
     }
+    const syncService = new SyncService();
+
     //check .hypi folder exists
     //check app.yaml and instance.yaml exists
+    const checkDotHypiExists = syncService.doesDotHypiExists();
+    if (checkDotHypiExists.error) this.error(checkDotHypiExists.error);
 
     const appService = new AppService();
     const instanceService = new InstanceService();

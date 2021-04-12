@@ -1,8 +1,6 @@
 import { gql } from '@apollo/client/core';
 import HypiClient from '../hypi-client';
 
-const client = HypiClient.getClientWithInstanceDomain();
-
 const INTROSPECTION = gql`
  query IntrospectionQuery {
     __schema {
@@ -93,6 +91,8 @@ const INTROSPECTION = gql`
   }
 `;
 const introspectionQuery = () => {
+  const client = HypiClient.getClientWithInstanceDomain();
+
   return client
     .query({
       query: INTROSPECTION,

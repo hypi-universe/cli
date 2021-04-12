@@ -44,6 +44,14 @@ export default class UserService {
     return false;
   }
 
+  static isUserHypiFolderExists() {
+    const configFilePath = this.config.get("cli-config-file") as string;
+    if (fs.existsSync(configFilePath)) {
+      return true;
+    }
+    return false;
+  }
+
   static getUserConfig() {
     const configFilePath = this.config.get("cli-config-file") as string;
     return fs.readJSONSync(configFilePath);
