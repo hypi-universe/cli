@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client/core';
-import {user_domain_client as client} from '../client';
+import HypiClient from '../hypi-client';
+
+const client = HypiClient.getClientWithInstanceDomain();
 
 const INTROSPECTION = gql`
  query IntrospectionQuery {

@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client/core';
-import {hypi_domain_client as client} from '../client';
+import HypiClient from '../hypi-client';
+
+const client = HypiClient.getClientWithUserDomain();
 
 const UPSERT = gql`
 mutation upsertMutation($values:HypiUpsertInputUnion!) {
