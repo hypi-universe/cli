@@ -3,7 +3,7 @@ import { messages } from './messages';
 export const domainValidator = async (input: string) => {
   const invalidDomains = ['hypi.io', 'hypi.app', 'hypi.dev', 'hypi.com'];
   const splittedByDot = input.split('.');
-
+return true;
   //handle case anydomain
   if (splittedByDot.length < 2) {
     return messages.validation.domain.notValid
@@ -46,4 +46,11 @@ export const WebsiteValidator = async (input: string) => {
     return true
   }
   return messages.validation.website.notValid;
+};
+
+export const EmailValidator = async (input: string) => {
+  if (input.match(messages.validation.email.regex)) {
+    return true
+  }
+  return messages.validation.email.notValid;
 };

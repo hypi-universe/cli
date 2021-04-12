@@ -2,6 +2,7 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as YAML from 'yaml'
+import atob from 'atob';
 import flutterDependencies from '../flutter-dependencies';
 import hypiConfig from '../config';
 
@@ -159,4 +160,13 @@ export default class Utils {
   static isObjectEmpty(obj: any) {
     return Object.keys(obj).length === 0 || JSON.stringify(obj) === '{}';
   }
+
+  static parseJwt(token: string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  };
 }

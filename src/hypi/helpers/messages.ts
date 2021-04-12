@@ -18,6 +18,10 @@ export const messages = {
       regex: '^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
       notValid: 'Please provide a valid website'
     },
+    email: {
+      regex: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+      notValid: 'Not valid email'
+    }
   },
   initCommand: {
     intro: 'This command will walk you through creating app.yaml and instance.yaml files.',
@@ -41,5 +45,22 @@ export const messages = {
       message: 'Domain(Optional)?',
     },
     initDone: 'Init done successfully, Now write your schema then run the hypi sync command to generate your app\'s API',
+  },
+  loginCommand: {
+    loginDomainMessage: 'Enter domain and token',
+    loginEmailMessage: 'Enter your email and password',
+    email: {
+      message: 'Email? ',
+    },
+    password: {
+      message: 'Password? ',
+    },
+    domain: {
+      message: 'Domain? ',
+    },
+    token: {
+      message: 'Token? ',
+    },
+    loggedIn: 'Logged in successfully'
   }
 }
