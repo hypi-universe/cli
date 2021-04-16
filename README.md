@@ -145,20 +145,20 @@ _See code: [src/commands/init.ts](https://github.com/hypi-universe/hypi-cli/blob
 
 ## `hypi login`
 
-Login to hypi
+Login to hypi with email and password or domain and token
 
 ```
 USAGE
   $ hypi login
 
 OPTIONS
-  -e, --email=email        your email
-  -h, --help               show CLI help
-  -i, --interactive
-  -p, --password=password  your password
+  -d, --domain
+  -h, --help    show CLI help
 
-EXAMPLE
-  $ hypi login your@email.com your-password
+EXAMPLES
+  $ hypi login
+  $ hypi login -d
+  $ hypi login --domain
 ```
 
 _See code: [src/commands/login.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/login.ts)_

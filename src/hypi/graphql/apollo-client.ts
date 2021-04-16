@@ -25,10 +25,10 @@ export default class CustomizedApolloClient {
       link: concat(authMiddleware, httpLink),
     });
   }
-
+  
   getHttpLink() {
     const url = Utils.getAppUrl();
-    return new HttpLink({ uri: url + '/graphql', fetch: fetch });;
+    return new HttpLink({ uri: url + '/graphql', fetch: fetch as any });;
   }
 
   getMiddleware() {

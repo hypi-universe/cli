@@ -14,16 +14,16 @@ export default class HypiClient {
   static getClientWithInstanceDomain() {
     //domain from instance.yaml
 
-    let instanceRead;
+    let domain;
     try {
       const hypiDir = Utils.getHypiDir();
-      instanceRead = Utils.readYamlFile(path.join(hypiDir, 'instance.yaml'));
+      const instanceRead = Utils.readYamlFile(path.join(hypiDir, 'instance.yaml'));
+      domain = instanceRead.data.domain;
     } catch (error) {
       console.log('cant read instance.yaml for client domain');
-      return null;
     }
 
-    return new CustomizedApolloClient({ domain: instanceRead.data.domain }).getApolloClient();
+    return new CustomizedApolloClient({ domain: domain }).getApolloClient();
   }
 
 }
