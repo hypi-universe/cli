@@ -6,6 +6,7 @@ import Utils from '../hypi/helpers/utils'
 import cli from 'cli-ux'
 import UserService from '../hypi/services/user-service'
 import SyncService from '../hypi/services/sync-service'
+import { messages } from '../hypi/helpers/messages';
 
 var shell = require('shelljs');
 
@@ -25,7 +26,7 @@ export default class Sync extends Command {
     cli.action.start('Sync Process')
 
     if (!UserService.isUserConfigExists()) {
-      this.error('Please login first');
+      this.error(messages.syncCommand.pleasLogin);
     }
     const syncService = new SyncService();
 
@@ -58,7 +59,7 @@ export default class Sync extends Command {
       this.error(appResult.error);
     }
     const app = appResult.app;
-    this.log('App created with id : ' + app.hypi.id);
+    this.log(messages.syncCommand.appCreated + app.hypi.id);
 
     appDoc = appService.updateAppDocWithIds(appDoc, app);
     const release = app.releases
@@ -70,7 +71,7 @@ export default class Sync extends Command {
       this.error(instanceResult.error);
     }
     const instance = instanceResult.instance;
-    this.log('Instance created with id : ' + instance.hypi.id);
+    this.log(messages.syncCommand.instanceCreated + instance.hypi.id);
 
     instanceDoc = await instanceService.updateInstanceDocWithIds(instanceDoc, instance);
 
