@@ -1,12 +1,10 @@
 import { Command, flags } from '@oclif/command';
-import cli from 'cli-ux';
 import LoginService from '../hypi/services/login-service';
 import UserService from '../hypi/services/user-service';
 import { messages } from '../hypi/helpers/messages';
-import Utils from '../hypi/helpers/utils';
 
 export default class Login extends Command {
-  static description = 'Login to hypi'
+  static description = 'Login to hypi with email and password or domain and token'
 
   static flags = {
     help: flags.help({ char: 'h' }),
@@ -23,7 +21,8 @@ export default class Login extends Command {
   async run() {
     const { args, flags } = this.parse(Login)
     const loginService = new LoginService();
-   
+
+
     if (flags.domain) {
       this.log(messages.loginCommand.loginDomainMessage)
       await loginService.promptLoginByDomain();

@@ -11,14 +11,22 @@ export default class SyncService {
     return dirExists
   }
 
-  doesAppFileExists() {
+  checkAppFile() {
     const readAppYaml = Utils.readYamlFile(path.join(this.hypiDir, 'app.yaml'));
-    return readAppYaml.exists && readAppYaml.data
+    if (!readAppYaml.exists) return { error: 'app.yaml not exists' };
+    if (!readAppYaml.error && !readAppYaml.data) return { error: 'app.yaml is empty' };
+    if (readAppYaml.error) return { error: 'Error reading app.yaml' }
+
+    return { error: null }
   }
 
-  doesInstanceFileExists() {
+  checkInstanceFile() {
     const readInstanceYaml = Utils.readYamlFile(path.join(this.hypiDir, 'instance.yaml'));
-    return readInstanceYaml.exists && readInstanceYaml.data;
+    if (!readInstanceYaml.exists) return { error: 'instance.yaml not exists' };
+    if (!readInstanceYaml.error && !readInstanceYaml.data) return { error: 'instance.yaml is empty' };
+    if (readInstanceYaml.error) return { error: 'Error reading instance.yaml' }
+
+    return { error: null }
   }
 
   doesSchemaFileExists() {
@@ -27,12 +35,17 @@ export default class SyncService {
     return schemaFileExists;
   }
 
-  doesDotHypiExists() {
-    if (!this.doesDotHypiFolderExists()) return { error: '.hypi folder not exists' };
-    if (!this.doesAppFileExists()) return { error: 'app.yaml not exists' };
-    if (!this.doesInstanceFileExists()) return { error: 'instance.yaml not exists' };
+  async checkHypiFolder() {
+    if (!this.doesDotHypiFolderExists()) return { error: '.hypi folder not exists, run hypi init' };
+
+    const checkAppFile = this.checkAppFile();
+    if (checkAppFile.error) return { error: checkAppFile.error };
+
+    const checkInstanceFile = this.checkInstanceFile();
+    if (checkInstanceFile.error) return { error: checkInstanceFile.error };
+
     if (!this.doesSchemaFileExists()) return { error: 'schema.graphql not exists' };
-    return {error: null}
+    return { error: null }
   }
 
 }

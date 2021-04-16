@@ -62,5 +62,8 @@ export const messages = {
       message: 'Token? ',
     },
     loggedIn: 'Logged in successfully'
+  },
+  syncCommand : {
+    
   }
 }
