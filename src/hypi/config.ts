@@ -1,4 +1,4 @@
 
 export default {
-  url: 'https://api.hypi.app'
+  url: 'https://api.hypi.app',
 }

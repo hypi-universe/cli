@@ -3,34 +3,36 @@ export const messages = {
     domain: {
       example: '.apps.hypi.app',
       notValid: 'Please provide a valid domain eg: (mydomain.com)',
-      invalidDomain: 'Invalid domain, ${domain} cannot be used in a user provided domain',
+      // eslint-disable-next-line no-template-curly-in-string
+      invalidDomain: 'Invalid domain, {domain} cannot be used in a user provided domain',
 
     },
     appName: {
       regex: '[a-z0-9-]{1,100}',
-      notValid: 'Please provide a valid name'
+      notValid: 'Please provide a valid name',
     },
     appLabel: {
       regex: '^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$',
-      notValid: 'Please provide a valid label'
+      notValid: 'Please provide a valid label',
     },
     website: {
       regex: '^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
-      notValid: 'Please provide a valid website'
+      notValid: 'Please provide a valid website',
     },
     email: {
+      // eslint-disable-next-line no-useless-escape
       regex: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
-      notValid: 'Not valid email'
-    }
+      notValid: 'Not valid email',
+    },
   },
   initCommand: {
     intro: 'This command will walk you through creating app.yaml and instance.yaml files.',
     proceed: '.hypi folder already exists, do you want to proceed and override its contents',
     haveInstance: {
-      message: 'Do you have a Hypi instance created at https://hypi.app that you’d like to use?'
+      message: 'Do you have a Hypi instance created at https://hypi.app that you’d like to use?',
     },
     hypiDomain: {
-      message: 'Please enter a valid domain'
+      message: 'Please enter a valid domain',
     },
     appName: {
       message: 'App name? ',
@@ -61,12 +63,12 @@ export const messages = {
     token: {
       message: 'Token? ',
     },
-    loggedIn: 'Logged in successfully'
+    loggedIn: 'Logged in successfully',
   },
-  syncCommand : {
+  syncCommand: {
     pleasLogin: 'Please login first',
     appCreated: 'App created with id : ',
     instanceCreated: 'Instance created with id : ',
 
-  }
+  },
 }

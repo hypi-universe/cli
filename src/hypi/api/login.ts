@@ -1,21 +1,21 @@
-import axios from '../axios-alpha';
+import axios from '../axios-alpha'
 
 const hypiLogin = async (email: string, password: string) => {
-  let response;
+  let response
   try {
     response = await axios.post('/auth/login', {
       email: email,
-      password: password
-    });
-    const data = await response.data;
+      password: password,
+    })
+    const data = await response.data
 
     if (!data.data || data.data.errorCode) {
-      return { 'error': 'Invalid email or password' };
-      // this.error(response.data.data.errorCode + ' : ' + response.data.data.errorMsg);
+      return {error: 'Invalid email or password'}
+      // this.error(response.data.data.errorCode + ' : ' + response.data.data.errorMsg)
     }
-    return data.data;
-  } catch (err) {
-    return { 'error': err };
+    return data.data
+  } catch (error) {
+    return {error: error}
   }
 }
-export default hypiLogin;
+export default hypiLogin

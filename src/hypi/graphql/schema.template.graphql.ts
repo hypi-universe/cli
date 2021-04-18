@@ -30,4 +30,4 @@ export const schemaTemplate = `
 interface Item {
    title: String!
 }
-`;
+`

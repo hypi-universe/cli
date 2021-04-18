@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client/core';
-import HypiClient from '../hypi-client';
+import {gql} from '@apollo/client/core'
+import HypiClient from '../hypi-client'
 
 const INTROSPECTION = gql`
  query IntrospectionQuery {
@@ -89,15 +89,15 @@ const INTROSPECTION = gql`
       }
     }
   }
-`;
+`
 const introspectionQuery = () => {
-  const client = HypiClient.getClientWithInstanceDomain();
+  const client = HypiClient.getClientWithInstanceDomain()
 
   return client
-    .query({
-      query: INTROSPECTION,
-      fetchPolicy: "no-cache"
-    })
-};
+  .query({
+    query: INTROSPECTION,
+    fetchPolicy: 'no-cache',
+  })
+}
 
-export default introspectionQuery;
+export default introspectionQuery

@@ -1,6 +1,5 @@
-import { gql } from '@apollo/client/core';
-import HypiClient from '../hypi-client';
-
+import {gql} from '@apollo/client/core'
+import HypiClient from '../hypi-client'
 
 const FIND_INSTANCE = gql`
  query findAppInstance($arcql: String!) {
@@ -69,15 +68,15 @@ const FIND_INSTANCE = gql`
     __typename
   }
 }
-`;
-const findAppInstanceQuery = (vars: Object) => {
-  const client = HypiClient.getClientWithUserDomain();
+`
+const findAppInstanceQuery = (vars: Record<string, any>) => {
+  const client = HypiClient.getClientWithUserDomain()
   return client
-    .query({
-      query: FIND_INSTANCE,
-      variables: vars,
-      fetchPolicy: "no-cache"
-    })
-};
+  .query({
+    query: FIND_INSTANCE,
+    variables: vars,
+    fetchPolicy: 'no-cache',
+  })
+}
 
-export default findAppInstanceQuery;
+export default findAppInstanceQuery

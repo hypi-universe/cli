@@ -1,52 +1,47 @@
 import introspectionQuery from '../graphql/queries/introspection'
-import { buildClientSchema, printSchema } from "graphql";
+import {buildClientSchema, printSchema} from 'graphql'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import Utils from '../helpers/utils'
 
 export default class HypiService {
-
-  private full_schema_file_name = 'generated-schema.graphql';
+  private full_schema_file_name = 'generated-schema.graphql'
 
   async getSchema() {
-    return await introspectionQuery()
-      .then((res: any) => {
-        if (Utils.isObjectEmpty(res.data))
-          return { error: 'Introspection result is empty', data: null };
+    const schema = await introspectionQuery()
+    .then((res: any) => {
+      if (Utils.isObjectEmpty(res.data))
+        return {error: 'Introspection result is empty', data: null}
 
-        return { error: false, data: res.data };
-      })
-      .catch((err: any) => {
-        console.log('introspect error')
-        console.log(err)
-
-        return { error: err, data: {} };
-      });;
+      return {error: false, data: res.data}
+    })
+    .catch((error: any) => {
+      return {error: error, data: {}}
+    })
+    return schema
   }
 
   async getSchemaSDL() {
-    const introspectionSchemaResult = await this.getSchema();
-    if (introspectionSchemaResult.error) return { error: introspectionSchemaResult.error, schema: null };
+    const introspectionSchemaResult = await this.getSchema()
+    if (introspectionSchemaResult.error) return {error: introspectionSchemaResult.error, schema: null}
 
-    const graphqlSchemaObj = buildClientSchema(introspectionSchemaResult.data);
-    return { error: false, schema: printSchema(graphqlSchemaObj) };
+    const graphqlSchemaObj = buildClientSchema(introspectionSchemaResult.data)
+    return {error: false, schema: printSchema(graphqlSchemaObj)}
   }
 
   async doIntrospection() {
-    const hypiDir = Utils.getHypiDir();
-    const schemaSDLRes = await this.getSchemaSDL();
+    const hypiDir = Utils.getHypiDir()
+    const schemaSDLRes = await this.getSchemaSDL()
 
-    if (schemaSDLRes.error) return { error: schemaSDLRes.error };
+    if (schemaSDLRes.error) return {error: schemaSDLRes.error}
 
-    const schemaSDL = schemaSDLRes.schema;
-    const filePath = path.join(hypiDir, this.full_schema_file_name);
+    const schemaSDL = schemaSDLRes.schema
+    const filePath = path.join(hypiDir, this.full_schema_file_name)
     try {
       await fs.writeFile(filePath, schemaSDL)
-      console.log('write to ' + filePath)
-      return { error: false };
+      return {error: false}
     } catch (error) {
-      console.log('error to write to ' + filePath);
-      return { error: 'Failed to write introspection result to ' + filePath };
+      return {error: 'Failed to write introspection result to ' + filePath}
     }
   }
 }
