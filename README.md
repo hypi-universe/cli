@@ -54,9 +54,6 @@ USAGE
 * [`hypi commands`](#hypi-commands)
 * [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
 * [`hypi help [COMMAND]`](#hypi-help-command)
-* [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
-* [`hypi login`](#hypi-login)
-* [`hypi sync`](#hypi-sync)
 
 ## `hypi commands`
 
@@ -122,61 +119,4 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
-
-## `hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`
-
-Init a hypi app
-
-```
-USAGE
-  $ hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]
-
-OPTIONS
-  -h, --help           show CLI help
-  -i, --have_instance
-
-EXAMPLES
-  $ hypi init -i
-  $ hypi init --have_instance
-  $ hypi init
-```
-
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/init.ts)_
-
-## `hypi login`
-
-Login to hypi with email and password or domain and token
-
-```
-USAGE
-  $ hypi login
-
-OPTIONS
-  -d, --domain
-  -h, --help    show CLI help
-
-EXAMPLES
-  $ hypi login
-  $ hypi login -d
-  $ hypi login --domain
-```
-
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/login.ts)_
-
-## `hypi sync`
-
-sync user local schema with hypi
-
-```
-USAGE
-  $ hypi sync
-
-OPTIONS
-  -h, --help  show CLI help
-
-EXAMPLE
-  $ hypi sync
-```
-
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/hypi-cli/blob/v0.0.0/src/commands/sync.ts)_
 <!-- commandsstop -->
