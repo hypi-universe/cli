@@ -1,7 +1,7 @@
 {
-  "name": "hypi",
+  "name": "@hypi/hypi",
   "description": "Application developer community centred around Hypi's unique low-code, serverless development platform.",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Hypi @https://hypi.io/",
   "bin": {
     "hypi": "bin/run"
@@ -81,8 +81,8 @@
     "hooks": {
       "hypi-config": "./lib/hooks/hypi/set-global-config"
     },
-    "macos":{
-      "identifier" : "com.hypi.cli"
+    "macos": {
+      "identifier": "com.hypi.cli"
     }
   },
   "repository": {
@@ -98,6 +98,7 @@
   },
   "types": "lib/index.d.ts",
   "directories": {
+    "lib": "lib",
     "test": "test"
   }
 }

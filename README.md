@@ -38,11 +38,11 @@ dev_dependencies:
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g hypi
+$ npm install -g @hypi/hypi
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-hypi/0.0.0 linux-x64 node-v14.16.0
+@hypi/hypi/1.0.0 linux-x64 node-v14.16.0
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
