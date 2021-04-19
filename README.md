@@ -54,6 +54,7 @@ USAGE
 * [`hypi commands`](#hypi-commands)
 * [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
 * [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi update [CHANNEL]`](#hypi-update-channel)
 
 ## `hypi commands`
 
@@ -119,4 +120,15 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `hypi update [CHANNEL]`
+
+update the hypi CLI
+
+```
+USAGE
+  $ hypi update [CHANNEL]
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
 <!-- commandsstop -->
