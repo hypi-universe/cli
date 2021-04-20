@@ -9,17 +9,18 @@ hypi command line interface
 * [Commands](#commands)
 <!-- tocstop -->
 # Install
-$ npm install /full/path/to/hypi/cli
+```$ npm install /full/path/to/hypi/cli```
 
-steps
-1. inside yoir flutter project, run hypi login
+# Getting started [Flutter Project]
+
+* Inside yoir flutter project, run ```hypi login``` to login with either email and password or token and domain
 afetr login , the user config which hold user token and domain is in ~/.config/hypi/config.json
-2. after login, you can do hypi init to initialize your app and instance or refernece an existing domain
+* After login, you can do ```hypi init``` to initialize your app and instance or refernece an existing domain
 .hypi folder will be created with app.yaml, instance.yaml and schema.graphql
-3. write your schema inside schema.graphql
-4. make sure that following dependecies exists inside your pubspec.yaml in yoru flutter project
+* Write your schema inside schema.graphql
+* Make sure that following dependecies exists inside your pubspec.yaml in yoru flutter project
 
-dependencies:
+```dependencies:
   artemis: ">=6.0.0 <7.0.0"
   json_annotation: ^ 3.1.0
   equatable: ^ 1.2.5
@@ -30,10 +31,8 @@ dev_dependencies:
   artemis: ">=6.0.0 <7.0.0"
   build_runner: ^ 1.10.4
   json_serializable: ^ 3.5.0
-
-5.  run hypi sync to generate schema dart files 
-
-
+```
+* Run hypi sync to generate schema dart files 
 
 # Usage
 <!-- usage -->
@@ -132,3 +131,65 @@ USAGE
 
 _See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
 <!-- commandsstop -->
+
+# Build instructions
+
+For Buiilding you will need to install olcif-dev https://github.com/oclif/dev-cli
+
+```npm install -g @oclif/dev-cli```
+
+## npm
+* sudo npm adduser --scope=hypi --always-auth
+* npm version
+* sudo npm publish --access public
+
+## Standalone tarballs
+
+* sudo oclif-dev pack
+* user does not have to already have node installed to use the CLI
+* To publish, you can copy the files from ```./dist``` or use ```oclif-dev publish``` to copy the files to S3
+
+## Windows installer
+
+Make sure you have 7z && nsis installed 
+https://www.journaldev.com/29456/install-7zip-ubuntu
+https://www.howtoinstall.me/ubuntu/18-04/nsis/
+
+* sudo oclif-dev pack:win
+* It will build into ```./dist/win```
+* Publish to S3 with ```oclif-dev publish:win```
+
+## macOS installer
+
+* oclif-dev pack:macos
+* It will build into ```./dist/macos```
+* Publish to S3 with ```oclif-dev publish:macos```
+* You need to set the macOS identifier at oclif.macos.identifier in package.json
+* To sign the installer, set oclif.macos.sign in package.json to a certificate (For the Heroku CLI this is "Developer ID Installer: Heroku INC"). And optionally set the keychain with OSX_KEYCHAIN.
+https://developer.apple.com/developer-id/
+
+
+## Ubuntu/Debian packages
+
+* Set the MYCLI_DEB_KEY to a gpg key id to create the gpg files
+```
+export MYCLI_DEB_KEY=MY_DEB_KEY
+```
+* oclif-dev pack:deb
+* Published to S3 with oclif-dev publish:deb.
+Once it's published to S3, users can install with the following:
+
+```
+$ wget -qO- https://mys3bucket.s3.amazonaws.com/apt/release.key | apt-key add - # you will need to upload this file manually
+$ sudo echo "deb https://mys3bucket.s3.amazonaws.com/apt ./" > /etc/apt/sources.list.d/mycli.list
+$ sudo apt update
+$ sudo apt install -y mycli
+```
+
+## Autoupdater
+
+* Tarballs as well as the installers can be made autoupdatable by adding the @oclif/plugin-update plugin.
+- CLI will autoupdate in the background or when mycli update is run.
+- If you don't want to use S3, you can still run oclif-dev pack and it will build tarballs. To get the updater to work, set oclif.update.s3.host in package.json to a host that has the files built in ./dist from oclif-dev pack. This host does not need to be an S3 host. To customize the URL paths, see the S3 templates in @oclif/config.
+Snapcraft
+
