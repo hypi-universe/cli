@@ -9,7 +9,7 @@ hypi command line interface
 * [Commands](#commands)
 <!-- tocstop -->
 # Install
-```$ npm install /full/path/to/hypi/cli```
+```$ npm install -g @hypi/hypi```
 
 # Getting started [Flutter Project]
 
