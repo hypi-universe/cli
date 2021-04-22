@@ -20,7 +20,8 @@ afetr login , the user config which hold user token and domain is in ~/.config/h
 * Write your schema inside schema.graphql
 * Make sure that following dependecies exists inside your pubspec.yaml in yoru flutter project
 
-```dependencies:
+```
+dependencies:
   artemis: ">=6.0.0 <7.0.0"
   json_annotation: ^ 3.1.0
   equatable: ^ 1.2.5
