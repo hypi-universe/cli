@@ -5,8 +5,10 @@ hypi command line interface
 
 <!-- toc -->
 * [Install](#install)
+* [Getting started [Flutter Project]](#getting-started-flutter-project)
 * [Usage](#usage)
 * [Commands](#commands)
+* [Build instructions](#build-instructions)
 <!-- tocstop -->
 # Install
 ```$ npm install -g @hypi/hypi```
@@ -33,6 +35,35 @@ dev_dependencies:
   build_runner: ^ 1.10.4
   json_serializable: ^ 3.5.0
 ```
+* Run ```flutter pub get``` to get the dependencies you have added
+* create build.yaml file and add the following content
+```
+targets:
+  $default:
+    sources:
+      - lib/**
+      - graphql/**
+      - .hypi/generated-schema.graphql
+      - generated-schema.graphql
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - schema: .hypi/generated-schema.graphql
+              output: lib/models/graphql/graphql_api.dart
+              queries_glob: graphql/*.graphql
+              naming_scheme: pathedWithFields
+          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+          scalar_mapping:
+              - graphql_type: DateTime
+                dart_type: DateTime
+              - graphql_type: Json
+                dart_type: Set
+              - graphql_type: Long
+                dart_type: int
+              - graphql_type: Any
+                dart_type: String
+```
 * Run hypi sync to generate schema dart files 
 
 # Usage
@@ -54,6 +85,15 @@ USAGE
 * [`hypi commands`](#hypi-commands)
 * [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
 * [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi login`](#hypi-login)
+* [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
+* [`hypi sync`](#hypi-sync)
+* [`hypi plugins`](#hypi-plugins)
+* [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
+* [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
+* [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
+* [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
+* [`hypi plugins:update`](#hypi-pluginsupdate)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
 
 ## `hypi commands`
@@ -120,6 +160,201 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`
+
+Init a hypi app
+
+```
+USAGE
+  $ hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]
+
+OPTIONS
+  -h, --help           show CLI help
+  -i, --have_instance
+
+EXAMPLES
+  $ hypi init -i
+  $ hypi init --have_instance
+  $ hypi init
+```
+
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/init.ts)_
+
+## `hypi login`
+
+Login to hypi with email and password or domain and token
+
+```
+USAGE
+  $ hypi login
+
+OPTIONS
+  -d, --domain
+  -h, --help    show CLI help
+
+EXAMPLES
+  $ hypi login
+  $ hypi login -d
+  $ hypi login --domain
+```
+
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/login.ts)_
+
+## `hypi plugins`
+
+list installed plugins
+
+```
+USAGE
+  $ hypi plugins
+
+OPTIONS
+  --core  show core plugins
+
+EXAMPLE
+  $ hypi plugins
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/index.ts)_
+
+## `hypi plugins:inspect PLUGIN...`
+
+displays installation properties of a plugin
+
+```
+USAGE
+  $ hypi plugins:inspect PLUGIN...
+
+ARGUMENTS
+  PLUGIN  [default: .] plugin to inspect
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+
+EXAMPLE
+  $ hypi plugins:inspect myplugin
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/inspect.ts)_
+
+## `hypi plugins:install PLUGIN...`
+
+installs a plugin into the CLI
+
+```
+USAGE
+  $ hypi plugins:install PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to install
+
+OPTIONS
+  -f, --force    yarn install with force flag
+  -h, --help     show CLI help
+  -v, --verbose
+
+DESCRIPTION
+  Can be installed from npm or a git url.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command 
+  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in 
+  the CLI without the need to patch and update the whole CLI.
+
+ALIASES
+  $ hypi plugins:add
+
+EXAMPLES
+  $ hypi plugins:install myplugin 
+  $ hypi plugins:install https://github.com/someuser/someplugin
+  $ hypi plugins:install someuser/someplugin
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/install.ts)_
+
+## `hypi plugins:link PLUGIN`
+
+links a plugin into the CLI for development
+
+```
+USAGE
+  $ hypi plugins:link PLUGIN
+
+ARGUMENTS
+  PATH  [default: .] path to plugin
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+
+DESCRIPTION
+  Installation of a linked plugin will override a user-installed or core plugin.
+
+  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello' 
+  command will override the user-installed or core plugin implementation. This is useful for development work.
+
+EXAMPLE
+  $ hypi plugins:link myplugin
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/link.ts)_
+
+## `hypi plugins:uninstall PLUGIN...`
+
+removes a plugin from the CLI
+
+```
+USAGE
+  $ hypi plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+
+ALIASES
+  $ hypi plugins:unlink
+  $ hypi plugins:remove
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/uninstall.ts)_
+
+## `hypi plugins:update`
+
+update installed plugins
+
+```
+USAGE
+  $ hypi plugins:update
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/update.ts)_
+
+## `hypi sync`
+
+sync user local schema with hypi
+
+```
+USAGE
+  $ hypi sync
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLE
+  $ hypi sync
+```
+
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
@@ -193,4 +428,3 @@ $ sudo apt install -y mycli
 - CLI will autoupdate in the background or when mycli update is run.
 - If you don't want to use S3, you can still run oclif-dev pack and it will build tarballs. To get the updater to work, set oclif.update.s3.host in package.json to a host that has the files built in ./dist from oclif-dev pack. This host does not need to be an S3 host. To customize the URL paths, see the S3 templates in @oclif/config.
 Snapcraft
-
