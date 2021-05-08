@@ -169,4 +169,9 @@ export default class Utils {
     }).join(''))
     return JSON.parse(jsonPayload)
   }
+
+  static enumToArray(enumme: any) {
+    return Object.keys(enumme)
+    .map(key => enumme[key])
+  }
 }

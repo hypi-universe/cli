@@ -1,0 +1,14 @@
+query products($arcql: String!) {
+    find(type: Product, arcql: $arcql) {
+        edges {
+            node {
+               ...ProductFields
+            }
+        }
+    }
+}
+fragment ProductFields on Product
+{
+    title
+    description    
+}

@@ -66,6 +66,7 @@ export const messages = {
     loggedIn: 'Logged in successfully',
   },
   syncCommand: {
+    selectPlatform: 'Please enter platform',
     pleasLogin: 'Please login first',
     appCreated: 'App created with id : ',
     instanceCreated: 'Instance created with id : ',
