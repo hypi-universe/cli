@@ -88,8 +88,6 @@ export default class Sync extends Command {
     if (result.message) {
       this.error(result.message)
     }
-    await platformContext.generate()
-    this.exit()
     let appDoc = readAppDocResponse.data
     let instanceDoc = readInstanceDoc.data
     const appResult = await appService.createUserApp(Utils.deepCopy(appDoc))
