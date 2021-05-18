@@ -15,13 +15,6 @@ export default class Init extends Command {
     have_instance: flags.boolean({char: 'i'}),
   }
 
-  static args = [
-    {name: 'website'},
-    {name: 'name'},
-    {name: 'label'},
-    {name: 'domain'},
-  ]
-
   static examples = [
     '$ hypi init -i',
     '$ hypi init --have_instance',

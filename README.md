@@ -4,9 +4,6 @@ hypi
 hypi command line interface
 
 <!-- toc -->
-* [Install](#install)
-* [Getting started [ReactJS Project]](#getting-started-reactjs-project)
-* [Getting started [Flutter Project]](#getting-started-flutter-project)
 * [Usage](#usage)
 * [Commands](#commands)
 * [Build instructions](#build-instructions)
@@ -46,7 +43,7 @@ USAGE
   - [`hypi commands`](#hypi-commands)
   - [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
   - [`hypi help [COMMAND]`](#hypi-help-command)
-  - [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
+  - [`hypi init`](#hypi-init)
   - [`hypi login`](#hypi-login)
   - [`hypi plugins`](#hypi-plugins)
   - [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
@@ -129,13 +126,13 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
-## `hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`
+## `hypi init`
 
 Init a hypi app
 
 ```
 USAGE
-  $ hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]
+  $ hypi init
 
 OPTIONS
   -h, --help           show CLI help
