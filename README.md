@@ -10,10 +10,13 @@ hypi command line interface
 * [Commands](#commands)
 * [Build instructions](#build-instructions)
 <!-- tocstop -->
-# Install
-```$ npm install -g @hypi/hypi```
+## Install
+```$ npm install -g @hypi/cli```
+## Getting started [ReactJS Project]
 
-# Getting started [Flutter Project]
+https://github.com/hypi-universe/codegen-react-example
+  
+## Getting started [Flutter Project]
 
 * Inside yoir flutter project, run ```hypi login``` to login with either email and password or token and domain
 afetr login , the user config which hold user token and domain is in ~/.config/hypi/config.json
@@ -69,11 +72,11 @@ targets:
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @hypi/hypi
+$ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/hypi/1.0.0 linux-x64 node-v14.16.0
+@hypi/cli/0.1.0 linux-x64 node-v14.16.0
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -82,19 +85,32 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`hypi commands`](#hypi-commands)
-* [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
-* [`hypi help [COMMAND]`](#hypi-help-command)
-* [`hypi login`](#hypi-login)
-* [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
-* [`hypi sync`](#hypi-sync)
-* [`hypi plugins`](#hypi-plugins)
-* [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
-* [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
-* [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
-* [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
-* [`hypi plugins:update`](#hypi-pluginsupdate)
-* [`hypi update [CHANNEL]`](#hypi-update-channel)
+- [hypi](#hypi)
+  - [Install](#install)
+  - [Getting started [ReactJS Project]](#getting-started-reactjs-project)
+  - [Getting started [Flutter Project]](#getting-started-flutter-project)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`hypi commands`](#hypi-commands)
+  - [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
+  - [`hypi help [COMMAND]`](#hypi-help-command)
+  - [`hypi init [WEBSITE] [NAME] [LABEL] [DOMAIN]`](#hypi-init-website-name-label-domain)
+  - [`hypi login`](#hypi-login)
+  - [`hypi plugins`](#hypi-plugins)
+  - [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
+  - [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
+  - [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
+  - [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
+  - [`hypi plugins:update`](#hypi-pluginsupdate)
+  - [`hypi sync [PLATFORM]`](#hypi-sync-platform)
+  - [`hypi update [CHANNEL]`](#hypi-update-channel)
+- [Build instructions](#build-instructions)
+  - [npm](#npm)
+  - [Standalone tarballs](#standalone-tarballs)
+  - [Windows installer](#windows-installer)
+  - [macOS installer](#macos-installer)
+  - [Ubuntu/Debian packages](#ubuntudebian-packages)
+  - [Autoupdater](#autoupdater)
 
 ## `hypi commands`
 
@@ -179,7 +195,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/init.ts)_
 
 ## `hypi login`
 
@@ -199,7 +215,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/login.ts)_
 
 ## `hypi plugins`
 
@@ -339,22 +355,25 @@ OPTIONS
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/update.ts)_
 
-## `hypi sync`
+## `hypi sync [PLATFORM]`
 
 sync user local schema with hypi
 
 ```
 USAGE
-  $ hypi sync
+  $ hypi sync [PLATFORM]
 
 OPTIONS
-  -h, --help  show CLI help
+  -h, --help                              show CLI help
+  -p, --platform=flutter|reactjs|angular
 
-EXAMPLE
-  $ hypi sync
+EXAMPLES
+  $ hypi sync angular
+  $ hypi sync -p=angular
+  $ hypi sync --platform=angular
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/hypi-cli/blob/v1.0.0/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 

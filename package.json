@@ -1,13 +1,13 @@
 {
-  "name": "@hypi/hypi",
+  "name": "@hypi/cli",
   "description": "Application developer community centred around Hypi's unique low-code, serverless development platform.",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "Hypi @https://hypi.io/",
   "bin": {
     "hypi": "bin/run"
   },
   "bugs": {
-    "url": "https://github.com/hypi-universe/hypi-cli"
+    "url": "https://github.com/hypi-universe/cli"
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
@@ -68,11 +68,11 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/hypi-universe/hypi-cli",
+  "homepage": "https://github.com/hypi-universe/cli",
   "keywords": [
     "oclif"
   ],
-  "license": "MIT",
+  "license": "Apache 2.0",
   "main": "lib/index.js",
   "oclif": {
     "dirname": "hypi",
@@ -90,12 +90,12 @@
       "hypi-config": "./lib/hooks/hypi/set-global-config"
     },
     "macos": {
-      "identifier": "com.hypi.cli"
+      "identifier": "io.hypi.cli"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hypi-universe/hypi-cli.git"
+    "url": "git+https://github.com/hypi-universe/cli.git"
   },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",

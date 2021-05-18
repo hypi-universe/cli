@@ -2,7 +2,7 @@
 
 import {codegen} from '@graphql-codegen/core'
 import {generate} from '@graphql-codegen/cli'
-import {GraphQLSchema, parse} from 'graphql'
+import {GraphQLSchema} from 'graphql'
 import {loadSchema} from '@graphql-tools/load'
 import {loadDocuments} from '@graphql-tools/load'
 import {GraphQLFileLoader} from '@graphql-tools/graphql-file-loader'
@@ -39,7 +39,7 @@ export default class ReactjsService implements Platform {
     })
 
     const outputFile = '/src/generated/graphql.ts'
-    const config = {
+    const config: any = {
       filename: outputFile,
       schema: schema,
       documents: documents,
