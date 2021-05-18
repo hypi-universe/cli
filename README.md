@@ -12,11 +12,11 @@ hypi command line interface
 ```$ npm install -g @hypi/cli```
 ## Getting started [ReactJS Project]
 
-https://github.com/hypi-universe/codegen-react-example
+https://github.com/hypi-universe/hypi-cli-react-example
   
 ## Getting started [Flutter Project]
 
-https://github.com/hypi-universe/hypi-cli-flutter
+https://github.com/hypi-universe/hypi-cli-flutter-example
 
 # Usage
 <!-- usage -->
@@ -43,15 +43,12 @@ USAGE
   - [`hypi commands`](#hypi-commands)
   - [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
   - [`hypi help [COMMAND]`](#hypi-help-command)
-  - [`hypi init`](#hypi-init)
-  - [`hypi login`](#hypi-login)
   - [`hypi plugins`](#hypi-plugins)
   - [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
   - [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
   - [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
   - [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
   - [`hypi plugins:update`](#hypi-pluginsupdate)
-  - [`hypi sync [PLATFORM]`](#hypi-sync-platform)
   - [`hypi update [CHANNEL]`](#hypi-update-channel)
 - [Build instructions](#build-instructions)
   - [npm](#npm)
@@ -125,46 +122,6 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
-
-## `hypi init`
-
-Init a hypi app
-
-```
-USAGE
-  $ hypi init
-
-OPTIONS
-  -h, --help           show CLI help
-  -i, --have_instance
-
-EXAMPLES
-  $ hypi init -i
-  $ hypi init --have_instance
-  $ hypi init
-```
-
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/init.ts)_
-
-## `hypi login`
-
-Login to hypi with email and password or domain and token
-
-```
-USAGE
-  $ hypi login
-
-OPTIONS
-  -d, --domain
-  -h, --help    show CLI help
-
-EXAMPLES
-  $ hypi login
-  $ hypi login -d
-  $ hypi login --domain
-```
-
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/login.ts)_
 
 ## `hypi plugins`
 
@@ -303,26 +260,6 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/update.ts)_
-
-## `hypi sync [PLATFORM]`
-
-sync user local schema with hypi
-
-```
-USAGE
-  $ hypi sync [PLATFORM]
-
-OPTIONS
-  -h, --help                              show CLI help
-  -p, --platform=flutter|reactjs|angular
-
-EXAMPLES
-  $ hypi sync angular
-  $ hypi sync -p=angular
-  $ hypi sync --platform=angular
-```
-
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.1.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
