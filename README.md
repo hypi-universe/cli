@@ -5,6 +5,7 @@ hypi command line interface
 
 <!-- toc -->
 * [Install](#install)
+* [Getting started [ReactJS Project]](#getting-started-reactjs-project)
 * [Getting started [Flutter Project]](#getting-started-flutter-project)
 * [Usage](#usage)
 * [Commands](#commands)
@@ -18,56 +19,7 @@ https://github.com/hypi-universe/codegen-react-example
   
 ## Getting started [Flutter Project]
 
-* Inside yoir flutter project, run ```hypi login``` to login with either email and password or token and domain
-afetr login , the user config which hold user token and domain is in ~/.config/hypi/config.json
-* After login, you can do ```hypi init``` to initialize your app and instance or refernece an existing domain
-.hypi folder will be created with app.yaml, instance.yaml and schema.graphql
-* Write your schema inside schema.graphql
-* Make sure that following dependecies exists inside your pubspec.yaml in yoru flutter project
-
-```
-dependencies:
-  artemis: ">=6.0.0 <7.0.0"
-  json_annotation: ^ 3.1.0
-  equatable: ^ 1.2.5
-  meta: ">=1.0.0 <2.0.0"
-  gql: ">=0.12.3 <1.0.0"
-
-dev_dependencies:
-  artemis: ">=6.0.0 <7.0.0"
-  build_runner: ^ 1.10.4
-  json_serializable: ^ 3.5.0
-```
-* Run ```flutter pub get``` to get the dependencies you have added
-* create build.yaml file and add the following content
-```
-targets:
-  $default:
-    sources:
-      - lib/**
-      - graphql/**
-      - .hypi/generated-schema.graphql
-      - generated-schema.graphql
-    builders:
-      artemis:
-        options:
-          schema_mapping:
-            - schema: .hypi/generated-schema.graphql
-              output: lib/models/graphql/graphql_api.dart
-              queries_glob: graphql/*.graphql
-              naming_scheme: pathedWithFields
-          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
-          scalar_mapping:
-              - graphql_type: DateTime
-                dart_type: DateTime
-              - graphql_type: Json
-                dart_type: Set
-              - graphql_type: Long
-                dart_type: int
-              - graphql_type: Any
-                dart_type: String
-```
-* Run hypi sync to generate schema dart files 
+https://github.com/hypi-universe/hypi-cli-flutter
 
 # Usage
 <!-- usage -->
