@@ -174,4 +174,9 @@ export default class Utils {
     return Object.keys(enumme)
     .map(key => enumme[key])
   }
+
+  static isDirEmpty(dir: any) {
+    const files = fs.readdirSync(dir)
+    return files.length === 0
+  }
 }
