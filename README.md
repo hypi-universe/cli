@@ -25,7 +25,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.1.1 linux-x64 node-v14.16.0
+@hypi/cli/0.1.2 linux-x64 node-v14.16.0
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -131,7 +131,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.1.1/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/init.ts)_
 
 ## `hypi login`
 
@@ -151,7 +151,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.1.1/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/login.ts)_
 
 ## `hypi plugins`
 
@@ -309,7 +309,7 @@ EXAMPLES
   $ hypi sync --platform=angular
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.1.1/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
