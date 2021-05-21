@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import {codegen} from '@graphql-codegen/core'
-import {generate} from '@graphql-codegen/cli'
 import {GraphQLSchema} from 'graphql'
 import {loadSchema} from '@graphql-tools/load'
 import {loadDocuments} from '@graphql-tools/load'
@@ -9,11 +8,11 @@ import {GraphQLFileLoader} from '@graphql-tools/graphql-file-loader'
 import * as fs from 'fs-extra'
 import * as typescriptPlugin from '@graphql-codegen/typescript'
 import * as typescriptOperationsPlugin from '@graphql-codegen/typescript-operations'
-import * as typescriptReactApolloPlugin from '@graphql-codegen/typescript-react-apollo'
+import * as typescriptAngularApolloPlugin from '@graphql-codegen/typescript-apollo-angular'
 
 import path from 'path'
 
-export default class ReactjsService implements Platform {
+export default class AngularService implements Platform {
   async validate() {
     return {error: false}
   }
@@ -52,19 +51,18 @@ export default class ReactjsService implements Platform {
           typescriptOperations: {},
         },
         {
-          typescriptReactApollo: {},
+          typescriptAngularApollo: {},
         },
       ],
       pluginMap: {
         typescript: typescriptPlugin,
         typescriptOperations: typescriptOperationsPlugin,
-        typescriptReactApollo: typescriptReactApolloPlugin,
+        typescriptAngularApollo: typescriptAngularApolloPlugin,
       },
       config: {
-        skipTypename: false,
-        withHooks: true,
-        withHOC: false,
-        withComponent: false,
+        querySuffix: 'QueryService',
+        mutationSuffix: 'MutationService',
+        subscriptionSuffix: 'SubscriptionService',
       },
     }
     const output = await codegen(config)
@@ -78,36 +76,5 @@ export default class ReactjsService implements Platform {
 
       console.log('The file was succesfully generated!')
     })
-  }
-
-  private async generateWithCli() {
-    const outputDir = process.cwd() + '/src/generated'
-
-    if (!fs.existsSync(outputDir))
-      fs.mkdirSync(outputDir)
-
-    await generate(
-      {
-        schema: process.cwd() + '/.hypi/generated-schema.graphql',
-        documents: process.cwd() + '/src/**/*.graphql',
-        overwrite: true,
-        generates: {
-          [process.cwd() + '/src/generated/graphql.tsx']: {
-            plugins: [
-              'typescript',
-              'typescript-operations',
-              'typescript-react-apollo',
-            ],
-            config: {
-              skipTypename: false,
-              withHooks: true,
-              withHOC: false,
-              withComponent: false,
-            },
-          },
-        },
-      },
-      true
-    )
   }
 }

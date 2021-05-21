@@ -12,6 +12,7 @@ import PlatformService from '../hypi/services/platform-service'
 import Context from '../hypi/services/platforms/context'
 import FlutterService from '../hypi/services/platforms/flutter-service'
 import ReactjsService from '../hypi/services/platforms/reactjs-service'
+import AngularService from '../hypi/services/platforms/angular-service'
 
 const platformOptions = PlatformService.platformsArray()
 
@@ -77,6 +78,10 @@ export default class Sync extends Command {
     }
     case Platforms.Reactjs: {
       platformContext.setPlatform(new ReactjsService())
+      break
+    }
+    case Platforms.Angular: {
+      platformContext.setPlatform(new AngularService())
       break
     }
     default: {
