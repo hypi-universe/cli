@@ -10,11 +10,15 @@ hypi command line interface
 <!-- tocstop -->
 ## Install
 ```$ npm install -g @hypi/cli```
-## Getting started [ReactJS Project]
+### Getting started [ReactJS Project]
 
 https://github.com/hypi-universe/hypi-cli-react-example
-  
-## Getting started [Flutter Project]
+
+### Getting started [Angular Project]
+
+https://github.com/hypi-universe/hypi-cli-angular-example
+
+### Getting started [Flutter Project]
 
 https://github.com/hypi-universe/hypi-cli-flutter-example
 
@@ -25,7 +29,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.1.2 linux-x64 node-v14.16.0
+@hypi/cli/0.2.0 linux-x64 node-v14.16.0
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -131,7 +135,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/init.ts)_
 
 ## `hypi login`
 
@@ -151,7 +155,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/login.ts)_
 
 ## `hypi plugins`
 
@@ -309,7 +313,7 @@ EXAMPLES
   $ hypi sync --platform=angular
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.1.2/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
