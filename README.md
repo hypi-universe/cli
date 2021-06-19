@@ -29,7 +29,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.2.0 linux-x64 node-v14.16.0
+@hypi/cli/0.2.0 linux-x64 node-v14.17.1
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -38,33 +38,20 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-- [hypi](#hypi)
-  - [Install](#install)
-    - [Getting started [ReactJS Project]](#getting-started-reactjs-project)
-    - [Getting started [Angular Project]](#getting-started-angular-project)
-    - [Getting started [Flutter Project]](#getting-started-flutter-project)
-- [Usage](#usage)
-- [Commands](#commands)
-  - [`hypi commands`](#hypi-commands)
-  - [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
-  - [`hypi help [COMMAND]`](#hypi-help-command)
-  - [`hypi init`](#hypi-init)
-  - [`hypi login`](#hypi-login)
-  - [`hypi plugins`](#hypi-plugins)
-  - [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
-  - [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
-  - [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
-  - [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
-  - [`hypi plugins:update`](#hypi-pluginsupdate)
-  - [`hypi sync [PLATFORM]`](#hypi-sync-platform)
-  - [`hypi update [CHANNEL]`](#hypi-update-channel)
-- [Build instructions](#build-instructions)
-  - [npm](#npm)
-  - [Standalone tarballs](#standalone-tarballs)
-  - [Windows installer](#windows-installer)
-  - [macOS installer](#macos-installer)
-  - [Ubuntu/Debian packages](#ubuntudebian-packages)
-  - [Autoupdater](#autoupdater)
+* [`hypi commands`](#hypi-commands)
+* [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
+* [`hypi generate [PLATFORM]`](#hypi-generate-platform)
+* [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi init`](#hypi-init)
+* [`hypi login`](#hypi-login)
+* [`hypi plugins`](#hypi-plugins)
+* [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
+* [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
+* [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
+* [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
+* [`hypi plugins:update`](#hypi-pluginsupdate)
+* [`hypi sync`](#hypi-sync)
+* [`hypi update [CHANNEL]`](#hypi-update-channel)
 
 ## `hypi commands`
 
@@ -113,6 +100,26 @@ OPTIONS
 ```
 
 _See code: [conf-cli](https://github.com/natzcam/conf-cli/blob/v0.1.9/src/commands/conf.ts)_
+
+## `hypi generate [PLATFORM]`
+
+generate the schema typescript file
+
+```
+USAGE
+  $ hypi generate [PLATFORM]
+
+OPTIONS
+  -h, --help                              show CLI help
+  -p, --platform=flutter|reactjs|angular
+
+EXAMPLES
+  $ hypi generate angular
+  $ hypi generate -p=angular
+  $ hypi generate --platform=angular
+```
+
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/generate.ts)_
 
 ## `hypi help [COMMAND]`
 
@@ -309,22 +316,19 @@ OPTIONS
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/update.ts)_
 
-## `hypi sync [PLATFORM]`
+## `hypi sync`
 
 sync user local schema with hypi
 
 ```
 USAGE
-  $ hypi sync [PLATFORM]
+  $ hypi sync
 
 OPTIONS
-  -h, --help                              show CLI help
-  -p, --platform=flutter|reactjs|angular
+  -h, --help  show CLI help
 
-EXAMPLES
-  $ hypi sync angular
-  $ hypi sync -p=angular
-  $ hypi sync --platform=angular
+EXAMPLE
+  $ hypi sync
 ```
 
 _See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/sync.ts)_

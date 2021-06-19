@@ -5,62 +5,35 @@ import HypiService from '../hypi/services/hypi-service'
 import Utils from '../hypi/helpers/utils'
 import cli from 'cli-ux'
 import UserService from '../hypi/services/user-service'
-import SyncService from '../hypi/services/sync-service'
 import {messages} from '../hypi/helpers/messages'
-import {Platforms} from '../hypi/services/platform-service'
-import PlatformService from '../hypi/services/platform-service'
-import Context from '../hypi/services/platforms/context'
-import FlutterService from '../hypi/services/platforms/flutter-service'
-import ReactjsService from '../hypi/services/platforms/reactjs-service'
-import AngularService from '../hypi/services/platforms/angular-service'
-
-const platformOptions = PlatformService.platformsArray()
 
 export default class Sync extends Command {
   static description = 'sync user local schema with hypi'
 
   static flags = {
     help: flags.help({char: 'h'}),
-    platform: flags.string({char: 'p', options: platformOptions}),
   }
 
-  static args = [
-    {
-      name: 'platform',
-      options: platformOptions,
-    },
-  ]
-
   static examples = [
-    '$ hypi sync angular',
-    '$ hypi sync -p=angular',
-    '$ hypi sync --platform=angular',
+    '$ hypi sync',
   ]
 
   async run() {
     // start the spinner
     cli.action.start('Sync Process')
-    const {args, flags} = this.parse(Sync)
-
-    if (!args.platform && !flags.platform) {
-      this.error(messages.syncCommand.selectPlatform + ' ' + platformOptions)
-    }
-
-    const platform = args.platform ?? flags.platform
 
     if (!UserService.isUserConfigExists()) {
       this.error(messages.syncCommand.pleasLogin)
     }
-    const syncService = new SyncService()
+    const hypiService = new HypiService()
 
     // check .hypi folder exists
     // check app.yaml and instance.yaml exists
-    const checkDotHypiExists = await syncService.checkHypiFolder()
+    const checkDotHypiExists = await hypiService.checkHypiFolder()
     if (checkDotHypiExists.error) this.error(checkDotHypiExists.error)
 
     const appService = new AppService()
     const instanceService = new InstanceService()
-    const hypiService = new HypiService()
 
     const readAppDocResponse = appService.readAppDoc()
     const readInstanceDoc = instanceService.readInstanceDoc()
@@ -68,31 +41,7 @@ export default class Sync extends Command {
     if (readAppDocResponse.error || readInstanceDoc.error) {
       this.error(readAppDocResponse.error ?? readInstanceDoc.error)
     }
-    // check which platform
-    const platformContext = new Context(new FlutterService())
 
-    switch (platform) {
-    case Platforms.Flutter: {
-      platformContext.setPlatform(new FlutterService())
-      break
-    }
-    case Platforms.Reactjs: {
-      platformContext.setPlatform(new ReactjsService())
-      break
-    }
-    case Platforms.Angular: {
-      platformContext.setPlatform(new AngularService())
-      break
-    }
-    default: {
-      break
-    }
-    }
-
-    const result = await platformContext.validate()
-    if (result.message) {
-      this.error(result.message)
-    }
     let appDoc = readAppDocResponse.data
     let instanceDoc = readInstanceDoc.data
     const appResult = await appService.createUserApp(Utils.deepCopy(appDoc))
@@ -128,8 +77,6 @@ export default class Sync extends Command {
     }
     this.log('Introspection done')
 
-    await platformContext.generate()
-
-    cli.action.stop() // shows 'starting a process... done'
+    cli.action.stop()
   }
 }
