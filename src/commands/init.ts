@@ -22,8 +22,6 @@ export default class Init extends Command {
   ]
 
   async run() {
-    this.log(messages.initCommand.intro)
-
     const {flags} = this.parse(Init)
     const have_instance = flags.have_instance
 
@@ -37,6 +35,12 @@ export default class Init extends Command {
         type: 'confirm',
       }])
       if (!proceedResponse.proceed) this.exit(1)
+    }
+
+    // TO-DO delete .hypi folder
+    const deleteHypiDir = initService.deleteHypiDir()
+    if (!deleteHypiDir) {
+      this.error(messages.initCommand.failedDeleteHypi)
     }
 
     if (!have_instance) {
@@ -59,6 +63,7 @@ export default class Init extends Command {
         }
         const response = await initService.doInitByDomain(domainResponses.hypi_domain)
         if (response.error) this.error(response.error)
+
         this.log(messages.initCommand.initDone)
       } else {
         const createInstanceResponses: any = await inquirer.prompt([

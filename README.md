@@ -39,17 +39,11 @@ USAGE
 # Commands
 <!-- commands -->
 * [`hypi commands`](#hypi-commands)
-* [`hypi conf [KEY] [VALUE]`](#hypi-conf-key-value)
+* [`hypi config [APIDOMAIN]`](#hypi-config-apidomain)
 * [`hypi generate [PLATFORM]`](#hypi-generate-platform)
 * [`hypi help [COMMAND]`](#hypi-help-command)
 * [`hypi init`](#hypi-init)
 * [`hypi login`](#hypi-login)
-* [`hypi plugins`](#hypi-plugins)
-* [`hypi plugins:inspect PLUGIN...`](#hypi-pluginsinspect-plugin)
-* [`hypi plugins:install PLUGIN...`](#hypi-pluginsinstall-plugin)
-* [`hypi plugins:link PLUGIN`](#hypi-pluginslink-plugin)
-* [`hypi plugins:uninstall PLUGIN...`](#hypi-pluginsuninstall-plugin)
-* [`hypi plugins:update`](#hypi-pluginsupdate)
 * [`hypi sync`](#hypi-sync)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
 
@@ -77,29 +71,25 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
-## `hypi conf [KEY] [VALUE]`
+## `hypi config [APIDOMAIN]`
 
-manage configuration
+set user configuration
 
 ```
 USAGE
-  $ hypi conf [KEY] [VALUE]
-
-ARGUMENTS
-  KEY    key of the config
-  VALUE  value of the config
+  $ hypi config [APIDOMAIN]
 
 OPTIONS
-  -d, --cwd=cwd          config file location
-  -d, --delete           delete?
-  -h, --help             show CLI help
-  -k, --key=key          key of the config
-  -n, --name=name        config file name
-  -p, --project=project  project name
-  -v, --value=value      value of the config
+  -a, --apiDomain=apiDomain
+  -h, --help                 show CLI help
+
+EXAMPLES
+  $ hypi config api.mydomain.com
+  $ hypi config -a=api.mydomain.com
+  $ hypi config --api-domain=api.mydomain.com
 ```
 
-_See code: [conf-cli](https://github.com/natzcam/conf-cli/blob/v0.1.9/src/commands/conf.ts)_
+_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/config.ts)_
 
 ## `hypi generate [PLATFORM]`
 
@@ -177,144 +167,6 @@ EXAMPLES
 ```
 
 _See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/login.ts)_
-
-## `hypi plugins`
-
-list installed plugins
-
-```
-USAGE
-  $ hypi plugins
-
-OPTIONS
-  --core  show core plugins
-
-EXAMPLE
-  $ hypi plugins
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/index.ts)_
-
-## `hypi plugins:inspect PLUGIN...`
-
-displays installation properties of a plugin
-
-```
-USAGE
-  $ hypi plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] plugin to inspect
-
-OPTIONS
-  -h, --help     show CLI help
-  -v, --verbose
-
-EXAMPLE
-  $ hypi plugins:inspect myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/inspect.ts)_
-
-## `hypi plugins:install PLUGIN...`
-
-installs a plugin into the CLI
-
-```
-USAGE
-  $ hypi plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to install
-
-OPTIONS
-  -f, --force    yarn install with force flag
-  -h, --help     show CLI help
-  -v, --verbose
-
-DESCRIPTION
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command 
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in 
-  the CLI without the need to patch and update the whole CLI.
-
-ALIASES
-  $ hypi plugins:add
-
-EXAMPLES
-  $ hypi plugins:install myplugin 
-  $ hypi plugins:install https://github.com/someuser/someplugin
-  $ hypi plugins:install someuser/someplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/install.ts)_
-
-## `hypi plugins:link PLUGIN`
-
-links a plugin into the CLI for development
-
-```
-USAGE
-  $ hypi plugins:link PLUGIN
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-OPTIONS
-  -h, --help     show CLI help
-  -v, --verbose
-
-DESCRIPTION
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello' 
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-EXAMPLE
-  $ hypi plugins:link myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/link.ts)_
-
-## `hypi plugins:uninstall PLUGIN...`
-
-removes a plugin from the CLI
-
-```
-USAGE
-  $ hypi plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-OPTIONS
-  -h, --help     show CLI help
-  -v, --verbose
-
-ALIASES
-  $ hypi plugins:unlink
-  $ hypi plugins:remove
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/uninstall.ts)_
-
-## `hypi plugins:update`
-
-update installed plugins
-
-```
-USAGE
-  $ hypi plugins:update
-
-OPTIONS
-  -h, --help     show CLI help
-  -v, --verbose
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.10.0/src/commands/plugins/update.ts)_
 
 ## `hypi sync`
 

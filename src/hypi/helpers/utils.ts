@@ -3,13 +3,8 @@ import * as path from 'path'
 import * as YAML from 'yaml'
 import atob from 'atob'
 import flutterDependencies from '../flutter-dependencies'
-import hypiConfig from '../config'
 
 export default class Utils {
-  static getAppUrl() {
-    return hypiConfig.url
-  }
-
   static getHypiDir(): string {
     const curDir = process.cwd()
     return path.join(curDir, '.hypi')
@@ -150,7 +145,6 @@ export default class Utils {
   static async writeToFile(filePath: string, data: any) {
     try {
       await fs.writeFile(filePath, String(data))
-      // console.log('write to ' + filePath)
       return {success: filePath, error: null}
     } catch (error) {
       return {success: null, error: 'Failed to write to ' + filePath}

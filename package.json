@@ -81,10 +81,12 @@
     "bin": "hypi",
     "plugins": [
       "@oclif/plugin-help",
-      "conf-cli",
       "@oclif/plugin-commands",
       "@oclif/plugin-update",
       "@oclif/plugin-warn-if-update-available"
+    ],
+    "devPlugins": [
+      "conf-cli"
     ],
     "hooks": {
       "hypi-config": "./lib/hooks/hypi/set-global-config"

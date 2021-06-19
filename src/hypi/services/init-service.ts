@@ -17,6 +17,15 @@ export default class InitService {
     return path.join(this.hypiDir, 'schema.graphql')
   }
 
+  deleteHypiDir() {
+    try {
+      fs.rmdirSync(this.hypiDir, {recursive: true})
+      return true
+    } catch (error: any) {
+      return false
+    }
+  }
+
   checkInitBefore() {
     let dirExists = false
     let appFileExists = false
@@ -65,6 +74,7 @@ export default class InitService {
     const releaseId = release.hypi.id
 
     const appResponse = await this.appService.findAppByReleaseId(releaseId)
+
     if (appResponse.error) {
       return {error: appResponse.error}
     }

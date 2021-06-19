@@ -28,6 +28,7 @@ export const messages = {
   initCommand: {
     intro: 'This command will walk you through creating app.yaml and instance.yaml files.',
     proceed: '.hypi folder already exists, do you want to proceed and override its contents',
+    failedDeleteHypi: 'Failed to delete .hypi directory',
     haveInstance: {
       message: 'Do you have a Hypi instance created at https://hypi.app that you’d like to use?',
     },
@@ -71,5 +72,9 @@ export const messages = {
     appCreated: 'App created with id : ',
     instanceCreated: 'Instance created with id : ',
 
+  },
+  configCommand: {
+    enterApiDomain: 'Please enter api domain',
+    doneMessage: 'Done, Please make sure to login again, hypi login and do int and sync your schema',
   },
 }

@@ -4,6 +4,8 @@ import * as path from 'path'
 import Conf from 'conf'
 import {IConfig} from '@oclif/config'
 
+import HypiConfig from '../config'
+
 export default class UserService {
   static config = new Conf({projectName: 'hypi'})
 
@@ -33,6 +35,15 @@ export default class UserService {
     this.config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
   }
 
+  static saveApiDomainConfig(apiDomain: string) {
+    this.config.set('api-domain', apiDomain)
+  }
+
+  static getApiDomain() {
+    const apiDomain = this.config.get('api-domain') as string
+    return apiDomain ? apiDomain : HypiConfig.default_api_domain
+  }
+
   static getUserDir() {
     const curDir = process.cwd()
     return path.join(curDir, '.hypi')
@@ -44,6 +55,16 @@ export default class UserService {
       return true
     }
     return false
+  }
+
+  static deleteUserConfigFile() {
+    const configFilePath = this.config.get('cli-config-file') as string
+    try {
+      fs.unlinkSync(configFilePath)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   static isUserHypiFolderExists() {
