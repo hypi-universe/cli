@@ -21,7 +21,7 @@ export default class InitService {
     try {
       fs.rmdirSync(this.hypiDir, {recursive: true})
       return true
-    } catch (error: any) {
+    } catch (error) {
       return false
     }
   }

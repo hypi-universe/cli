@@ -39,7 +39,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`hypi commands`](#hypi-commands)
-* [`hypi config [APIDOMAIN]`](#hypi-config-apidomain)
+* [`hypi config [API_DOMAIN]`](#hypi-config-api_domain)
 * [`hypi generate [PLATFORM]`](#hypi-generate-platform)
 * [`hypi help [COMMAND]`](#hypi-help-command)
 * [`hypi init`](#hypi-init)
@@ -71,22 +71,22 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
-## `hypi config [APIDOMAIN]`
+## `hypi config [API_DOMAIN]`
 
 set user configuration
 
 ```
 USAGE
-  $ hypi config [APIDOMAIN]
+  $ hypi config [API_DOMAIN]
 
 OPTIONS
-  -a, --apiDomain=apiDomain
-  -h, --help                 show CLI help
+  -a, --api_domain=api_domain
+  -h, --help                   show CLI help
 
 EXAMPLES
   $ hypi config api.mydomain.com
   $ hypi config -a=api.mydomain.com
-  $ hypi config --api-domain=api.mydomain.com
+  $ hypi config --api_domain=api.mydomain.com
 ```
 
 _See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/config.ts)_
