@@ -9,14 +9,27 @@ import HypiConfig from '../config'
 export default class UserService {
   static config = new Conf({projectName: 'hypi'})
 
-  static saveUserConfig(data: any) {
+  static saveLoginData(data: any) {
+    this.saveToUserConfig(data)
+  }
+
+  static saveCliConfig(oclifConfig: IConfig) {
+    this.config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
+  }
+
+  static saveApiDomainConfig(apiDomain: string) {
+    this.saveToUserConfig({api_domain: apiDomain})
+  }
+
+  static saveToUserConfig(data: any) {
     const configFile = this.config.get('cli-config-file') as string
 
     if (fs.existsSync(configFile)) {
       const userConfig = fs.readJSONSync(configFile)
-      userConfig.domain = data.domain
-      userConfig.sessionToken = data.sessionToken
-      userConfig.sessionExpires = data.sessionExpires
+
+      for (const [key, value] of Object.entries(data)) {
+        userConfig[key] = value
+      }
       fs.writeJsonSync(configFile, userConfig, {
         spaces: 2,
         EOL: '\n',
@@ -31,16 +44,9 @@ export default class UserService {
     }
   }
 
-  static saveCliConfig(oclifConfig: IConfig) {
-    this.config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
-  }
-
-  static saveApiDomainConfig(apiDomain: string) {
-    this.config.set('api-domain', apiDomain)
-  }
-
   static getApiDomain() {
-    const apiDomain = this.config.get('api-domain') as string
+    const userConfig = this.getUserConfig()
+    const apiDomain = userConfig.api_domain
     return apiDomain ? apiDomain : HypiConfig.default_api_domain
   }
 

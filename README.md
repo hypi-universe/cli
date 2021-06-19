@@ -84,9 +84,9 @@ OPTIONS
   -h, --help                   show CLI help
 
 EXAMPLES
-  $ hypi config api.mydomain.com
-  $ hypi config -a=api.mydomain.com
-  $ hypi config --api_domain=api.mydomain.com
+  $ hypi config https://api.alpha.hypi.dev
+  $ hypi config -a=https://api.alpha.hypi.dev
+  $ hypi config --api_domain=https://api.alpha.hypi.dev
 ```
 
 _See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.2.0/src/commands/config.ts)_

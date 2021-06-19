@@ -35,7 +35,7 @@ export default class Login extends Command {
 
     await this.config.runHook('hypi-config', this.config)
 
-    UserService.saveUserConfig(loginResponse.data)
+    UserService.saveLoginData(loginResponse.data)
     this.log(messages.loginCommand.loggedIn)
   }
 }
