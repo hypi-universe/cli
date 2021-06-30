@@ -33,7 +33,7 @@ export default class Login extends Command {
     const loginResponse = await loginService.login()
     if (loginResponse.error) this.error(loginResponse.error)
 
-    await this.config.runHook('hypi-config', this.config)
+    // await this.config.runHook('hypi-config', this.config)
 
     UserService.saveLoginData(loginResponse.data)
     this.log(messages.loginCommand.loggedIn)

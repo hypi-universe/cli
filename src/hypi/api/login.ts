@@ -1,9 +1,9 @@
-import axios from '../axios-alpha'
+import AxiosConnection from '../axios-alpha'
 
 const hypiLogin = async (email: string, password: string) => {
   let response
   try {
-    response = await axios.post('/auth/login', {
+    response = await AxiosConnection.getAxios().post('/auth/login', {
       email: email,
       password: password,
     })

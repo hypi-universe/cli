@@ -1,3 +1,4 @@
+/* eslint-disable no-negated-condition */
 
 import * as fs from 'fs-extra'
 import * as path from 'path'
@@ -9,12 +10,24 @@ import HypiConfig from '../config'
 export default class UserService {
   static config = new Conf({projectName: 'hypi'})
 
+  static CLI_CONFIG_FILE_NAME = 'cli-config-file'
+
   static saveLoginData(data: any) {
     this.saveToUserConfig(data)
   }
 
   static saveCliConfig(oclifConfig: IConfig) {
-    this.config.set('cli-config-file', path.join(oclifConfig.configDir, 'config.json'))
+    if (!this.config.get(this.CLI_CONFIG_FILE_NAME))
+      this.config.set(this.CLI_CONFIG_FILE_NAME, path.join(oclifConfig.configDir, 'config.json'))
+
+    const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
+    if (!this.isUserHypiFolderExists()) {
+      this.saveApiDomainConfig(HypiConfig.default_api_domain)
+    } else {
+      const userConfig = fs.readJSONSync(configFilePath)
+      if (!userConfig.api_domain)
+        this.saveApiDomainConfig(HypiConfig.default_api_domain)
+    }
   }
 
   static saveApiDomainConfig(apiDomain: string) {
@@ -22,7 +35,7 @@ export default class UserService {
   }
 
   static saveToUserConfig(data: any) {
-    const configFile = this.config.get('cli-config-file') as string
+    const configFile = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
 
     if (fs.existsSync(configFile)) {
       const userConfig = fs.readJSONSync(configFile)
@@ -56,7 +69,7 @@ export default class UserService {
   }
 
   static isUserConfigExists() {
-    const configFilePath = this.config.get('cli-config-file') as string
+    const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
     if (fs.existsSync(configFilePath)) {
       return true
     }
@@ -64,7 +77,7 @@ export default class UserService {
   }
 
   static deleteUserConfigFile() {
-    const configFilePath = this.config.get('cli-config-file') as string
+    const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
     try {
       fs.unlinkSync(configFilePath)
       return true
@@ -74,7 +87,7 @@ export default class UserService {
   }
 
   static isUserHypiFolderExists() {
-    const configFilePath = this.config.get('cli-config-file') as string
+    const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
     if (fs.existsSync(configFilePath)) {
       return true
     }
@@ -82,7 +95,8 @@ export default class UserService {
   }
 
   static getUserConfig() {
-    const configFilePath = this.config.get('cli-config-file') as string
+    const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
+
     return fs.readJSONSync(configFilePath)
   }
 }

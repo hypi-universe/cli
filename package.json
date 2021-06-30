@@ -89,7 +89,9 @@
       "conf-cli"
     ],
     "hooks": {
-      "hypi-config": "./lib/hooks/hypi/set-global-config"
+      "init": [
+        "./lib/hooks/hypi/set-global-config"
+      ]
     },
     "macos": {
       "identifier": "io.hypi.cli"

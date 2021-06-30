@@ -38,8 +38,5 @@ export default class Config extends Command {
     UserService.saveApiDomainConfig(api_domain)
 
     this.log(messages.configCommand.doneMessage)
-
-    // remove config file that have the token and domain, force user to login again
-    // UserService.deleteUserConfigFile()
   }
 }
