@@ -19,9 +19,9 @@ export default class Config extends Command {
   ]
 
   static examples = [
-    '$ hypi config https://api.alpha.hypi.dev',
-    '$ hypi config -a=https://api.alpha.hypi.dev',
-    '$ hypi config --api_domain=https://api.alpha.hypi.dev',
+    '$ hypi config https://api.my-onpremise-domain.com',
+    '$ hypi config -a=https://api.my-onpremise-domain.com',
+    '$ hypi config --api_domain=https://api.my-onpremise-domain.com',
   ]
 
   async run() {

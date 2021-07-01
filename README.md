@@ -29,7 +29,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.3.1 linux-x64 node-v14.17.1
+@hypi/cli/0.3.2 linux-x64 node-v14.17.1
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -38,14 +38,28 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`hypi commands`](#hypi-commands)
-* [`hypi config [API_DOMAIN]`](#hypi-config-api_domain)
-* [`hypi generate [PLATFORM]`](#hypi-generate-platform)
-* [`hypi help [COMMAND]`](#hypi-help-command)
-* [`hypi init`](#hypi-init)
-* [`hypi login`](#hypi-login)
-* [`hypi sync`](#hypi-sync)
-* [`hypi update [CHANNEL]`](#hypi-update-channel)
+- [hypi](#hypi)
+  - [Install](#install)
+    - [Getting started [ReactJS Project]](#getting-started-reactjs-project)
+    - [Getting started [Angular Project]](#getting-started-angular-project)
+    - [Getting started [Flutter Project]](#getting-started-flutter-project)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`hypi commands`](#hypi-commands)
+  - [`hypi config [API_DOMAIN]`](#hypi-config-api_domain)
+  - [`hypi generate [PLATFORM]`](#hypi-generate-platform)
+  - [`hypi help [COMMAND]`](#hypi-help-command)
+  - [`hypi init`](#hypi-init)
+  - [`hypi login`](#hypi-login)
+  - [`hypi sync`](#hypi-sync)
+  - [`hypi update [CHANNEL]`](#hypi-update-channel)
+- [Build instructions](#build-instructions)
+  - [npm](#npm)
+  - [Standalone tarballs](#standalone-tarballs)
+  - [Windows installer](#windows-installer)
+  - [macOS installer](#macos-installer)
+  - [Ubuntu/Debian packages](#ubuntudebian-packages)
+  - [Autoupdater](#autoupdater)
 
 ## `hypi commands`
 
@@ -84,12 +98,12 @@ OPTIONS
   -h, --help                   show CLI help
 
 EXAMPLES
-  $ hypi config https://api.alpha.hypi.dev
-  $ hypi config -a=https://api.alpha.hypi.dev
-  $ hypi config --api_domain=https://api.alpha.hypi.dev
+  $ hypi config https://api.my-onpremise-domain.com
+  $ hypi config -a=https://api.my-onpremise-domain.com
+  $ hypi config --api_domain=https://api.my-onpremise-domain.com
 ```
 
-_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.3.1/src/commands/config.ts)_
+_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/config.ts)_
 
 ## `hypi generate [PLATFORM]`
 
@@ -109,7 +123,7 @@ EXAMPLES
   $ hypi generate --platform=angular
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.3.1/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/generate.ts)_
 
 ## `hypi help [COMMAND]`
 
@@ -146,7 +160,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.3.1/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/init.ts)_
 
 ## `hypi login`
 
@@ -166,7 +180,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.3.1/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/login.ts)_
 
 ## `hypi sync`
 
@@ -183,7 +197,7 @@ EXAMPLE
   $ hypi sync
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.3.1/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
