@@ -1,7 +1,7 @@
 {
   "name": "@hypi/cli",
   "description": "Application developer community centred around Hypi's unique low-code, serverless development platform.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Hypi @https://hypi.io/",
   "bin": {
     "hypi": "bin/run"
@@ -91,6 +91,9 @@
     "hooks": {
       "init": [
         "./lib/hooks/hypi/set-global-config"
+      ],
+      "prerun" : [
+        "./lib/hooks/hypi/check-token-expiry"
       ]
     },
     "macos": {

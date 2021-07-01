@@ -77,4 +77,7 @@ export const messages = {
     enterApiDomain: 'Please enter api domain',
     doneMessage: 'Done, Please make sure to login again, hypi login and do int and sync your schema',
   },
+  ExpiryHook: {
+    expiredMessage: 'Your token expired, please make sure to login again',
+  },
 }
