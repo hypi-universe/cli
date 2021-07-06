@@ -1,6 +1,7 @@
 
 import {Command, flags} from '@oclif/command'
 import cli from 'cli-ux'
+import * as inquirer from 'inquirer'
 
 import {messages} from '../hypi/helpers/messages'
 import {Platforms} from '../hypi/services/platform-service'
@@ -11,8 +12,10 @@ import Context from '../hypi/services/platforms/context'
 import FlutterService from '../hypi/services/platforms/flutter-service'
 import ReactjsService from '../hypi/services/platforms/reactjs-service'
 import AngularService from '../hypi/services/platforms/angular-service'
+import VuejsService, {VuejsOptions} from '../hypi/services/platforms/vuejs-service'
 
 const platformOptions = PlatformService.platformsArray()
+const generationTypes = VuejsService.generationTypesArray()
 
 export default class Generate extends Command {
   static description = 'generate the schema typescript file'
@@ -36,7 +39,6 @@ export default class Generate extends Command {
   ]
 
   async run() {
-    cli.action.start('Generate Process')
     const {args, flags} = this.parse(Generate)
 
     // make sure user is logged in
@@ -61,6 +63,31 @@ export default class Generate extends Command {
     // check which platform
     const platformContext = new Context(new FlutterService())
 
+    let version = 2
+    let generationType = 'Composition API'
+
+    if (platform === Platforms.Vuejs) {
+      const vueOptionsResponse: any = await inquirer.prompt([
+        {
+          name: 'version',
+          message: messages.generateCommand.version,
+          type: 'list',
+          choices: [2, 3],
+        },
+        {
+          name: 'generationType',
+          message: messages.generateCommand.generationType,
+          type: 'list',
+          choices: generationTypes,
+        },
+      ])
+      version = vueOptionsResponse.version
+      generationType = vueOptionsResponse.generationType
+      if (version === 3) {
+        this.error('Version 3 is not supported yet')
+      }
+    }
+
     switch (platform) {
     case Platforms.Flutter: {
       platformContext.setPlatform(new FlutterService())
@@ -74,10 +101,16 @@ export default class Generate extends Command {
       platformContext.setPlatform(new AngularService())
       break
     }
+    case Platforms.Vuejs: {
+      const options: VuejsOptions = {version, generationType}
+      platformContext.setPlatform(new VuejsService(options))
+      break
+    }
     default: {
       break
     }
     }
+    cli.action.start('Generate Process')
 
     const result = await platformContext.validate()
     if (result.message) {

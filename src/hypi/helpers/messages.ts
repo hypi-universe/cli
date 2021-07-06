@@ -73,9 +73,14 @@ export const messages = {
     instanceCreated: 'Instance created with id : ',
 
   },
+  generateCommand: {
+    version: 'What vuejs version you would like to use',
+    generationType: 'What generation type you would like ',
+
+  },
   configCommand: {
     enterApiDomain: 'Please enter api domain',
-    doneMessage: 'Done, Please make sure to login again, hypi login and do int and sync your schema',
+    doneMessage: 'Done, Please make sure to login again, hypi login and do init and sync your schema',
   },
   ExpiryHook: {
     expiredMessage: 'Your token expired, please make sure to login again',

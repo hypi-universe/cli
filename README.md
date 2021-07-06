@@ -38,28 +38,9 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-- [hypi](#hypi)
-  - [Install](#install)
-    - [Getting started [ReactJS Project]](#getting-started-reactjs-project)
-    - [Getting started [Angular Project]](#getting-started-angular-project)
-    - [Getting started [Flutter Project]](#getting-started-flutter-project)
-- [Usage](#usage)
-- [Commands](#commands)
-  - [`hypi commands`](#hypi-commands)
-  - [`hypi config [API_DOMAIN]`](#hypi-config-api_domain)
-  - [`hypi generate [PLATFORM]`](#hypi-generate-platform)
-  - [`hypi help [COMMAND]`](#hypi-help-command)
-  - [`hypi init`](#hypi-init)
-  - [`hypi login`](#hypi-login)
-  - [`hypi sync`](#hypi-sync)
-  - [`hypi update [CHANNEL]`](#hypi-update-channel)
-- [Build instructions](#build-instructions)
-  - [npm](#npm)
-  - [Standalone tarballs](#standalone-tarballs)
-  - [Windows installer](#windows-installer)
-  - [macOS installer](#macos-installer)
-  - [Ubuntu/Debian packages](#ubuntudebian-packages)
-  - [Autoupdater](#autoupdater)
+* [`hypi commands`](#hypi-commands)
+* [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi update [CHANNEL]`](#hypi-update-channel)
 
 ## `hypi commands`
 
@@ -85,46 +66,6 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
-## `hypi config [API_DOMAIN]`
-
-set user configuration
-
-```
-USAGE
-  $ hypi config [API_DOMAIN]
-
-OPTIONS
-  -a, --api_domain=api_domain
-  -h, --help                   show CLI help
-
-EXAMPLES
-  $ hypi config https://api.my-onpremise-domain.com
-  $ hypi config -a=https://api.my-onpremise-domain.com
-  $ hypi config --api_domain=https://api.my-onpremise-domain.com
-```
-
-_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/config.ts)_
-
-## `hypi generate [PLATFORM]`
-
-generate the schema typescript file
-
-```
-USAGE
-  $ hypi generate [PLATFORM]
-
-OPTIONS
-  -h, --help                              show CLI help
-  -p, --platform=flutter|reactjs|angular
-
-EXAMPLES
-  $ hypi generate angular
-  $ hypi generate -p=angular
-  $ hypi generate --platform=angular
-```
-
-_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/generate.ts)_
-
 ## `hypi help [COMMAND]`
 
 display help for hypi
@@ -141,63 +82,6 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
-
-## `hypi init`
-
-Init a hypi app
-
-```
-USAGE
-  $ hypi init
-
-OPTIONS
-  -h, --help           show CLI help
-  -i, --have_instance
-
-EXAMPLES
-  $ hypi init -i
-  $ hypi init --have_instance
-  $ hypi init
-```
-
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/init.ts)_
-
-## `hypi login`
-
-Login to hypi with email and password or domain and token
-
-```
-USAGE
-  $ hypi login
-
-OPTIONS
-  -d, --domain
-  -h, --help    show CLI help
-
-EXAMPLES
-  $ hypi login
-  $ hypi login -d
-  $ hypi login --domain
-```
-
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/login.ts)_
-
-## `hypi sync`
-
-sync user local schema with hypi
-
-```
-USAGE
-  $ hypi sync
-
-OPTIONS
-  -h, --help  show CLI help
-
-EXAMPLE
-  $ hypi sync
-```
-
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.3.2/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 

@@ -79,35 +79,4 @@ export default class ReactjsService implements Platform {
       console.log('The file was succesfully generated!')
     })
   }
-
-  private async generateWithCli() {
-    const outputDir = process.cwd() + '/src/generated'
-
-    if (!fs.existsSync(outputDir))
-      fs.mkdirSync(outputDir)
-
-    await generate(
-      {
-        schema: process.cwd() + '/.hypi/generated-schema.graphql',
-        documents: process.cwd() + '/src/**/*.graphql',
-        overwrite: true,
-        generates: {
-          [process.cwd() + '/src/generated/graphql.tsx']: {
-            plugins: [
-              'typescript',
-              'typescript-operations',
-              'typescript-react-apollo',
-            ],
-            config: {
-              skipTypename: false,
-              withHooks: true,
-              withHOC: false,
-              withComponent: false,
-            },
-          },
-        },
-      },
-      true
-    )
-  }
 }
