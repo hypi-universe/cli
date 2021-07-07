@@ -12,7 +12,7 @@ import Context from '../hypi/services/platforms/context'
 import FlutterService from '../hypi/services/platforms/flutter-service'
 import ReactjsService from '../hypi/services/platforms/reactjs-service'
 import AngularService from '../hypi/services/platforms/angular-service'
-import VuejsService, {VuejsOptions} from '../hypi/services/platforms/vuejs-service'
+import VuejsService, {GenerationTypes, VuejsOptions} from '../hypi/services/platforms/vuejs-service'
 
 const platformOptions = PlatformService.platformsArray()
 const generationTypes = VuejsService.generationTypesArray()
@@ -67,13 +67,20 @@ export default class Generate extends Command {
     let generationType = 'Composition API'
 
     if (platform === Platforms.Vuejs) {
-      const vueOptionsResponse: any = await inquirer.prompt([
+      const vueVersionResponse: any = await inquirer.prompt([
         {
           name: 'version',
           message: messages.generateCommand.version,
           type: 'list',
           choices: [2, 3],
         },
+      ])
+      version = vueVersionResponse.version
+      if (version === 3) {
+        this.warn('Vuejs version 3 is not supported yet')
+        this.exit()
+      }
+      const vueGenTypeResponse: any = await inquirer.prompt([
         {
           name: 'generationType',
           message: messages.generateCommand.generationType,
@@ -81,11 +88,7 @@ export default class Generate extends Command {
           choices: generationTypes,
         },
       ])
-      version = vueOptionsResponse.version
-      generationType = vueOptionsResponse.generationType
-      if (version === 3) {
-        this.error('Version 3 is not supported yet')
-      }
+      generationType = vueGenTypeResponse.generationType
     }
 
     switch (platform) {

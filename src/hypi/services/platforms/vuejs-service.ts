@@ -66,7 +66,6 @@ export default class VuejsService implements Platform {
     let pluginsMap
 
     ({pluginsConfig, plugins, pluginsMap} = this.getPlugins())
-
     const config: any = {
       filename: outputFile,
       schema: schema,
@@ -94,16 +93,16 @@ export default class VuejsService implements Platform {
     let pluginsMap
     let pluginsConfig
 
-    if (this.options.version === 2 && this.options.generationType === GenerationTypes.Composition_API) {
+    if (this.options.generationType === GenerationTypes.Smart_Queries) {
+      ({plugins, pluginsMap} = this.smartQueriesPlugins())
+      pluginsConfig = {
+        withSmartOperationFunctions: true,
+      }
+    } else if (this.options.generationType === GenerationTypes.Composition_API) {
       ({plugins, pluginsMap} = this.compositionApiPlugins())
 
       pluginsConfig = {
         withCompositionFunctions: true,
-      }
-    } else if (this.options.version === 2 && this.options.generationType === GenerationTypes.Smart_Queries) {
-      ({plugins, pluginsMap} = this.smartQueriesPlugins())
-      pluginsConfig = {
-        withSmartOperationFunctions: true,
       }
     }
     return {pluginsConfig, plugins, pluginsMap}
@@ -118,7 +117,10 @@ export default class VuejsService implements Platform {
         typescriptOperations: {},
       },
       {
-        typescriptVueApollo: {},
+        typescriptVueApollo: {
+          withCompositionFunctions: true,
+          // vueCompositionApiImportFrom: 'vue',
+        },
       },
     ]
     const pluginsMap = {
