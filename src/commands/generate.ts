@@ -1,10 +1,10 @@
 
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
 import * as inquirer from 'inquirer'
 
-import {messages} from '../hypi/helpers/messages'
-import {Platforms} from '../hypi/services/platform-service'
+import { messages } from '../hypi/helpers/messages'
+import { Platforms } from '../hypi/services/platform-service'
 import PlatformService from '../hypi/services/platform-service'
 import UserService from '../hypi/services/user-service'
 import HypiService from '../hypi/services/hypi-service'
@@ -12,7 +12,7 @@ import Context from '../hypi/services/platforms/context'
 import FlutterService from '../hypi/services/platforms/flutter-service'
 import ReactjsService from '../hypi/services/platforms/reactjs-service'
 import AngularService from '../hypi/services/platforms/angular-service'
-import VuejsService, {GenerationTypes, VuejsOptions} from '../hypi/services/platforms/vuejs-service'
+import VuejsService, { GenerationTypes, VuejsOptions } from '../hypi/services/platforms/vuejs-service'
 
 const platformOptions = PlatformService.platformsArray()
 const generationTypes = VuejsService.generationTypesArray()
@@ -21,8 +21,8 @@ export default class Generate extends Command {
   static description = 'generate the schema typescript file'
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    platform: flags.string({char: 'p', options: platformOptions}),
+    help: flags.help({ char: 'h' }),
+    platform: flags.string({ char: 'p', options: platformOptions }),
   }
 
   static args = [
@@ -39,7 +39,7 @@ export default class Generate extends Command {
   ]
 
   async run() {
-    const {args, flags} = this.parse(Generate)
+    const { args, flags } = this.parse(Generate)
 
     // make sure user is logged in
     if (!UserService.isUserConfigExists()) {
@@ -92,26 +92,26 @@ export default class Generate extends Command {
     }
 
     switch (platform) {
-    case Platforms.Flutter: {
-      platformContext.setPlatform(new FlutterService())
-      break
-    }
-    case Platforms.Reactjs: {
-      platformContext.setPlatform(new ReactjsService())
-      break
-    }
-    case Platforms.Angular: {
-      platformContext.setPlatform(new AngularService())
-      break
-    }
-    case Platforms.Vuejs: {
-      const options: VuejsOptions = {version, generationType}
-      platformContext.setPlatform(new VuejsService(options))
-      break
-    }
-    default: {
-      break
-    }
+      case Platforms.Flutter: {
+        platformContext.setPlatform(new FlutterService())
+        break
+      }
+      case Platforms.Reactjs: {
+        platformContext.setPlatform(new ReactjsService())
+        break
+      }
+      case Platforms.Angular: {
+        platformContext.setPlatform(new AngularService())
+        break
+      }
+      case Platforms.Vuejs: {
+        const options: VuejsOptions = { version, generationType }
+        platformContext.setPlatform(new VuejsService(options))
+        break
+      }
+      default: {
+        break
+      }
     }
     cli.action.start('Generate Process')
 
