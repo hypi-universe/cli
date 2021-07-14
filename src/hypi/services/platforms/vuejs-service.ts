@@ -16,7 +16,6 @@ import Utils from '../../helpers/utils'
 
 import path from 'path'
 export interface VuejsOptions {
-  version: number;
   generationType: string;
 }
 
@@ -119,7 +118,7 @@ export default class VuejsService implements Platform {
       {
         typescriptVueApollo: {
           withCompositionFunctions: true,
-          // vueCompositionApiImportFrom: 'vue',
+          vueCompositionApiImportFrom: 'vue',
         },
       },
     ]
