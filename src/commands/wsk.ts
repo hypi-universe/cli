@@ -1,7 +1,7 @@
 
 import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
-import { exec } from "child_process";
+import { exec } from 'child_process';
 
 import WskService from '../hypi/services/wsk-service'
 import UserService from '../hypi/services/user-service'
@@ -22,6 +22,7 @@ export default class Wsk extends Command {
     static strict = false
 
     static examples = [
+        '$ hypi wsk configure',
         '$ hypi wsk action list',
         '$ hypi wsk action create hello hello.js',
         '$ hypi wsk action invoke hello --result',
@@ -29,77 +30,74 @@ export default class Wsk extends Command {
 
     async run() {
 
-        cli.action.start('Invoking OpenWhisk')
-
-        //check user has wsk installed , if not check with with user hypi path
-        const testWskCommand = `${this.config.configDir}/wsk config -h`
-
-        const wskCommand = `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
-        console.log(wskCommand)
+        // cli.action.start('Invoking OpenWhisk')
 
         //make sure user is logged in and done init
-        // if not logged int
         if (!UserService.isUserConfigExists()) {
             this.error('Please login first')
         }
+
+        this.executeCommand();
+
+        // cli.action.stop()
+    }
+
+    private async executeCommand() {
+        // check app.yaml and instance.yaml exists
+        const platform = this.config.platform
+        const arch = this.config.arch
+
+        const wskService = new WskService(platform, arch, this.config.configDir)
         const hypiService = new HypiService()
         const appService = new AppService()
         const instanceService = new InstanceService()
 
-        // check app.yaml and instance.yaml exists
-        const checkDotHypiExists = await hypiService.checkHypiFolder()
-        if (checkDotHypiExists.error) this.error(checkDotHypiExists.error)
+        const checkDotHypiExists = await hypiService.checkHypiFolder();
+        if (checkDotHypiExists.error)
+            this.error(checkDotHypiExists.error);
 
-        const readAppDocResponse = appService.readAppDoc()
-        const readInstanceDoc = instanceService.readInstanceDoc()
+        const readAppDocResponse = appService.readAppDoc();
+        const readInstanceDoc = instanceService.readInstanceDoc();
 
         if (readAppDocResponse.error || readInstanceDoc.error) {
-            this.error(readAppDocResponse.error ?? readInstanceDoc.error)
+            this.error(readAppDocResponse.error ?? readInstanceDoc.error);
         }
 
-        //next step configure command
+        let wskCommand = "";
         if (this.argv.length === 1 && this.argv.toString() === 'configure') {
-            const apiHost = "https://fn.hypi.app"
+            const apiHost = "https://fn.hypi.app";
             const instanceDomain = readInstanceDoc.data.domain;
 
             const token = UserService.getUserConfig().sessionToken;
-            const auth = `${instanceDomain}:${token}`
-            const wskCommand2 = `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
-            console.log(wskCommand2)
-            this.exit()
+            const auth = `${instanceDomain}:${token}`;
+            wskCommand = `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
+        } else {
+            wskCommand = `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
         }
-
-        // make test command with wsk to make sure it is installed
-        // if installed run the command
-        // if not, tell the user and ask to install the openwhisk
-        //
-
-        const platform = this.config.platform
-        const arch = this.config.arch
+        // console.log(wskCommand);
 
         exec(wskCommand, async (error, stdout, stderr) => {
             if (error) {
-                if (error.message.includes(' wsk: not found')) {
-                    console.log("error", 'we should install open wsk');
-                    //ask the user if he wants to install openwhisk for him
-                    const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)')
-                    if (!installOpenWhisk) {
-                        return
-                    }
+                if (error.message.includes('wsk: not found')) {
+                    this.log('OpenWhisk is not installed');
+                    const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)');
+                    if (!installOpenWhisk)
+                        return;
                     //install openwhisk
-                    const wskService = new WskService(platform, arch, this.config.configDir)
-                    wskService.getWskBinaries();
+                    wskService.installOpenWhisk();
+                } else {
+                    this.log(error.message)
                 }
                 return;
             }
             if (stderr) {
-                console.log("data", stdout);
+                console.log('error')
+                this.log("data", stdout);
                 return;
             }
-            //execute the command and get the result
+            console.log('success')
+
             console.log("data", stdout);
         });
-
-        cli.action.stop()
     }
 }

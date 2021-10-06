@@ -39,7 +39,7 @@ export default class WskService {
         }
     }
 
-    public getWskBinaries() {
+    public installOpenWhisk() {
         request
             .get(this.url)
             .on('error', (error) => {
