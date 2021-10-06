@@ -29,7 +29,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.4.0 linux-x64 node-v14.17.1
+@hypi/cli/0.4.0 linux-x64 node-v14.17.5
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -46,6 +46,7 @@ USAGE
 * [`hypi login`](#hypi-login)
 * [`hypi sync`](#hypi-sync)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
+* [`hypi wsk`](#hypi-wsk)
 
 ## `hypi commands`
 
@@ -126,7 +127,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.3/src/commands/help.ts)_
 
 ## `hypi init`
 
@@ -192,9 +193,31 @@ update the hypi CLI
 ```
 USAGE
   $ hypi update [CHANNEL]
+
+OPTIONS
+  --from-local  interactively choose an already installed version
 ```
 
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.5.0/src/commands/update.ts)_
+
+## `hypi wsk`
+
+Invoke the OpenWhisk command to perform serverless functions
+
+```
+USAGE
+  $ hypi wsk
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLES
+  $ hypi wsk action list
+  $ hypi wsk action create hello hello.js
+  $ hypi wsk action invoke hello --result
+```
+
+_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
 # Build instructions
