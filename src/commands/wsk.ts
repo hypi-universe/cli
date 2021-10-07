@@ -28,18 +28,16 @@ export default class Wsk extends Command {
         '$ hypi wsk action invoke hello --result',
     ]
 
+    hypiService = new HypiService()
+    appService = new AppService()
+    instanceService = new InstanceService()
+
     async run() {
-
-        // cli.action.start('Invoking OpenWhisk')
-
         //make sure user is logged in and done init
         if (!UserService.isUserConfigExists()) {
             this.error('Please login first')
         }
-
         this.executeCommand();
-
-        // cli.action.stop()
     }
 
     private async executeCommand() {
@@ -48,33 +46,19 @@ export default class Wsk extends Command {
         const arch = this.config.arch
 
         const wskService = new WskService(platform, arch, this.config.configDir)
-        const hypiService = new HypiService()
-        const appService = new AppService()
-        const instanceService = new InstanceService()
 
-        const checkDotHypiExists = await hypiService.checkHypiFolder();
+        const checkDotHypiExists = await this.hypiService.checkHypiFolder();
         if (checkDotHypiExists.error)
             this.error(checkDotHypiExists.error);
 
-        const readAppDocResponse = appService.readAppDoc();
-        const readInstanceDoc = instanceService.readInstanceDoc();
+        const readAppDocResponse = this.appService.readAppDoc();
+        const readInstanceDoc = this.instanceService.readInstanceDoc();
 
         if (readAppDocResponse.error || readInstanceDoc.error) {
             this.error(readAppDocResponse.error ?? readInstanceDoc.error);
         }
 
-        let wskCommand = "";
-        if (this.argv.length === 1 && this.argv.toString() === 'configure') {
-            const apiHost = "https://fn.hypi.app";
-            const instanceDomain = readInstanceDoc.data.domain;
-
-            const token = UserService.getUserConfig().sessionToken;
-            const auth = `${instanceDomain}:${token}`;
-            wskCommand = `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
-        } else {
-            wskCommand = `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
-        }
-        // console.log(wskCommand);
+        let wskCommand = this.prepareCommand(readInstanceDoc.data);
 
         exec(wskCommand, async (error, stdout, stderr) => {
             if (error) {
@@ -84,20 +68,43 @@ export default class Wsk extends Command {
                     if (!installOpenWhisk)
                         return;
                     //install openwhisk
-                    wskService.installOpenWhisk();
+
+                    cli.action.start('Installing OpenWhisk')
+                    wskService.installOpenWhisk(async () => {
+                        // after install openwhisk, run the command
+                        cli.action.stop("OpenWhisk installed successfully")
+
+                        await cli.wait()
+
+                        cli.action.start('Invoking OpenWhisk')
+                        exec(wskCommand, async (error, stdout, stderr) => {
+                            if (stdout) console.log(stdout);
+                            if (stderr) console.error(stderr);
+                            cli.action.stop()
+                        });
+                    });
                 } else {
                     this.log(error.message)
                 }
                 return;
             }
             if (stderr) {
-                console.log('error')
-                this.log("data", stdout);
+                this.log(stderr);
                 return;
             }
-            console.log('success')
-
-            console.log("data", stdout);
+            console.log(stdout);
         });
+    }
+
+    private prepareCommand(readInstanceData: any) {
+        if (this.argv.length === 1 && this.argv.toString() === 'configure') {
+            const apiHost = "https://fn.hypi.app";
+            const instanceDomain = readInstanceData.domain;
+
+            const token = UserService.getUserConfig().sessionToken;
+            const auth = `${instanceDomain}:${token}`;
+            return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
+        }
+        return `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
     }
 }

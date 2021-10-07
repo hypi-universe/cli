@@ -39,7 +39,7 @@ export default class WskService {
         }
     }
 
-    public installOpenWhisk() {
+    public installOpenWhisk(callback: () => void) {
         request
             .get(this.url)
             .on('error', (error) => {
@@ -52,6 +52,7 @@ export default class WskService {
                 if (files.length === 1) {
                     console.log('OpenWhisk installed')
                     this.clean()
+                    callback()
                     return;
                 }
                 console.log('Failed, please try again')
