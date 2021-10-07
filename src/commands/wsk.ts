@@ -37,20 +37,14 @@ export default class Wsk extends Command {
         if (!UserService.isUserConfigExists()) {
             this.error('Please login first')
         }
-        this.executeCommand();
-    }
-
-    private async executeCommand() {
-        // check app.yaml and instance.yaml exists
-        const platform = this.config.platform
-        const arch = this.config.arch
-
-        const wskService = new WskService(platform, arch, this.config.configDir)
-
         const checkDotHypiExists = await this.hypiService.checkHypiFolder();
         if (checkDotHypiExists.error)
             this.error(checkDotHypiExists.error);
 
+        this.handleCommand();
+    }
+
+    private async handleCommand() {
         const readAppDocResponse = this.appService.readAppDoc();
         const readInstanceDoc = this.instanceService.readInstanceDoc();
 
@@ -59,41 +53,7 @@ export default class Wsk extends Command {
         }
 
         let wskCommand = this.prepareCommand(readInstanceDoc.data);
-
-        exec(wskCommand, async (error, stdout, stderr) => {
-            if (error) {
-                if (error.message.includes('wsk: not found')) {
-                    this.log('OpenWhisk is not installed');
-                    const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)');
-                    if (!installOpenWhisk)
-                        return;
-                    //install openwhisk
-
-                    cli.action.start('Installing OpenWhisk')
-                    wskService.installOpenWhisk(async () => {
-                        // after install openwhisk, run the command
-                        cli.action.stop("OpenWhisk installed successfully")
-
-                        await cli.wait()
-
-                        cli.action.start('Invoking OpenWhisk')
-                        exec(wskCommand, async (error, stdout, stderr) => {
-                            if (stdout) console.log(stdout);
-                            if (stderr) console.error(stderr);
-                            cli.action.stop()
-                        });
-                    });
-                } else {
-                    this.log(error.message)
-                }
-                return;
-            }
-            if (stderr) {
-                this.log(stderr);
-                return;
-            }
-            console.log(stdout);
-        });
+        this.executeCommand(wskCommand);
     }
 
     private prepareCommand(readInstanceData: any) {
@@ -106,5 +66,38 @@ export default class Wsk extends Command {
             return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
         }
         return `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
+    }
+
+    private executeCommand(wskCommand: string) {
+        exec(wskCommand, async (error, stdout, stderr) => {
+            if (error) {
+                if (error.message.includes('wsk: not found')) {
+                    this.log('Command wsk not found');
+                    const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)');
+                    if (!installOpenWhisk)
+                        return;
+                    this.installOpenWhisk(wskCommand);
+                }
+                return;
+            }
+            if (stderr) {
+                this.log(stderr);
+                return;
+            }
+            console.log(stdout);
+        });
+    }
+
+    private installOpenWhisk(wskCommand: string) {
+        // check app.yaml and instance.yaml exists
+        const platform = this.config.platform
+        const arch = this.config.arch
+
+        const wskService = new WskService(platform, arch, this.config.configDir)
+
+        wskService.installOpenWhisk(async () => {
+            await cli.wait();
+            this.executeCommand(wskCommand)
+        });
     }
 }
