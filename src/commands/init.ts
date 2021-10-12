@@ -1,18 +1,20 @@
 
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from '@oclif/command'
 import * as inquirer from 'inquirer'
+import AuthCommand from '../auth-base'
+
 import * as validators from '../hypi/helpers/input-validators'
-import {messages} from '../hypi/helpers/messages'
+import { messages } from '../hypi/helpers/messages'
 import InitService from '../hypi/services/init-service'
 import UserService from '../hypi/services/user-service'
 
-export default class Init extends Command {
+export default class Init extends AuthCommand {
   static description = 'Init a hypi app'
 
   static flags = {
-    help: flags.help({char: 'h'}),
+    help: flags.help({ char: 'h' }),
     // have instance flag (-i, --have_instance)
-    have_instance: flags.boolean({char: 'i'}),
+    have_instance: flags.boolean({ char: 'i' }),
   }
 
   static examples = [
@@ -22,7 +24,7 @@ export default class Init extends Command {
   ]
 
   async run() {
-    const {flags} = this.parse(Init)
+    const { flags } = this.parse(Init)
     const have_instance = flags.have_instance
 
     const initService = new InitService()
@@ -57,10 +59,6 @@ export default class Init extends Command {
           type: 'input',
           validate: validators.domainValidator,
         }])
-        // if not logged int
-        if (!UserService.isUserConfigExists()) {
-          this.error('Please login first')
-        }
         const response = await initService.doInitByDomain(domainResponses.hypi_domain)
         if (response.error) this.error(response.error)
 

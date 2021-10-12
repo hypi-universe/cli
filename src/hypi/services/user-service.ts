@@ -3,12 +3,12 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import Conf from 'conf'
-import {IConfig} from '@oclif/config'
+import { IConfig } from '@oclif/config'
 
 import HypiConfig from '../config'
 
 export default class UserService {
-  static config = new Conf({projectName: 'hypi'})
+  static config = new Conf({ projectName: 'hypi' })
 
   static CLI_CONFIG_FILE_NAME = 'cli-config-file'
 
@@ -31,7 +31,7 @@ export default class UserService {
   }
 
   static saveApiDomainConfig(apiDomain: string) {
-    this.saveToUserConfig({api_domain: apiDomain})
+    this.saveToUserConfig({ api_domain: apiDomain })
   }
 
   static saveToUserConfig(data: any) {

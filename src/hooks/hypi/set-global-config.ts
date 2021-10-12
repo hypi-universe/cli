@@ -1,4 +1,4 @@
-import {IConfig} from '@oclif/config'
+import { IConfig } from '@oclif/config'
 import UserService from '../../hypi/services/user-service'
 
 const config_hook = async function (options: any) {

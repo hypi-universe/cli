@@ -2,6 +2,7 @@
 import { Command, flags } from '@oclif/command'
 import cli from 'cli-ux'
 import { exec } from 'child_process';
+import AuthCommand from '../auth-base'
 
 import WskService from '../hypi/services/wsk-service'
 import UserService from '../hypi/services/user-service'
@@ -9,7 +10,7 @@ import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
 import AppService from '../hypi/services/app-service'
 
-export default class Wsk extends Command {
+export default class Wsk extends AuthCommand {
     static description = 'Invoke the OpenWhisk command to perform serverless functions'
 
     static flags = {
@@ -33,10 +34,6 @@ export default class Wsk extends Command {
     instanceService = new InstanceService()
 
     async run() {
-        //make sure user is logged in and done init
-        if (!UserService.isUserConfigExists()) {
-            this.error('Please login first')
-        }
         const checkDotHypiExists = await this.hypiService.checkHypiFolder();
         if (checkDotHypiExists.error)
             this.error(checkDotHypiExists.error);

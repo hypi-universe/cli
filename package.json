@@ -100,9 +100,6 @@
     "hooks": {
       "init": [
         "./lib/hooks/hypi/set-global-config"
-      ],
-      "prerun": [
-        "./lib/hooks/hypi/check-token-expiry"
       ]
     },
     "macos": {
