@@ -29,7 +29,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.4.0 linux-x64 node-v14.17.5
+@hypi/cli/0.5.0 linux-x64 node-v14.17.5
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -90,7 +90,7 @@ EXAMPLES
   $ hypi config --api_domain=https://api.my-onpremise-domain.com
 ```
 
-_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/config.ts)_
+_See code: [src/commands/config.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/config.ts)_
 
 ## `hypi generate [PLATFORM]`
 
@@ -110,7 +110,7 @@ EXAMPLES
   $ hypi generate --platform=angular
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/generate.ts)_
 
 ## `hypi help [COMMAND]`
 
@@ -147,7 +147,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/init.ts)_
 
 ## `hypi login`
 
@@ -167,7 +167,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/login.ts)_
 
 ## `hypi sync`
 
@@ -184,7 +184,7 @@ EXAMPLE
   $ hypi sync
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
@@ -212,12 +212,13 @@ OPTIONS
   -h, --help  show CLI help
 
 EXAMPLES
+  $ hypi wsk configure
   $ hypi wsk action list
   $ hypi wsk action create hello hello.js
   $ hypi wsk action invoke hello --result
 ```
 
-_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.4.0/src/commands/wsk.ts)_
+_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.5.0/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
 # Build instructions
