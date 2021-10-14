@@ -1,7 +1,7 @@
 
-import { Command, flags } from '@oclif/command'
+import {flags} from '@oclif/command'
 import cli from 'cli-ux'
-import { exec } from 'child_process';
+import {exec} from 'child_process'
 import AuthCommand from '../auth-base'
 
 import WskService from '../hypi/services/wsk-service'
@@ -14,7 +14,7 @@ export default class Wsk extends AuthCommand {
     static description = 'Invoke the OpenWhisk command to perform serverless functions'
 
     static flags = {
-        help: flags.help({ char: 'h' }),
+      help: flags.help({char: 'h'}),
     }
 
     static args = []
@@ -23,78 +23,80 @@ export default class Wsk extends AuthCommand {
     static strict = false
 
     static examples = [
-        '$ hypi wsk configure',
-        '$ hypi wsk action list',
-        '$ hypi wsk action create hello hello.js',
-        '$ hypi wsk action invoke hello --result',
+      '$ hypi wsk configure',
+      '$ hypi wsk action list',
+      '$ hypi wsk action create hello hello.js',
+      '$ hypi wsk action invoke hello --result',
     ]
 
     hypiService = new HypiService()
+
     appService = new AppService()
+
     instanceService = new InstanceService()
 
     async run() {
-        const checkDotHypiExists = await this.hypiService.checkHypiFolder();
-        if (checkDotHypiExists.error)
-            this.error(checkDotHypiExists.error);
+      const checkDotHypiExists = await this.hypiService.checkHypiFolder()
+      if (checkDotHypiExists.error)
+        this.error(checkDotHypiExists.error)
 
-        this.handleCommand();
+      this.handleCommand()
     }
 
     private async handleCommand() {
-        const readAppDocResponse = this.appService.readAppDoc();
-        const readInstanceDoc = this.instanceService.readInstanceDoc();
+      const readAppDocResponse = this.appService.readAppDoc()
+      const readInstanceDoc = this.instanceService.readInstanceDoc()
 
-        if (readAppDocResponse.error || readInstanceDoc.error) {
-            this.error(readAppDocResponse.error ?? readInstanceDoc.error);
-        }
+      if (readAppDocResponse.error || readInstanceDoc.error) {
+        this.error(readAppDocResponse.error ?? readInstanceDoc.error)
+      }
 
-        let wskCommand = this.prepareCommand(readInstanceDoc.data);
-        this.executeCommand(wskCommand);
+      const wskCommand = this.prepareCommand(readInstanceDoc.data)
+      this.executeCommand(wskCommand)
     }
 
     private prepareCommand(readInstanceData: any) {
-        if (this.argv.length === 1 && this.argv.toString() === 'configure') {
-            const apiHost = "https://fn.hypi.app";
-            const instanceDomain = readInstanceData.domain;
+      if (this.argv.length === 1 && this.argv.toString() === 'configure') {
+        const apiHost = 'https://fn.hypi.app'
+        const instanceDomain = readInstanceData.domain
 
-            const token = UserService.getUserConfig().sessionToken;
-            const auth = `${instanceDomain}:${token}`;
-            return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`;
-        }
-        return `${this.config.configDir}/wsk ${this.argv.join(' ')}`;
+        const token = UserService.getUserConfig().sessionToken
+        const auth = `${instanceDomain}:${token}`
+        return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`
+      }
+      return `${this.config.configDir}/wsk ${this.argv.join(' ')}`
     }
 
     private executeCommand(wskCommand: string) {
-        exec(wskCommand, async (error, stdout, stderr) => {
-            if (error) {
-                if (error.message.includes('wsk: not found')) {
-                    this.log('Command wsk not found');
-                    const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)');
-                    if (!installOpenWhisk)
-                        return;
-                    this.installOpenWhisk(wskCommand);
-                }
-                return;
-            }
-            if (stderr) {
-                this.log(stderr);
-                return;
-            }
-            console.log(stdout);
-        });
+      exec(wskCommand, async (error, stdout, stderr) => {
+        if (error) {
+          if (error.message.includes('wsk: not found')) {
+            this.log('Command wsk not found')
+            const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)')
+            if (!installOpenWhisk)
+              return
+            this.installOpenWhisk(wskCommand)
+          }
+          return
+        }
+        if (stderr) {
+          this.log(stderr)
+          return
+        }
+        this.log(stdout)
+      })
     }
 
     private installOpenWhisk(wskCommand: string) {
-        // check app.yaml and instance.yaml exists
-        const platform = this.config.platform
-        const arch = this.config.arch
+      // check app.yaml and instance.yaml exists
+      const platform = this.config.platform
+      const arch = this.config.arch
 
-        const wskService = new WskService(platform, arch, this.config.configDir)
+      const wskService = new WskService(platform, arch, this.config.configDir)
 
-        wskService.installOpenWhisk(async () => {
-            await cli.wait();
-            this.executeCommand(wskCommand)
-        });
+      wskService.installOpenWhisk(async () => {
+        await cli.wait()
+        this.executeCommand(wskCommand)
+      })
     }
 }

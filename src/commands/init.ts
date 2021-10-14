@@ -1,20 +1,19 @@
 
-import { Command, flags } from '@oclif/command'
+import {flags} from '@oclif/command'
 import * as inquirer from 'inquirer'
 import AuthCommand from '../auth-base'
 
 import * as validators from '../hypi/helpers/input-validators'
-import { messages } from '../hypi/helpers/messages'
+import {messages} from '../hypi/helpers/messages'
 import InitService from '../hypi/services/init-service'
-import UserService from '../hypi/services/user-service'
 
 export default class Init extends AuthCommand {
   static description = 'Init a hypi app'
 
   static flags = {
-    help: flags.help({ char: 'h' }),
+    help: flags.help({char: 'h'}),
     // have instance flag (-i, --have_instance)
-    have_instance: flags.boolean({ char: 'i' }),
+    have_instance: flags.boolean({char: 'i'}),
   }
 
   static examples = [
@@ -24,7 +23,7 @@ export default class Init extends AuthCommand {
   ]
 
   async run() {
-    const { flags } = this.parse(Init)
+    const {flags} = this.parse(Init)
     const have_instance = flags.have_instance
 
     const initService = new InitService()

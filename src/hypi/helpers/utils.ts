@@ -2,7 +2,6 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as YAML from 'yaml'
 import atob from 'atob'
-import flutterDependencies from '../flutter-dependencies'
 
 export default class Utils {
   static getHypiDir(): string {
@@ -46,84 +45,11 @@ export default class Utils {
     return target
   }
 
-  static async writeToFlutterPackageManager() {
-    const filePath = path.join(process.cwd(), 'pubspec.yaml')
-    if (!fs.existsSync(filePath)) {
-      return {error: 'Failed to find ~/pubspec.yaml'}
-    }
-    const file = await fs.readFile(filePath, 'utf8')
-    const doc = YAML.parseDocument(file)
-
-    Object.entries(flutterDependencies.dependencies).forEach(([key, value]) => {
-      this.addNodeToYamlDoc(doc, 'dependencies', key, String(value))
-    })
-    Object.entries(flutterDependencies.dev_dependencies).forEach(([key, value]) => {
-      this.addNodeToYamlDoc(doc, 'dev_dependencies', key, String(value))
-    })
-    try {
-      await fs.writeFile(filePath, String(doc))
-      return {error: false}
-    } catch (error) {
-      if (!fs.existsSync(filePath)) {
-        return {error: error.message}
-      }
-    }
-    return {error: null}
-  }
-
   static addNodeToYamlDoc(doc: any, node: string, key: string, value: string) {
     if (!doc.hasIn([node, key])) {
       doc.addIn([node], doc.createPair(key, value))
     }
     return doc
-  }
-
-  static async doesFlutterDependciesExists() {
-    const filePath = path.join(process.cwd(), 'pubspec.yaml')
-    if (!fs.existsSync(filePath)) {
-      return {missed: false, error: true, message: 'Failed to find ~/pubspec.yaml'}
-    }
-    const file = await fs.readFile(filePath, 'utf8')
-    const doc = YAML.parseDocument(file)
-    const missingDependcies:
-      { dependencies: string[]; dev_dependencies: string[] } =
-      {dependencies: [], dev_dependencies: []}
-
-    Object.entries(flutterDependencies.dependencies).forEach(([key, value]) => {
-      if (!doc.hasIn(['dependencies', key])) {
-        missingDependcies.dependencies.push(key + ': ' + value)
-      }
-    })
-    Object.entries(flutterDependencies.dev_dependencies).forEach(([key, value]) => {
-      if (!doc.hasIn(['dev_dependencies', key])) {
-        missingDependcies.dev_dependencies.push(key + ': ' + value)
-      }
-    })
-
-    if (missingDependcies.dependencies.length > 0 ||
-      missingDependcies.dev_dependencies.length > 0) {
-      return {missed: true, error: false, message: this.formatMissedDependciesMessage(missingDependcies)}
-    }
-    return {missed: false, error: false, message: ''}
-  }
-
-  static formatMissedDependciesMessage(missingDependcies: any) {
-    let message = '[ERROR] please make sure that the following dependcies does exist in pubspec.yaml \n'
-    if (missingDependcies.dependencies.length > 0) {
-      message = message.concat('dependencies \n')
-    }
-    Object.entries(missingDependcies.dependencies).forEach(([, value]) => {
-      message = message.concat('\t' + value + '\n')
-    })
-
-    if (missingDependcies.dev_dependencies.length > 0) {
-      message = message.concat('dev_dependencies \n')
-    }
-    Object.entries(missingDependcies.dev_dependencies).forEach(([, value]) => {
-      message = message.concat('\t' + value + '\n')
-    })
-
-    return message
   }
 
   static formatMessage(message: string, level: string) {

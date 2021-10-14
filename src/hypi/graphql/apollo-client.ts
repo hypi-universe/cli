@@ -1,5 +1,5 @@
 
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client/core'
+import {ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat} from '@apollo/client/core'
 import fetch from 'cross-fetch'
 import UserService from '../services/user-service'
 
@@ -22,7 +22,7 @@ export default class CustomizedApolloClient {
 
   getHttpLink() {
     const url = UserService.getApiDomain()
-    return new HttpLink({ uri: url + '/graphql', fetch: fetch as any })
+    return new HttpLink({uri: url + '/graphql', fetch: fetch as any})
   }
 
   getMiddleware() {

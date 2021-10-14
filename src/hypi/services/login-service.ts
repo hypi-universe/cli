@@ -1,6 +1,6 @@
 
 import * as inquirer from 'inquirer'
-import { messages } from '../helpers/messages'
+import {messages} from '../helpers/messages'
 import * as validators from '../helpers/input-validators'
 import hypiLogin from '../api/login'
 import Utils from '../helpers/utils'
@@ -83,8 +83,8 @@ export default class LoginService {
     /** login to hypi */
     if (this.LoginMethod === Loginmethods.ByEmailAndPassword) {
       const data = await hypiLogin(this.email, this.password)
-      if (data.error) return { error: data.error, data: null }
-      return { error: null, data: data }
+      if (data.error) return {error: data.error, data: null}
+      return {error: null, data: data}
     }
     if (this.LoginMethod === Loginmethods.ByDomainAndToken) {
       let payload: any
@@ -99,9 +99,9 @@ export default class LoginService {
           },
         }
       } catch (error) {
-        return { error: error.message }
+        return {error: error.message}
       }
     }
-    return { error: null, data: null }
+    return {error: null, data: null}
   }
 }

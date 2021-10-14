@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import {codegen} from '@graphql-codegen/core'
-import {generate} from '@graphql-codegen/cli'
 import {GraphQLSchema} from 'graphql'
 import {loadSchema} from '@graphql-tools/load'
 import {loadDocuments} from '@graphql-tools/load'
