@@ -95,14 +95,15 @@ export default class Generate extends AuthCommand {
       break
     }
     }
-    cli.action.start('Generate Process')
+    cli.action.start(messages.generateCommand.generateProcess)
 
     const result = await platformContext.validate()
     if (result.message) {
       this.error(result.message)
     }
 
-    await platformContext.generate()
+    const genResult = await platformContext.generate()
+    this.log(genResult)
 
     cli.action.stop()
   }

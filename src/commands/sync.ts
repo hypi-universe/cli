@@ -21,7 +21,7 @@ export default class Sync extends AuthCommand {
 
   async run() {
     // start the spinner
-    cli.action.start('Sync Process')
+    cli.action.start(messages.syncCommand.syncProcess)
 
     const hypiService = new HypiService()
     // check .hypi folder exists
@@ -72,7 +72,7 @@ export default class Sync extends AuthCommand {
     if (introspectionResult.error) {
       this.error(introspectionResult.error)
     }
-    this.log('Introspection done')
+    this.log(messages.syncCommand.introspectionDone)
 
     cli.action.stop()
   }

@@ -7,14 +7,16 @@ import {loadSchema} from '@graphql-tools/load'
 import {loadDocuments} from '@graphql-tools/load'
 import {GraphQLFileLoader} from '@graphql-tools/graphql-file-loader'
 import * as fs from 'fs-extra'
+import path from 'path'
+
 import * as typescriptPlugin from '@graphql-codegen/typescript'
 import * as typescriptOperationsPlugin from '@graphql-codegen/typescript-operations'
 import * as typescriptVueApolloPlugin from '@graphql-codegen/typescript-vue-apollo'
 import * as typescriptVueApolloSmartOpsPlugin from '@graphql-codegen/typescript-vue-apollo-smart-ops'
 
 import Utils from '../../helpers/utils'
+import {messages} from '../../helpers/messages'
 
-import path from 'path'
 export interface VuejsOptions {
   generationType: string;
 }
@@ -39,11 +41,11 @@ export default class VuejsService implements Platform {
     return {error: false}
   }
 
-  async generate() {
-    await this.generateWithAPI()
+  async generate(): Promise<string> {
+    return this.generateWithAPI()
   }
 
-  private async generateWithAPI() {
+  private async generateWithAPI(): Promise<string> {
     const schemaFile = process.cwd() + '/.hypi/generated-schema.graphql'
 
     const schema: GraphQLSchema = await loadSchema(schemaFile,
@@ -80,10 +82,11 @@ export default class VuejsService implements Platform {
     if (!fs.existsSync(outputDir))
       fs.mkdirSync(outputDir)
 
-    fs.writeFile(path.join(process.cwd(), outputFile), output, err => {
-      if (err) throw err
-
-      console.log('The file was succesfully generated!')
+    return new Promise((resolve, reject) => {
+      fs.writeFile(path.join(process.cwd(), outputFile), output, err => {
+        if (err) reject(err)
+        resolve(messages.generateCommand.successGenartion)
+      })
     })
   }
 

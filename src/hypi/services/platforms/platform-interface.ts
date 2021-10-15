@@ -1,5 +1,5 @@
 
 interface Platform {
   validate(): object;
-  generate(): void;
+  generate(): Promise<string>;
 }

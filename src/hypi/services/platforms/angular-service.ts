@@ -6,23 +6,24 @@ import {loadSchema} from '@graphql-tools/load'
 import {loadDocuments} from '@graphql-tools/load'
 import {GraphQLFileLoader} from '@graphql-tools/graphql-file-loader'
 import * as fs from 'fs-extra'
+import path from 'path'
+
 import * as typescriptPlugin from '@graphql-codegen/typescript'
 import * as typescriptOperationsPlugin from '@graphql-codegen/typescript-operations'
 import * as typescriptAngularApolloPlugin from '@graphql-codegen/typescript-apollo-angular'
-
-import path from 'path'
+import {messages} from '../../helpers/messages'
 
 export default class AngularService implements Platform {
   async validate() {
     return {error: false}
   }
 
-  async generate() {
+  generate(): Promise<string> {
     // write the graphql code generator here
-    await this.generateWithAPI()
+    return this.generateWithAPI()
   }
 
-  private async generateWithAPI() {
+  private async generateWithAPI(): Promise<string> {
     const schemaFile = process.cwd() + '/.hypi/generated-schema.graphql'
 
     const schema: GraphQLSchema = await loadSchema(schemaFile,
@@ -71,10 +72,11 @@ export default class AngularService implements Platform {
     if (!fs.existsSync(outputDir))
       fs.mkdirSync(outputDir)
 
-    fs.writeFile(path.join(process.cwd(), outputFile), output, err => {
-      if (err) throw err
-
-      console.log('The file was succesfully generated!')
+    return new Promise((resolve, reject) => {
+      fs.writeFile(path.join(process.cwd(), outputFile), output, err => {
+        if (err) reject(err)
+        resolve(messages.generateCommand.successGenartion)
+      })
     })
   }
 }

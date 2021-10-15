@@ -1,4 +1,5 @@
 import AxiosConnection from '../axios-alpha'
+import {messages} from '../helpers/messages'
 
 const hypiLogin = async (email: string, password: string) => {
   let response
@@ -10,8 +11,7 @@ const hypiLogin = async (email: string, password: string) => {
     const data = await response.data
 
     if (!data.data || data.data.errorCode) {
-      return {error: 'Invalid email or password'}
-      // this.error(response.data.data.errorCode + ' : ' + response.data.data.errorMsg)
+      return {error: messages.loginCommand.invalidEmailOrPassword}
     }
     return data.data
   } catch (error) {

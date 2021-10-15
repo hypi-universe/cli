@@ -9,6 +9,7 @@ import UserService from '../hypi/services/user-service'
 import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
 import AppService from '../hypi/services/app-service'
+import {messages} from '../hypi/helpers/messages'
 
 export default class Wsk extends AuthCommand {
     static description = 'Invoke the OpenWhisk command to perform serverless functions'
@@ -71,8 +72,8 @@ export default class Wsk extends AuthCommand {
       exec(wskCommand, async (error, stdout, stderr) => {
         if (error) {
           if (error.message.includes('wsk: not found')) {
-            this.log('Command wsk not found')
-            const installOpenWhisk = await cli.confirm('Do you want to install Openwhisk? (yes/no)')
+            this.log(messages.wskCommand.wskCommandNotFound)
+            const installOpenWhisk = await cli.confirm(messages.wskCommand.confirmInstallWsk)
             if (!installOpenWhisk)
               return
             this.installOpenWhisk(wskCommand)

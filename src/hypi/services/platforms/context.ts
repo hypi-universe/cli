@@ -14,7 +14,7 @@ export default class Context {
     return this.platform.validate()
   }
 
-  public async generate(): Promise<any> {
+  public async generate(): Promise<string> {
     return this.platform.generate()
   }
 }

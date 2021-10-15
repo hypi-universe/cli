@@ -65,22 +65,29 @@ export const messages = {
       message: 'Token? ',
     },
     loggedIn: 'Logged in successfully',
+    invalidEmailOrPassword: 'Invalid email or password',
   },
   syncCommand: {
     selectPlatform: 'Please enter platform',
     pleasLogin: 'Please login first',
     appCreated: 'App created with id : ',
     instanceCreated: 'Instance created with id : ',
-
+    syncProcess: 'Sync Process',
+    introspectionDone: 'Introspection done',
   },
   generateCommand: {
     version: 'What vuejs version you would like to use',
     generationType: 'What generation type you would like ',
-
+    generateProcess: 'Generate Process',
+    successGenartion: 'The file was succesfully generated!',
   },
   configCommand: {
     enterApiDomain: 'Please enter api domain',
     doneMessage: 'Done, Please make sure to login again, hypi login and do init and sync your schema',
+  },
+  wskCommand: {
+    wskCommandNotFound: 'Command wsk not found',
+    confirmInstallWsk: 'Do you want to install Openwhisk? (yes/no)',
   },
   ExpiryHook: {
     expiredMessage: 'Your token expired, please make sure to login again',

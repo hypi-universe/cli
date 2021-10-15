@@ -2,11 +2,11 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as YAML from 'yaml'
+import {exec} from 'child_process'
 
 import flutterDependencies from '../../flutter-dependencies'
 import Utils from '../../helpers/utils'
-
-const shell = require('shelljs')
+import {messages} from '../../helpers/messages'
 
 export default class FlutterService implements Platform {
   async validate() {
@@ -25,14 +25,17 @@ export default class FlutterService implements Platform {
     return {error: false}
   }
 
-  async generate() {
-    console.log('Running flutter pub run build_runner build --delete-conflicting-outputs')
-    shell.exec('flutter pub run build_runner build --delete-conflicting-outputs', {silent: true}, function (code: any, stdout: any, stderr: any) {
-      // eslint-disable-next-line no-console
-      stdout ? console.log('Program output:', stdout) : null
-      // eslint-disable-next-line no-console
-      stderr ? console.log('Program stderr:', stderr) : null
-      // cli.action.stop() // shows 'starting a process... done'
+  public generate() {
+    const command = 'flutter pub run build_runner build --delete-conflicting-outputs'
+    console.log(`Running ${command}`)
+
+    return new Promise<string>((resolve, reject) => {
+      exec(command, async (error, stdout, stderr) => {
+        if (error || stderr) {
+          reject(error)
+        }
+        resolve(stdout)
+      })
     })
   }
 
