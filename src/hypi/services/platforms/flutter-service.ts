@@ -6,7 +6,6 @@ import {exec} from 'child_process'
 
 import flutterDependencies from '../../flutter-dependencies'
 import Utils from '../../helpers/utils'
-import {messages} from '../../helpers/messages'
 
 export default class FlutterService implements Platform {
   async validate() {
