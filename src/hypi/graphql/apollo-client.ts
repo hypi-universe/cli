@@ -13,7 +13,6 @@ export default class CustomizedApolloClient {
   getApolloClient() {
     const httpLink = this.getHttpLink()
     const authMiddleware = this.getMiddleware()
-
     return new ApolloClient({
       cache: new InMemoryCache(),
       link: concat(authMiddleware, httpLink),

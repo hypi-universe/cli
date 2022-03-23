@@ -28,31 +28,6 @@ const FIND_INSTANCE = gql`
             }
             __typename
           }
-          plan {
-            nextDue
-            billingDate
-            frequency
-            account {
-              owner {
-                names {
-                  firstName
-                  lastName
-                  hypi {
-                    id
-                    __typename
-                  }
-                  __typename
-                }
-                __typename
-              }
-              __typename
-            }
-            hypi {
-              id
-              __typename
-            }
-            __typename
-          }
           hypi {
             id
             created

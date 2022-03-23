@@ -19,7 +19,7 @@ export default class InitService {
 
   deleteHypiDir() {
     try {
-      fs.rmdirSync(this.hypiDir, {recursive: true})
+      fs.rmSync(this.hypiDir, {recursive: true})
       return true
     } catch (error) {
       return false
