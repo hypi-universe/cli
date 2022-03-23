@@ -1,7 +1,7 @@
 {
   "name": "@hypi/cli",
   "description": "Application developer community centred around Hypi's unique low-code, serverless development platform.",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "author": "Hypi @https://hypi.io/",
   "bin": {
     "hypi": "bin/run"
