@@ -52,6 +52,7 @@ export default class WskService {
       })
       .pipe(fs.createWriteStream(this.wskArchiveName))
       .on('finish', async () => {
+        console.log('hi')
         const files: decompress.File[] = await this.decompress()
         if (files.length === 1) {
           console.log('OpenWhisk installed')
@@ -64,7 +65,9 @@ export default class WskService {
     }
 
     decompress(): Promise<decompress.File[]> {
-      const src = path.join(__dirname, '../../..', this.wskArchiveName)
+      // const src = path.join(__dirname, '../../..', this.wskArchiveName)
+      const src = path.join(process.cwd(), this.wskArchiveName)
+
       const dist = this.hypiConfigDir
       const extension = path.extname(src)
 

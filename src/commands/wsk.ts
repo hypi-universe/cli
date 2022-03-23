@@ -6,9 +6,7 @@ import AuthCommand from '../auth-base'
 
 import WskService from '../hypi/services/wsk-service'
 import UserService from '../hypi/services/user-service'
-import InstanceService from '../hypi/services/instance-service'
 import HypiService from '../hypi/services/hypi-service'
-import AppService from '../hypi/services/app-service'
 import {messages} from '../hypi/helpers/messages'
 
 export default class Wsk extends AuthCommand {
@@ -32,38 +30,23 @@ export default class Wsk extends AuthCommand {
 
     hypiService = new HypiService()
 
-    appService = new AppService()
-
-    instanceService = new InstanceService()
-
     async run() {
-      const checkDotHypiExists = await this.hypiService.checkHypiFolder()
-      if (checkDotHypiExists.error)
-        this.error(checkDotHypiExists.error)
-
       this.handleCommand()
     }
 
     private async handleCommand() {
-      const readAppDocResponse = this.appService.readAppDoc()
-      const readInstanceDoc = this.instanceService.readInstanceDoc()
-
-      if (readAppDocResponse.error || readInstanceDoc.error) {
-        this.error(readAppDocResponse.error ?? readInstanceDoc.error)
-      }
-
-      const wskCommand = this.prepareCommand(readInstanceDoc.data)
+      const wskCommand = this.prepareCommand()
       this.executeCommand(wskCommand)
     }
 
-    private prepareCommand(readInstanceData: any) {
+    private prepareCommand() {
       if (this.argv.length === 1 && this.argv.toString() === 'configure') {
-        const apiHost = 'https://fn.hypi.app'
-        const instanceDomain = readInstanceData.domain
+        const apiHost = 'https://fn.hypi.app' //'fn.staging.hypi.dev'
+        const instanceDomain = UserService.getUserConfig().domain
 
         const token = UserService.getUserConfig().sessionToken
         const auth = `${instanceDomain}:${token}`
-        return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`
+        return `${this.config.configDir}/wsk property set --apihost '${apiHost}' --auth '${auth}'`
       }
       return `${this.config.configDir}/wsk ${this.argv.join(' ')}`
     }
@@ -77,6 +60,8 @@ export default class Wsk extends AuthCommand {
             if (!installOpenWhisk)
               return
             this.installOpenWhisk(wskCommand)
+          } else{
+            this.log(error.message)
           }
           return
         }
