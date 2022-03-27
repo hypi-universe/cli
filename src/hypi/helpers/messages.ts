@@ -82,7 +82,7 @@ export const messages = {
     successGenartion: 'The file was succesfully generated!',
   },
   configCommand: {
-    enterApiDomain: 'Please enter api domain',
+    enterConfig: 'Please enter your configuration',
     doneMessage: 'Done, Please make sure to login again, hypi login and do init and sync your schema',
   },
   wskCommand: {

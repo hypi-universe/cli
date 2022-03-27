@@ -44,7 +44,7 @@ export default class Config extends Command {
       if(value) valid = true;
     }
     if (!valid && Object.keys(flags).length === 0) {
-      this.error(messages.configCommand.enterApiDomain)
+      this.error(messages.configCommand.enterConfig)
     }
 
     const defaultConfig : any = {api_domain: null,fn_domain:null}
