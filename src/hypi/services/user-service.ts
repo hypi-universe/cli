@@ -20,18 +20,21 @@ export default class UserService {
     if (!this.config.get(this.CLI_CONFIG_FILE_NAME))
       this.config.set(this.CLI_CONFIG_FILE_NAME, path.join(oclifConfig.configDir, 'config.json'))
 
+    const defaultConfig = {
+      api_domain: HypiConfig.default_api_domain,
+      fn_domain: HypiConfig.default_fn_domain
+    }
+
     const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
-    if (!this.isUserConfigFolderExists()) {
-      this.saveApiDomainConfig(HypiConfig.default_api_domain)
+    if (!this.isUserConfigFileExists()) {
+      this.saveToUserConfig(defaultConfig)
     } else {
       const userConfig = fs.readJSONSync(configFilePath)
       if (!userConfig.api_domain)
-        this.saveApiDomainConfig(HypiConfig.default_api_domain)
+        this.saveToUserConfig({api_domain: HypiConfig.default_api_domain})
+      if (!userConfig.fn_domain)
+        this.saveToUserConfig({fn_domain: HypiConfig.default_fn_domain})
     }
-  }
-
-  static saveApiDomainConfig(apiDomain: string) {
-    this.saveToUserConfig({api_domain: apiDomain})
   }
 
   static saveToUserConfig(data: any) {
@@ -86,7 +89,7 @@ export default class UserService {
     }
   }
 
-  static isUserConfigFolderExists() {
+  static isUserConfigFileExists() {
     const configFilePath = this.config.get(this.CLI_CONFIG_FILE_NAME) as string
     if (fs.existsSync(configFilePath)) {
       return true

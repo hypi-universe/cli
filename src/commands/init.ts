@@ -38,7 +38,7 @@ export default class Init extends AuthCommand {
       if (!proceedResponse.proceed) this.exit(1)
     }
 
-    // TO-DO delete .hypi folder
+    // delete .hypi folder if already exists
     const deleteHypiDir = initService.deleteHypiDir()
     if (!deleteHypiDir) {
       this.error(messages.initCommand.failedDeleteHypi)

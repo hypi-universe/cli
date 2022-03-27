@@ -41,7 +41,7 @@ export default class Wsk extends AuthCommand {
 
     private prepareCommand() {
       if (this.argv.length === 1 && this.argv.toString() === 'configure') {
-        const apiHost = 'https://fn.hypi.app' //'fn.staging.hypi.dev'
+        const apiHost = UserService.getUserConfig().fn_domain 
         const instanceDomain = UserService.getUserConfig().domain
 
         const token = UserService.getUserConfig().sessionToken
