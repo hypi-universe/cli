@@ -5,7 +5,9 @@ import request from 'superagent'
 import {exec} from 'child_process'
 
 import decompress from 'decompress'
+import { exit } from 'process'
 const decompressTargz = require('decompress-targz')
+const decompressUnzip = require('decompress-unzip');
 
 export default class WskService {
     readonly WSK_DOWNLOAD_URL: string = 'https://github.com/apache/openwhisk-cli/releases/download/1.2.0/OpenWhisk_CLI-1.2.0-'
@@ -48,11 +50,12 @@ export default class WskService {
       request
       .get(this.url)
       .on('error', error => {
+        console.log('---- Error download openwhisk binaries-----')
         console.log(error)
       })
       .pipe(fs.createWriteStream(this.wskArchiveName))
       .on('finish', async () => {
-        console.log('hi')
+        console.log('Openwhisk binaries downloaded')
         const files: decompress.File[] = await this.decompress()
         if (files.length === 1) {
           console.log('OpenWhisk installed')
@@ -60,19 +63,18 @@ export default class WskService {
           callback()
           return
         }
-        console.log('Failed, please try again')
+        console.log('Failed to install openwhisk, please try again')
       })
     }
 
     decompress(): Promise<decompress.File[]> {
       // const src = path.join(__dirname, '../../..', this.wskArchiveName)
       const src = path.join(process.cwd(), this.wskArchiveName)
-
       const dist = this.hypiConfigDir
       const extension = path.extname(src)
 
       return decompress(src, dist, {
-        plugins: extension === '.tgz' ? [decompressTargz()] : [],
+        plugins: extension === '.tgz' ? [decompressTargz()] : [decompressUnzip()],
         filter: file => {
           return path.basename(file.path) === 'wsk' || path.extname(file.path) === '.exe'
         },
@@ -81,29 +83,7 @@ export default class WskService {
 
     private clean() {
       // remove downloaded archive for cleaning
-      exec(`rm ${path.join(__dirname, '../../..', this.wskArchiveName)}`)
+      // exec(`rm ${path.join(__dirname, '../../..', this.wskArchiveName)}`)
+      exec(`rm ${path.join(process.cwd(), this.wskArchiveName)}`)
     }
-
-  // private moveToHypiFolder() {
-  //     const src = path.join(__dirname, "../../..", 'dist', 'wsk');
-  //     const dist = '/usr/local/bin';
-
-  //     //if mac or linux
-  //     exec("sudo mv " + src + " " + dist, (error, stdout, stderr) => {
-  //         if (error) {
-  //             console.log(`error: ${error.message}`);
-  //             return { error };
-  //         }
-  //         if (stderr) {
-  //             console.log(`stderr: ${stderr}`);
-  //             return { error: stderr };
-  //         }
-  //         console.log(`stdout: ${stdout}`);
-  //         return { error: false, message: stdout }
-  //     });
-  // }
-
-  // getFileExtension(url: string): string {
-  //     return path.extname(url)
-  // }
 }

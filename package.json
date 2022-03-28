@@ -35,6 +35,7 @@
     "cross-fetch": "^3.1.2",
     "decompress": "^4.2.1",
     "decompress-targz": "^4.1.1",
+    "decompress-unzip": "^4.0.1",
     "exec-sh": "^0.4.0",
     "graphql": "^15.5.0",
     "inquirer": "^8.2.0",

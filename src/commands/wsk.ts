@@ -54,9 +54,11 @@ export default class Wsk extends AuthCommand {
     private executeCommand(wskCommand: string) {
       exec(wskCommand, async (error, stdout, stderr) => {
         if (error) {
-          console.log(error)
-          // if (error.message.includes('wsk: not found')) {
-          if (error.code === 127) {
+          if (error.code === 127 
+            || error.message.includes('wsk: not found')
+            || error.message.includes('wsk: No such file or directory')
+            || error.message.includes('is not recognized as an internal or external command')
+            ) {
             this.log(messages.wskCommand.wskCommandNotFound)
             const installOpenWhisk = await cli.confirm(messages.wskCommand.confirmInstallWsk)
             if (!installOpenWhisk)
