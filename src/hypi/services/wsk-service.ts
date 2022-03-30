@@ -68,7 +68,6 @@ export default class WskService {
     }
 
     decompress(): Promise<decompress.File[]> {
-      // const src = path.join(__dirname, '../../..', this.wskArchiveName)
       const src = path.join(process.cwd(), this.wskArchiveName)
       const dist = this.hypiConfigDir
       const extension = path.extname(src)
@@ -82,8 +81,6 @@ export default class WskService {
     }
 
     private clean() {
-      // remove downloaded archive for cleaning
-      // exec(`rm ${path.join(__dirname, '../../..', this.wskArchiveName)}`)
       exec(`rm ${path.join(process.cwd(), this.wskArchiveName)}`)
     }
 }
