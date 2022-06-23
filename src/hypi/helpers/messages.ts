@@ -91,6 +91,10 @@ export const messages = {
     wskCommandNotFound: 'Command wsk not found',
     confirmInstallWsk: 'Do you want to install Openwhisk? (yes/no)',
   },
+  getCommand: {
+    enterConfig: 'Configuration file not exists, please run hypi login or run hypi config',
+    configNotFound: 'Not Found',
+  },
   ExpiryHook: {
     expiredMessage: 'Your token expired, please make sure to login again',
   },
