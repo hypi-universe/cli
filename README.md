@@ -30,7 +30,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.6.1 linux-x64 node-v16.14.0
+@hypi/cli/0.7.0 linux-x64 node-v16.15.1
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -40,8 +40,14 @@ USAGE
 # Commands
 <!-- commands -->
 * [`hypi commands`](#hypi-commands)
+* [`hypi generate [PLATFORM]`](#hypi-generate-platform)
+* [`hypi get`](#hypi-get)
 * [`hypi help [COMMAND]`](#hypi-help-command)
+* [`hypi init`](#hypi-init)
+* [`hypi login`](#hypi-login)
+* [`hypi sync`](#hypi-sync)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
+* [`hypi wsk`](#hypi-wsk)
 
 ## `hypi commands`
 
@@ -67,6 +73,53 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
+## `hypi generate [PLATFORM]`
+
+generate the schema typescript file
+
+```
+USAGE
+  $ hypi generate [PLATFORM]
+
+OPTIONS
+  -h, --help                                    show CLI help
+  -p, --platform=flutter|reactjs|angular|vuejs
+
+EXAMPLES
+  $ hypi generate angular
+  $ hypi generate -p=angular
+  $ hypi generate --platform=angular
+```
+
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/generate.ts)_
+
+## `hypi get`
+
+Get configuration
+
+```
+USAGE
+  $ hypi get
+
+OPTIONS
+  -a, --api_domain     show configured api domain
+  -d, --domain         show configured domain
+  -e, --token_expires  show token expiry
+  -f, --fn_domain      show configured fn domain
+  -h, --help           show CLI help
+  -t, --token          show token
+  -u, --auth           show authentication
+
+EXAMPLES
+  $ hypi get
+  $ hypi get -a
+  $ hypi get --api_domain
+  $ hypi get -a -f
+  $ hypi get --api_domain --fn_domain
+```
+
+_See code: [src/commands/get.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/get.ts)_
+
 ## `hypi help [COMMAND]`
 
 display help for hypi
@@ -83,6 +136,63 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.3.1/src/commands/help.ts)_
+
+## `hypi init`
+
+Init a hypi app
+
+```
+USAGE
+  $ hypi init
+
+OPTIONS
+  -h, --help           show CLI help
+  -i, --have_instance
+
+EXAMPLES
+  $ hypi init -i
+  $ hypi init --have_instance
+  $ hypi init
+```
+
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/init.ts)_
+
+## `hypi login`
+
+Login to hypi with email and password or domain and token
+
+```
+USAGE
+  $ hypi login
+
+OPTIONS
+  -d, --domain
+  -h, --help    show CLI help
+
+EXAMPLES
+  $ hypi login
+  $ hypi login -d
+  $ hypi login --domain
+```
+
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/login.ts)_
+
+## `hypi sync`
+
+sync user local schema with hypi
+
+```
+USAGE
+  $ hypi sync
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLE
+  $ hypi sync
+```
+
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
@@ -106,6 +216,26 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
+
+## `hypi wsk`
+
+Invoke the OpenWhisk command to perform serverless functions
+
+```
+USAGE
+  $ hypi wsk
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLES
+  $ hypi wsk configure
+  $ hypi wsk action list
+  $ hypi wsk action create hello hello.js
+  $ hypi wsk action invoke hello --result
+```
+
+_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.0/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
 # Build instructions

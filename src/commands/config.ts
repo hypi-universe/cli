@@ -5,6 +5,8 @@ import {messages} from '../hypi/helpers/messages'
 import UserService from '../hypi/services/user-service'
 
 export default class Config extends Command {
+  static hidden = true
+
   static description = 'Set user configuration like api domain and/or fn_domain for wsk servlesss functions'
 
   static flags = {

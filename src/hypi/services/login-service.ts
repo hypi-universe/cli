@@ -96,7 +96,7 @@ export default class LoginService {
             sessionExpires: payload.exp,
           },
         }
-      } catch (error: any) {
+      } catch (error) {
         return { error: error.message }
       }
     }
