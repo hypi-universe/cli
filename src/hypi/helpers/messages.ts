@@ -52,6 +52,8 @@ export const messages = {
   loginCommand: {
     loginDomainMessage: 'Enter domain and token',
     loginEmailMessage: 'Enter your email and password',
+    enterApiDomain: 'Please enter API domain, default ',
+    enterFnDomain: 'Please enter Fn domain, default ',
     email: {
       message: 'Email? ',
     },

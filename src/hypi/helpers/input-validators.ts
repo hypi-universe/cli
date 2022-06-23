@@ -48,6 +48,14 @@ export const WebsiteValidator = async (input: string) => {
   return messages.validation.website.notValid
 }
 
+
+export const DomainValidatorAllowEmpty = async (input: string) => {
+  if (input.match(messages.validation.website.regex) || input.length === 0) {
+    return true
+  }
+  return messages.validation.website.notValid
+}
+
 export const EmailValidator = async (input: string) => {
   if (input.match(messages.validation.email.regex)) {
     return true
