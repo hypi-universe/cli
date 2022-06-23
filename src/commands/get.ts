@@ -24,6 +24,8 @@ export default class Get extends Command {
     '$ hypi get',
     '$ hypi get -a',
     '$ hypi get --api_domain',
+    '$ hypi get -a -f',
+    '$ hypi get --api_domain --fn_domain',
   ]
 
   async run() {
