@@ -12,12 +12,12 @@ export default class Get extends Command {
 
   static flags = {
     help: flags.help({ char: 'h' }),
-    api_domain: flags.boolean({ char: 'a' }),
-    fn_domain: flags.boolean({ char: 'f' }),
-    auth: flags.boolean({ char: 'u' }),
-    domain: flags.boolean({ char: 'd' }),
-    token: flags.boolean({ char: 't' }),
-    token_expires: flags.boolean({ char: 'e' }),
+    api_domain: flags.boolean({ char: 'a', description: 'show configured api domain' }),
+    fn_domain: flags.boolean({ char: 'f' , description: 'show configured fn domain' }),
+    auth: flags.boolean({ char: 'u' , description: 'show authentication' }),
+    domain: flags.boolean({ char: 'd' , description: 'show configured domain' }),
+    token: flags.boolean({ char: 't' , description: 'show token' }),
+    token_expires: flags.boolean({ char: 'e' , description: 'show token expiry' }),
   }
 
   static examples = [
@@ -62,7 +62,7 @@ export default class Get extends Command {
           output.push(`Token: ${userConfig.sessionToken}`)
           break;
         case 'token_expires':
-          output.push(`Token Expires : ${userConfig.sessionExpires}`)
+          output.push(`Token Expires : ${new Date(userConfig.sessionExpires * 1000)}`) //.toLocaleDateString("en-US")
           break;
         case 'auth':
           output.push(`Auth: ${userConfig.domain}:${userConfig.sessionToken}`)
