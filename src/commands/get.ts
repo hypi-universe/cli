@@ -42,7 +42,6 @@ export default class Get extends Command {
       output = this.getConfig(userConfig, Object.keys(flags))
     }
     this.log(output.join('\r\n'));
-
   }
 
   private getConfig(userConfig: any, keys: any) {
