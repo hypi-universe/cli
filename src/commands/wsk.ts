@@ -46,7 +46,7 @@ export default class Wsk extends AuthCommand {
 
         const token = UserService.getUserConfig().sessionToken
         const auth = `${instanceDomain}:${token}`
-        return `${this.config.configDir}/wsk property set --apihost '${apiHost}' --auth '${auth}'`
+        return `${this.config.configDir}/wsk property set --apihost "${apiHost}" --auth "${auth}"`
       }
       return `${this.config.configDir}/wsk ${this.argv.join(' ')}`
     }
