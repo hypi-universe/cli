@@ -238,6 +238,50 @@ EXAMPLES
 _See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.1/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
+
+## `hypi help [COMMAND]`
+
+display help for hypi
+
+```
+USAGE
+  $ hypi help [COMMAND]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.3.1/src/commands/help.ts)_
+
+
+
+## `hypi update [CHANNEL]`
+
+update the hypi CLI
+
+```
+USAGE
+  $ hypi update [CHANNEL]
+
+OPTIONS
+  -a, --available        Install a specific version.
+  -i, --interactive      Interactively select version to install. This is ignored if a channel is provided.
+  -v, --version=version  Install a specific version.
+  --force                Force a re-download of the requested version.
+
+EXAMPLES
+  [object Object]
+  [object Object]
+  [object Object]
+  [object Object]
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
+
+
 # Build instructions
 
 For Buiilding you will need to install olcif-dev https://github.com/oclif/dev-cli
