@@ -44,6 +44,7 @@ USAGE
 * [`hypi get`](#hypi-get)
 * [`hypi help [COMMAND]`](#hypi-help-command)
 * [`hypi init`](#hypi-init)
+* [`hypi load`](#hypi-load)
 * [`hypi login`](#hypi-login)
 * [`hypi sync`](#hypi-sync)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
@@ -156,6 +157,27 @@ EXAMPLES
 ```
 
 _See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.7.1/src/commands/init.ts)_
+
+## `hypi load`
+
+Load data from file
+
+```
+USAGE
+  $ hypi load
+
+OPTIONS
+  -f, --file=file
+  -h, --help                           show CLI help
+  -k, --kind=line_delimited|array|csv
+  -m, --mapping=mapping
+  -t, --gl_type=gl_type
+
+EXAMPLE
+  $ hypi load -f file.json -k line_delimited|array -m mapping.json -t MyType
+```
+
+_See code: [src/commands/load.ts](https://github.com/hypi-universe/cli/blob/v0.7.1/src/commands/load.ts)_
 
 ## `hypi login`
 

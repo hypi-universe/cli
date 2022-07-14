@@ -98,4 +98,11 @@ export const messages = {
   ExpiryHook: {
     expiredMessage: 'Your token expired, please make sure to login again',
   },
+  loadCommand: {
+    fileRequired: 'File path is required',
+    kindRequired: 'Load file type is required',
+    glTypeRequired: 'Graphql type type is required',
+    fileNotFound: 'File path is not valid',
+    MapfileNotFound: 'Mapping file path is not valid',
+  },
 }
