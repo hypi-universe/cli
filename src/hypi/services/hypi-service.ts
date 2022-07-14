@@ -3,7 +3,6 @@ import { buildClientSchema, printSchema } from 'graphql'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import Utils from '../helpers/utils'
-import upsertMutation from '../graphql/mutations/upsert'
 
 export default class HypiService {
   private full_schema_file_name = 'generated-schema.graphql'
@@ -102,38 +101,5 @@ export default class HypiService {
     return { error: null }
   }
 
-  async upsertBulk(glType: string, items: [], keys: string[], mapping: any) {
-    if (mapping) {
-      for (const key in mapping) {
-        const newKey = mapping[key];
-        for (const item of items) {
 
-          item[newKey] = item[key];
-          delete item[key];
-        }
-      }
-    }
-console.log(items)
-    const upsertObject: any = {};
-    upsertObject[glType] = items;
-
-    const values = {
-      values: upsertObject
-    }
-
-    console.log(values);
-
-    try {
-      const resposne = await upsertMutation(values)
-      if (resposne.errors) {
-        const errorMessages = resposne.errors.map((error: any) => {
-          return error.message
-        }).concat()
-        console.log(errorMessages)
-      }
-      console.log(resposne.data.upsert[0])
-    } catch (error) {
-      console.log(error)
-    }
-  }
 }
