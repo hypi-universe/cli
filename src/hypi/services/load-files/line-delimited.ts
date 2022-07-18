@@ -3,8 +3,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as es from 'event-stream';
 import flatten from 'flat';
-import LoadService
-    from '../load-service';
+import LoadService from '../load-service';
 import { exit } from 'process';
 
 export default class LineDelimitedLoadService implements LoadFileInterface {
@@ -41,7 +40,6 @@ export default class LineDelimitedLoadService implements LoadFileInterface {
         let fields: string[] = [];
 
         const mapping = loadService.getMappings(this.mappingPath);
-
         var s = fs.createReadStream(this.file)
             .pipe(es.split())
             .pipe(es.mapSync(async function (line: any) {
@@ -61,6 +59,7 @@ export default class LineDelimitedLoadService implements LoadFileInterface {
                         const left = count - totalProcessed;
                         if (items.length === 25 || items.length === left) {
                             const mappedItems = loadService.doMapping(items, mapping)
+                            console.log(mappedItems);
                             await loadService.upsertBulk(glType, mappedItems, fields, mapping);
                             items = [];
                             totalProcessed += 25;

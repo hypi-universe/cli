@@ -2,6 +2,7 @@ import Utils from '../helpers/utils'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import upsertMutation from '../graphql/mutations/upsert-app'
+var unflatten = require('flat').unflatten
 
 export enum LoadFileTypes {
     line_delimited = 'line_delimited',
@@ -38,7 +39,6 @@ export default class LoadService {
     }
 
     isValidMapping(mapping: any, fields: any) {
-
         if (!mapping) return { error: false, valid: true };
         for (const key in mapping) {
             if (fields.indexOf(key) === -1) {
@@ -57,7 +57,7 @@ export default class LoadService {
                 delete item[key];
             }
         }
-        return items;
+        return items.map((item: any) => unflatten(item));
     }
 
     async upsertBulk(glType: string, items: [], keys: string[], mapping: any) {
