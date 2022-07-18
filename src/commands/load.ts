@@ -5,10 +5,10 @@ import * as inquirer from 'inquirer'
 import AuthCommand from '../auth-base'
 
 import { messages } from '../hypi/helpers/messages'
-import ArrayLoadService from '../hypi/services/load-files/array'
 import Context from '../hypi/services/load-files/context'
-import CsvLoadService from '../hypi/services/load-files/csv'
-import LineDelimitedLoadService from '../hypi/services/load-files/line-delimited'
+import LineDelimitedLoad from '../hypi/services/load-files/line-delimited'
+import ArrayLoad from '../hypi/services/load-files/array'
+import CsvLoad from '../hypi/services/load-files/csv'
 import LoadService, { LoadFileTypes } from '../hypi/services/load-service'
 
 const fileTypeOptions = LoadService.fileTypesArray()
@@ -21,7 +21,7 @@ export default class Load extends AuthCommand {
         file: flags.string({ char: 'f' }),
         kind: flags.string({ char: 'k', options: fileTypeOptions }),
         mapping: flags.string({ char: 'm' }),
-        gl_type: flags.string({ char: 't' }),
+        glType: flags.string({ char: 't' }),
     }
 
     static examples = [
@@ -32,11 +32,11 @@ export default class Load extends AuthCommand {
     async run() {
         const { args, flags } = this.parse(Load);
 
-        if (!flags.file || !flags.kind || !flags.gl_type) {
+        if (!flags.file || !flags.kind || !flags.glType) {
             const errrorMsgs: string[] = [];
             if (!flags.file) errrorMsgs.push(messages.loadCommand.fileRequired)
             if (!flags.kind) errrorMsgs.push(messages.loadCommand.kindRequired + '' + fileTypeOptions)
-            if (!flags.gl_type) errrorMsgs.push(messages.loadCommand.glTypeRequired)
+            if (!flags.glType) errrorMsgs.push(messages.loadCommand.glTypeRequired)
             this.error(errrorMsgs.join(' , '));
         }
 
@@ -47,16 +47,16 @@ export default class Load extends AuthCommand {
         // if mapping exists, check file exists
         if (flags.mapping && !loadService.doesFileExists(flags.mapping)) this.error(messages.loadCommand.MapfileNotFound);
 
-        const loadTypeContext = new Context(new LineDelimitedLoadService());
+        const loadTypeContext = new Context();
         switch (flags.kind) {
             case LoadFileTypes.line_delimited:
-                loadTypeContext.setLoadFileType(new LineDelimitedLoadService())
+                loadTypeContext.setLoadFileType(new LineDelimitedLoad())
                 break;
             case LoadFileTypes.array:
-                loadTypeContext.setLoadFileType(new ArrayLoadService())
+                loadTypeContext.setLoadFileType(new ArrayLoad())
                 break;
             case LoadFileTypes.csv:
-                loadTypeContext.setLoadFileType(new CsvLoadService())
+                loadTypeContext.setLoadFileType(new CsvLoad())
                 break;
         }
 
@@ -66,6 +66,6 @@ export default class Load extends AuthCommand {
             mappingPath = loadService.getFileFullPath(flags.mapping);
         }
 
-        loadTypeContext.load(filePath, flags.gl_type, mappingPath);
+        loadTypeContext.load(filePath, flags.glType, mappingPath);
     }
 }

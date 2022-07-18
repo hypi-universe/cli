@@ -6,16 +6,16 @@ import flatten from 'flat';
 import LoadService from '../load-service';
 import { exit } from 'process';
 
-export default class LineDelimitedLoadService implements LoadFileInterface {
-    private file: string = "";
-    private glType: string = "";
-    private mappingPath: string = "";
+export default class LineDelimitedLoad implements LoadFileInterface {
+    private file!: string;
+    private glType!: string;
+    private mappingPath!: string;
 
-    load(file: string, glType: string, mappingPath: string | undefined) {
+    load(file: string, glType: string, mappingPath: string) {
         console.log('Load line delimited');
 
-        this.file = file;
-        this.glType = glType;
+        this.file = file || "";
+        this.glType = glType || "";
         this.mappingPath = mappingPath || "";
 
         this.getLinesCount();

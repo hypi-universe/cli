@@ -1,10 +1,6 @@
 
 export default class Context {
-    private loadFileType: LoadFileInterface;
-
-    constructor(loadFileType: LoadFileInterface) {
-        this.loadFileType = loadFileType;
-    }
+    private loadFileType!: LoadFileInterface;
 
     public setLoadFileType(loadFileType: LoadFileInterface) {
         this.loadFileType = loadFileType
