@@ -30,7 +30,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.7.2 linux-x64 node-v16.15.1
+@hypi/cli/0.7.3 linux-x64 node-v16.15.1
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -92,7 +92,7 @@ EXAMPLES
   $ hypi generate --platform=angular
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/generate.ts)_
 
 ## `hypi get`
 
@@ -119,7 +119,7 @@ EXAMPLES
   $ hypi get --api_domain --fn_domain
 ```
 
-_See code: [src/commands/get.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/get.ts)_
+_See code: [src/commands/get.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/get.ts)_
 
 ## `hypi help [COMMAND]`
 
@@ -156,7 +156,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/init.ts)_
 
 ## `hypi load`
 
@@ -171,14 +171,14 @@ OPTIONS
   -h, --help                           show CLI help
   -k, --kind=line_delimited|array|csv
   -m, --mapping=mapping
-  -t, --gl_type=gl_type
+  -t, --glType=glType
 
 EXAMPLES
   $ hypi load -f file.json -k line_delimited -t MyType
   $ hypi load -f file.json -k line_delimited -m mapping.json -t MyType
 ```
 
-_See code: [src/commands/load.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/load.ts)_
+_See code: [src/commands/load.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/load.ts)_
 
 ## `hypi login`
 
@@ -198,7 +198,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/login.ts)_
 
 ## `hypi sync`
 
@@ -215,7 +215,7 @@ EXAMPLE
   $ hypi sync
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
@@ -258,7 +258,7 @@ EXAMPLES
   $ hypi wsk action invoke hello --result
 ```
 
-_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.2/src/commands/wsk.ts)_
+_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.3/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
 
