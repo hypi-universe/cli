@@ -1,12 +1,10 @@
 import LoadService from "../load-service";
-import { Command, CliUx } from '@oclif/core'
 import flatten from 'flat';
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
 
 import fs from 'fs';
-import zlib from 'zlib';
 import { exit } from "process";
 
 export default class ArrayLoad implements LoadFileInterface {
@@ -32,7 +30,6 @@ export default class ArrayLoad implements LoadFileInterface {
 
         const pipeline = chain([
             fs.createReadStream(file),
-            zlib.createGunzip(),
             parser(),
             streamArray(),
             data => {
