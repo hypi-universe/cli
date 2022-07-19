@@ -12,7 +12,7 @@ export enum LoadFileTypes {
 export default class LoadService {
     private curDir = process.cwd();
 
-    static UPSERT_COUNT = 2;
+    static UPSERT_COUNT = 25;
 
     static fileTypesArray() {
         return Utils.enumToArray(LoadFileTypes)

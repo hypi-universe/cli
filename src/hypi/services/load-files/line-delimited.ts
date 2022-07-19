@@ -56,7 +56,7 @@ export default class LineDelimitedLoad implements LoadFileInterface {
                         }
                         items.push(data);
                         const left = count - totalProcessed;
-                        if (items.length === 25 || items.length === left) {
+                        if (items.length === LoadService.UPSERT_COUNT || items.length === left) {
                             const mappedItems = loadService.doMapping(items, mapping);
                             await loadService.upsertBulk(glType, mappedItems);
                             totalProcessed += items.length;

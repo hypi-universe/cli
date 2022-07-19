@@ -37,6 +37,7 @@
     "axios": "^0.26.1",
     "conf-cli": "^0.1.9",
     "cross-fetch": "^3.1.2",
+    "csv-parse": "^5.3.0",
     "decompress": "^4.2.1",
     "decompress-targz": "^4.1.1",
     "decompress-unzip": "^4.0.1",
