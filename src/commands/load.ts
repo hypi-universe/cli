@@ -27,6 +27,7 @@ export default class Load extends AuthCommand {
     static examples = [
         '$ hypi load -f file.json -k line_delimited -t MyType',
         '$ hypi load -f file.json -k line_delimited -m mapping.json -t MyType',
+        '$ hypi load -f array.json.gz -k array -m mapping.json -t Test'
     ]
 
     async run() {

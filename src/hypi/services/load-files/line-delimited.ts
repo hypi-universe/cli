@@ -1,6 +1,5 @@
 
 import * as fs from 'fs-extra'
-import * as path from 'path'
 import * as es from 'event-stream';
 import flatten from 'flat';
 import LoadService from '../load-service';
@@ -59,9 +58,9 @@ export default class LineDelimitedLoad implements LoadFileInterface {
                         const left = count - totalProcessed;
                         if (items.length === 25 || items.length === left) {
                             const mappedItems = loadService.doMapping(items, mapping);
-                            await loadService.upsertBulk(glType, mappedItems, fields, mapping);
+                            await loadService.upsertBulk(glType, mappedItems);
+                            totalProcessed += items.length;
                             items = [];
-                            totalProcessed += 25;
                         }
                     }
                 } catch (e) {
@@ -71,7 +70,7 @@ export default class LineDelimitedLoad implements LoadFileInterface {
             }).on('error', function (err) {
                 console.log('Error while reading file.', err);
             }).on('end', function () {
-                console.log('Read entire file.')
+                console.log(`Total processed ${totalProcessed} records.`)
             })
             );
     }

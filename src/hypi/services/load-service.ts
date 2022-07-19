@@ -12,6 +12,8 @@ export enum LoadFileTypes {
 export default class LoadService {
     private curDir = process.cwd();
 
+    static UPSERT_COUNT = 2;
+
     static fileTypesArray() {
         return Utils.enumToArray(LoadFileTypes)
     }
@@ -60,7 +62,7 @@ export default class LoadService {
         return items.map((item: any) => unflatten(item));
     }
 
-    async upsertBulk(glType: string, items: [], keys: string[], mapping: any) {
+    async upsertBulk(glType: string, items: []) {
 
         const upsertObject: any = {};
         upsertObject[glType] = items;
