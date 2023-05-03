@@ -16,7 +16,7 @@ export const messages = {
       notValid: 'Please provide a valid label',
     },
     website: {
-      regex: '^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
+      regex: '^(https?:\\/\\/)?([\\da-z.-]+)(\\.?[a-z.]{2,6})?(\\:[\\d+]{2,6})?[/\\w .-]*\\/?$',
       notValid: 'Please provide a valid website',
     },
     email: {
