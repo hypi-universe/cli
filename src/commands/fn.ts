@@ -30,8 +30,8 @@ export default class Fn extends Command {
       description: 'The specific action to perform on the function', // help description
       hidden: false,               // hide this arg from help
       //parse: input => 'output',   // instead of the user input, return a different value
-      default: 'push',           // default value if no arg input
-      options: ['push', 'list', 'invoke', 'deploy'],        // only allow input to be from a discrete set
+      default: 'list',           // default value if no arg input
+      options: ['push', 'list', 'invoke', 'deploy-version'],        // only allow input to be from a discrete set
     },
     {
       name: 'name',
@@ -49,9 +49,15 @@ export default class Fn extends Command {
 
   static examples = [
     '$ hypi fn list',
+    '$ hypi fn list -v 4',
+    '$ hypi fn list -v all',
     '$ hypi fn push hello hello.js',
+    '$ hypi fn push hello hello.js --make_live false',
     '$ hypi fn push hello fn-with-dependencies.zip',
-    '$ hypi fn invoke hello --result',
+    '$ hypi fn deploy-version hello 4',
+    '$ hypi fn invoke hello',
+    '$ hypi fn invoke hello --file index.js --arg message:\'Test 1\' --arg b:2 --env c:\'hello there\'',
+    '$ hypi fn invoke hello --file index.js --method myFuncName --arg message:\'Test 1\' --arg b:2 --env c:\'hello there\'',
   ]
 
   async run() {
@@ -65,7 +71,7 @@ export default class Fn extends Command {
     case 'push':
       res = await fenrirPush(args.name, args.value, flags.make_live)
       break
-    case 'deploy':
+    case 'deploy-version':
       res = await fenrirDeploy(args.name, args.value)
       break
     case 'invoke':
@@ -111,17 +117,18 @@ export default class Fn extends Command {
         this.log('Unexpected error', res)
       }
     } else {
-      this.handleResponse(args.action, res)
+      this.handleResponse(args, flags, res)
     }
     //console.log('Running my command with args', this.argv, list.error.response.status, list.error.response.data)
     //this.log(messages.loginCommand.loggedIn)
   }
 
-  private handleResponse(action: string, res: any) {
-    switch (action) {
+  private handleResponse(args: any, flags: any, res: any) {
+    switch (args.action) {
     case 'list':
-      this.listOutput(res)
+      this.listOutput(res, flags.version)
       break
+    case 'deploy-version':
     case 'push':
       this.pushOutput(res)
       break
@@ -135,8 +142,27 @@ export default class Fn extends Command {
     this.log('pushed', res)
   }
 
-  private listOutput(res: any) {
-    this.log(JSON.stringify(res))
+  private listOutput(res: any, requestedVersion: string) {
+    const flattened = []
+    for (let fnName of Object.keys(res)) {
+      const versions = res[fnName]['versions']
+      for (let i = 0; i < versions.length; i++) {
+        const version = versions[i]
+        const actualVersion = version['version']
+        if (requestedVersion == 'all' || requestedVersion == actualVersion || (!requestedVersion && i == versions.length - 1)) {
+          let row = new Map<any, any>()
+          row.set('Name', fnName)
+          //last_modified_millis, est_size, version
+          row.set('Version', actualVersion)
+          row.set('Live', version['live'] ? 'yes' : 'no'/* '✓' : '˟' */)
+          //row.set('Estimated size', version['est_size'])
+          row.set('Last modified', new Date(version['last_modified_millis']).toISOString())
+          //console.log(row)
+          flattened.push(Object.fromEntries(row.entries()))
+        }
+      }
+    }
+    console.table(flattened)
   }
 
   private invokeOutput(res: any) {

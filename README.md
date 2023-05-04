@@ -48,7 +48,7 @@ USAGE
 * [`hypi login`](#hypi-login)
 * [`hypi sync`](#hypi-sync)
 * [`hypi update [CHANNEL]`](#hypi-update-channel)
-* [`hypi wsk`](#hypi-wsk)
+* [`hypi fn`](#hypi-fn)
 
 ## `hypi commands`
 
@@ -241,25 +241,31 @@ EXAMPLES
 
 _See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
 
-## `hypi wsk`
+## `hypi fn`
 
-Invoke the OpenWhisk command to perform serverless functions
+Perform actions on serverless functions
 
 ```
 USAGE
-  $ hypi wsk
+  $ hypi fn
 
 OPTIONS
   -h, --help  show CLI help
 
 EXAMPLES
-  $ hypi wsk configure
-  $ hypi wsk action list
-  $ hypi wsk action create hello hello.js
-  $ hypi wsk action invoke hello --result
+  $ hypi fn list
+  $ hypi fn list -v 4
+  $ hypi fn list -v all
+  $ hypi fn push hello hello.js
+  $ hypi fn push hello hello.js --make_live false
+  $ hypi fn push hello fn-with-dependencies.zip
+  $ hypi fn deploy-version hello 4
+  $ hypi fn invoke hello
+  $ hypi fn invoke hello --file index.js --arg message:'Test 1' --arg b:2 --env c:'hello there'
+  $ hypi fn invoke hello --file index.js --method myFuncName --arg message:'Test 1' --arg b:2 --env c:'hello there'
 ```
 
-_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/wsk.ts)_
+_See code: [src/commands/fn.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/fn.ts)_
 <!-- commandsstop -->
 
 

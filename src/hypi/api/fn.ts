@@ -48,8 +48,11 @@ export async function fenrirDeploy(name: string, version: string) {
   const token = UserService.getUserConfig().sessionToken
   let response
   try {
-    response = await AxiosConnection.getAxios().put('/fn/fenrir/deployment', {
-      headers: {'Authorization': token},
+    let form = new FormData()
+    form.append('name', name)
+    form.append('version', version)
+    response = await AxiosConnection.getAxios().put('/fn/fenrir/deployment', form, {
+      headers: form.getHeaders({'Authorization': token}),
     })
     return await response.data
   } catch (error) {
