@@ -30,7 +30,7 @@ $ npm install -g @hypi/cli
 $ hypi COMMAND
 running command...
 $ hypi (-v|--version|version)
-@hypi/cli/0.7.5 linux-x64 node-v16.15.1
+@hypi/cli/0.8.0 darwin-arm64 node-v16.18.1
 $ hypi --help [COMMAND]
 USAGE
   $ hypi COMMAND
@@ -40,6 +40,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`hypi commands`](#hypi-commands)
+* [`hypi fn ACTION [NAME] [VALUE]`](#hypi-fn-action-name-value)
 * [`hypi generate [PLATFORM]`](#hypi-generate-platform)
 * [`hypi get`](#hypi-get)
 * [`hypi help [COMMAND]`](#hypi-help-command)
@@ -74,6 +75,47 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
+## `hypi fn ACTION [NAME] [VALUE]`
+
+Manage Hypi serverless functions
+
+```
+USAGE
+  $ hypi fn ACTION [NAME] [VALUE]
+
+ARGUMENTS
+  ACTION  (push|list|invoke|deploy-version) [default: list] The specific action to perform on the function
+  NAME    The function's name
+
+  VALUE   For push, this is the file containing the function's code e.g. func.js or func.zip for functions with
+          dependencies
+
+OPTIONS
+  -f, --file=file        Used with invoke to specify the specific file to execute
+  -h, --help             show CLI help
+
+  -l, --make_live        Used with fn push or fn deploy to make the given version the one that is live (used to serve
+                         requests)
+
+  -m, --method=method    Used with invoke to specify the specific function to execute from the file
+
+  -v, --version=version  Used with invoke to specify the specific version of the function to execute
+
+EXAMPLES
+  $ hypi fn list
+  $ hypi fn list -v 4
+  $ hypi fn list -v all
+  $ hypi fn push hello hello.js
+  $ hypi fn push hello hello.js --make_live false
+  $ hypi fn push hello fn-with-dependencies.zip
+  $ hypi fn deploy-version hello 4
+  $ hypi fn invoke hello
+  $ hypi fn invoke hello --file index.js --arg message:'Test 1' --arg b:2 --env c:'hello there'
+  $ hypi fn invoke hello --file index.js --method myFuncName --arg message:'Test 1' --arg b:2 --env c:'hello there'
+```
+
+_See code: [src/commands/fn.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/fn.ts)_
+
 ## `hypi generate [PLATFORM]`
 
 generate the schema typescript file
@@ -92,7 +134,7 @@ EXAMPLES
   $ hypi generate --platform=angular
 ```
 
-_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/generate.ts)_
+_See code: [src/commands/generate.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/generate.ts)_
 
 ## `hypi get`
 
@@ -119,7 +161,7 @@ EXAMPLES
   $ hypi get --api_domain --fn_domain
 ```
 
-_See code: [src/commands/get.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/get.ts)_
+_See code: [src/commands/get.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/get.ts)_
 
 ## `hypi help [COMMAND]`
 
@@ -156,7 +198,7 @@ EXAMPLES
   $ hypi init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/init.ts)_
 
 ## `hypi load`
 
@@ -179,7 +221,7 @@ EXAMPLES
   $ hypi load -f array.json.gz -k array -m mapping.json -t Test
 ```
 
-_See code: [src/commands/load.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/load.ts)_
+_See code: [src/commands/load.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/load.ts)_
 
 ## `hypi login`
 
@@ -199,7 +241,7 @@ EXAMPLES
   $ hypi login --domain
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/login.ts)_
 
 ## `hypi sync`
 
@@ -216,7 +258,7 @@ EXAMPLE
   $ hypi sync
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/sync.ts)_
 
 ## `hypi update [CHANNEL]`
 
@@ -259,7 +301,7 @@ EXAMPLES
   $ hypi wsk action invoke hello --result
 ```
 
-_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.7.5/src/commands/wsk.ts)_
+_See code: [src/commands/wsk.ts](https://github.com/hypi-universe/cli/blob/v0.8.0/src/commands/wsk.ts)_
 <!-- commandsstop -->
 
 

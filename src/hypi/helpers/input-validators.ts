@@ -42,15 +42,14 @@ export const AppLabelValidator = async (input: string) => {
 }
 
 export const WebsiteValidator = async (input: string) => {
-  if (input.match(messages.validation.website.regex)) {
+  if (input.trim().match(messages.validation.website.regex)) {
     return true
   }
   return messages.validation.website.notValid
 }
 
-
 export const DomainValidatorAllowEmpty = async (input: string) => {
-  if (input.match(messages.validation.website.regex) || input.length === 0) {
+  if (input.trim().match(messages.validation.website.regex) || input.trim().length === 0) {
     return true
   }
   return messages.validation.website.notValid
